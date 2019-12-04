@@ -1,0 +1,28 @@
+{
+    "name": "arnedesmedt/value-objects",
+    "type": "library",
+    "description": "Value objects",
+    "homepage": "https://github.com/arnedesmedt/value-objects",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arne De Smedt",
+            "email": "arnedesmdt@gmail.com",
+            "homepage": "https://github.com/arnedesmedt"
+        }
+    ],
+    "require": {
+        "php": "^7.4"
+    },
+    "require-dev": {
+        "phpro/grumphp": "^0.16.2",
+        "phpstan/phpstan": "^0.11.19",
+        "squizlabs/php_codesniffer": "^3.5",
+        "doctrine/coding-standard": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ADS\\ValueObjects\\": "src/"
+        }
+    }
+}

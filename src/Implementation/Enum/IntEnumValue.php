@@ -1,0 +1,43 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ADS\ValueObjects\Implementation\Enum;
+
+use ADS\ValueObjects\Exception\InvalidEnumException;
+
+abstract class IntEnumValue extends EnumValue
+{
+    /**
+     * @param mixed $value
+     */
+    protected function __construct($value)
+    {
+        if (! is_int($value)) {
+            throw InvalidEnumException::wrongType($value, 'int', static::class);
+        }
+
+        parent::__construct($value);
+
+        $noneIntegerValues = array_filter($this->possibleValues, fn ($possibleValue) => ! is_int($possibleValue));
+
+        if (count($noneIntegerValues) <= 0) {
+            return;
+        }
+
+        throw InvalidEnumException::wrongPossibleValueTypes($noneIntegerValues, 'int', static::class);
+    }
+
+    /**
+     * @return static
+     */
+    public static function fromInt(int $value)
+    {
+        return static::fromValue($value);
+    }
+
+    public function toInt() : int
+    {
+        return (int) $this->toValue();
+    }
+}
