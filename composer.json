@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "opis/json-schema": "^1.0"
     },
     "require-dev": {
         "phpro/grumphp": "^0.16.2",

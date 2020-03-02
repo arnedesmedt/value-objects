@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace ADS\ValueObjects\Implementation\String;
+
+use ADS\ValueObjects\Exception\InvalidPatternException;
+use Opis\JsonSchema\Validator;
+
+abstract class PatternValue extends StringValue
+{
+    protected function __construct(string $value)
+    {
+        $pattern = sprintf('%s%s%su', Validator::BELL, static::pattern(), Validator::BELL);
+
+        if (! preg_match(
+            $pattern,
+            $value,
+        )
+        ) {
+            throw InvalidPatternException::noMatch($value, $pattern, static::class);
+        }
+
+        parent::__construct($value);
+    }
+
+    abstract public static function pattern() : string;
+}
