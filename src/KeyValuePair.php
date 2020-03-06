@@ -24,5 +24,8 @@ interface KeyValuePair extends ValueObject
      */
     public function toValue();
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray() : array;
 }

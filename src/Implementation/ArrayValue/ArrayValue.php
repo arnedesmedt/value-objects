@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\ArrayValue;
 
 use ADS\ValueObjects\ArrayValue as ArrayValueInterface;
+use function array_diff;
+use function array_push;
+use function print_r;
 
 abstract class ArrayValue implements ArrayValueInterface
 {
     /** @var mixed[] */
-    protected $value;
+    protected array $value;
 
     /**
      * @param mixed[] $value
@@ -27,6 +30,9 @@ abstract class ArrayValue implements ArrayValueInterface
         return new static($value);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray() : array
     {
         return $this->value;
@@ -46,7 +52,18 @@ abstract class ArrayValue implements ArrayValueInterface
             return false;
         }
 
-        return empty(array_diff($this->toArray(), $other->toArray())) && empty(array_diff($other->toArray(), $this->toArray()));
+        return empty(
+            array_diff(
+                $this->toArray(),
+                $other->toArray()
+            )
+        )
+            && empty(
+                array_diff(
+                    $other->toArray(),
+                    $this->toArray()
+                )
+            );
     }
 
     /**

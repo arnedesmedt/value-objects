@@ -6,6 +6,8 @@ namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
 use ADS\ValueObjects\Exception\InvalidEnumException;
+use function count;
+use function in_array;
 
 abstract class EnumValue implements EnumValueInterface
 {
@@ -13,7 +15,7 @@ abstract class EnumValue implements EnumValueInterface
     protected $value;
 
     /** @var mixed[] */
-    protected $possibleValues;
+    protected array $possibleValues;
 
     /**
      * @param mixed $value

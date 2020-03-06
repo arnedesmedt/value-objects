@@ -7,6 +7,7 @@ namespace ADS\ValueObjects\Implementation\Object;
 use ADS\ValueObjects\Exception\InvalidKeyValuePairException;
 use ADS\ValueObjects\KeyValuePair as KeyValuePairInterface;
 use Throwable;
+use function print_r;
 
 class KeyValuePair implements KeyValuePairInterface
 {
@@ -23,7 +24,7 @@ class KeyValuePair implements KeyValuePairInterface
     protected function __construct($key, $value)
     {
         try {
-            (string) $key;
+            $this->key = (string) $key;
         } catch (Throwable $exception) {
             throw InvalidKeyValuePairException::keyNotConvertableToString(static::class);
         }
@@ -56,6 +57,9 @@ class KeyValuePair implements KeyValuePairInterface
         return $this->value;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray() : array
     {
         return [$this->toKey() => $this->toValue()];

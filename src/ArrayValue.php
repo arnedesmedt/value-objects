@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
-interface ArrayValue
+interface ArrayValue extends ValueObject
 {
     /**
      * @param mixed $item
@@ -14,9 +14,14 @@ interface ArrayValue
     public function push($item);
 
     /**
+     * @param array<mixed> $value
+     *
      * @return static
      */
     public static function fromArray(array $value);
 
+    /**
+     * @return array<mixed>
+     */
     public function toArray() : array;
 }

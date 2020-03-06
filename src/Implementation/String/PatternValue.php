@@ -6,6 +6,8 @@ namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\InvalidPatternException;
 use Opis\JsonSchema\Validator;
+use function preg_match;
+use function sprintf;
 
 abstract class PatternValue extends StringValue
 {

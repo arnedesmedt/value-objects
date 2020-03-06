@@ -7,15 +7,20 @@ namespace ADS\ValueObjects\Implementation\Object;
 use ADS\ValueObjects\Exception\InvalidObjectException;
 use ADS\ValueObjects\Implementation\ArrayValue\ArrayValue;
 use ADS\ValueObjects\KeyValuePair;
+use function array_filter;
+use function count;
 
 abstract class ObjectValue extends ArrayValue
 {
     /** @var KeyValuePair[] */
-    protected $value;
+    protected array $value;
 
+    /**
+     * @param array<mixed> $value
+     */
     protected function __construct(array $value)
     {
-        if (count(array_filter($value, fn($item) => ! $item instanceof KeyValuePair))) {
+        if (count(array_filter($value, static fn($item) => ! $item instanceof KeyValuePair))) {
             throw InvalidObjectException::valuesAreNoKeyValuePairs(static::class);
         }
 

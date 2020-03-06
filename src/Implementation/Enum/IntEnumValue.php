@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\InvalidEnumException;
+use function array_filter;
+use function count;
+use function is_int;
 
 abstract class IntEnumValue extends EnumValue
 {
@@ -14,18 +17,29 @@ abstract class IntEnumValue extends EnumValue
     protected function __construct($value)
     {
         if (! is_int($value)) {
-            throw InvalidEnumException::wrongType($value, 'int', static::class);
+            throw InvalidEnumException::wrongType(
+                $value,
+                'int',
+                static::class
+            );
         }
 
         parent::__construct($value);
 
-        $noneIntegerValues = array_filter($this->possibleValues, fn ($possibleValue) => ! is_int($possibleValue));
+        $noneIntegerValues = array_filter(
+            $this->possibleValues,
+            static fn ($possibleValue) => ! is_int($possibleValue)
+        );
 
         if (count($noneIntegerValues) <= 0) {
             return;
         }
 
-        throw InvalidEnumException::wrongPossibleValueTypes($noneIntegerValues, 'int', static::class);
+        throw InvalidEnumException::wrongPossibleValueTypes(
+            $noneIntegerValues,
+            'int',
+            static::class
+        );
     }
 
     /**

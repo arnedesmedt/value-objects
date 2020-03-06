@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Exception;
 
 use Exception;
+use function print_r;
+use function sprintf;
 
 final class InvalidEnumException extends Exception
 {
     /**
      * @param mixed $value
+     * @param array<string> $possibleValues
      *
      * @return static
      */
@@ -64,7 +67,8 @@ final class InvalidEnumException extends Exception
     {
         return new static(
             sprintf(
-                'Enum object \'%s\', must have possible values of the type \'%s\'. Invalid possible values \'%s\' detected.',
+                'Enum object \'%s\', must have possible values of the type \'%s\'. ' .
+                'Invalid possible values \'%s\' detected.',
                 $class,
                 $type,
                 print_r($possibleValues, true)
