@@ -26,5 +26,7 @@
         "psr-4": {
             "ADS\\ValueObjects\\": "src/"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
