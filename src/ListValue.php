@@ -9,6 +9,20 @@ interface ListValue extends ValueObject
     /**
      * @param array<mixed> $value
      *
+     * @return mixed
+     */
+    public static function fromArrayToItem(array $value);
+
+    /**
+     * @param mixed $item
+     *
+     * @return array<mixed>
+     */
+    public static function fromItemToArray($item) : array;
+
+    /**
+     * @param array<mixed> $value
+     *
      * @return static
      */
     public static function fromArray(array $value);
@@ -23,7 +37,7 @@ interface ListValue extends ValueObject
     /**
      * @return static
      */
-    public function emptyList();
+    public static function emptyList();
 
     /**
      * @return array<mixed>

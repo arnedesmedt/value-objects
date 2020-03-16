@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
+use ADS\ValueObjects\Exception\InvalidListException;
 use ADS\ValueObjects\ValueObject;
 use function array_diff;
+use function array_map;
 use function array_pop;
 use function array_push;
 use function count;
+use function get_class;
+use function gettype;
+use function is_scalar;
+use function method_exists;
 use function print_r;
 
 abstract class ListValue implements \ADS\ValueObjects\ListValue
@@ -29,7 +35,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public static function fromArray(array $value)
     {
-        return new static(...$value);
+        return static::fromItems(...array_map(
+            static fn ($array) => static::fromArrayToItem($array),
+            $value
+        ));
     }
 
     /**
@@ -37,13 +46,15 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public static function fromItems(...$value) // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     {
+        self::checkTypes($value);
+
         return new static(...$value);
     }
 
     /**
      * @inheritDoc
      */
-    public function emptyList()
+    public static function emptyList()
     {
         return new static();
     }
@@ -53,7 +64,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public function toArray() : array
     {
-        return $this->value;
+        return array_map(
+            static fn($item) => static::fromItemToArray($item),
+            $this->value
+        );
     }
 
     /**
@@ -99,7 +113,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     {
         $clone = clone $this;
 
-        array_push($clone->value, $item);
+        array_push($clone->value, static::toItem($item));
 
         return $clone;
     }
@@ -121,6 +135,8 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public function contains($item) : bool
     {
+        $item = static::toItem($item);
+
         foreach ($this->toItems() as $existingItem) {
             if ($existingItem instanceof ValueObject && $existingItem->isEqualTo($item)) {
                 return true;
@@ -153,5 +169,43 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     public function count() : int
     {
         return count($this->value);
+    }
+
+    /**
+     * @param mixed $value
+     */
+    private static function checkTypes($value) : void
+    {
+        if (! method_exists(static::class, '__itemType')) {
+            return;
+        }
+
+        $type = static::__itemType();
+
+        foreach ($value as $item) {
+            if (! $item instanceof $type) {
+                throw InvalidListException::noValidItemType(
+                    is_scalar($item) ? gettype($item) : get_class($item),
+                    $type,
+                    static::class
+                );
+            }
+        }
+    }
+
+    /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    private static function toItem($item)
+    {
+        try {
+            self::checkTypes([$item]);
+        } catch (InvalidListException $exception) {
+            $item = static::fromArrayToItem($item);
+        }
+
+        return $item;
     }
 }

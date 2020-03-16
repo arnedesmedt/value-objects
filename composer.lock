@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d3ddb268f8d693fb82d9ccd5cb86cfc",
+    "content-hash": "6514a4e765c2c785443343e41d788753",
     "packages": [
         {
             "name": "opis/json-schema",
@@ -1856,9 +1856,9 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
-    "prefer-stable": false,
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^7.4"
