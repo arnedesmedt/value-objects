@@ -6,6 +6,9 @@ namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\Exception\InvalidListException;
 use ADS\ValueObjects\ValueObject;
+use EventEngine\Data\ImmutableRecord;
+use ReflectionClass;
+use ReflectionException;
 use function array_diff;
 use function array_map;
 use function array_pop;
@@ -14,7 +17,6 @@ use function count;
 use function get_class;
 use function gettype;
 use function is_scalar;
-use function method_exists;
 use function print_r;
 
 abstract class ListValue implements \ADS\ValueObjects\ListValue
@@ -28,6 +30,54 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     protected function __construct(...$value) // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
     {
         $this->value = $value;
+    }
+
+    /**
+     * @return class-string|null
+     */
+    private static function __itemType(): ?string
+    {
+        return static::itemType();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function fromArrayToItem(array $value)
+    {
+        $itemType = static::itemType();
+
+        try {
+            $relfectionClass = new ReflectionClass($itemType);
+
+            if ($relfectionClass->implementsInterface(ImmutableRecord::class)) {
+                return $itemType::fromArray($value);
+            }
+
+            throw InvalidListException::fromArrayToItemNotImplemented(static::class);
+        } catch (ReflectionException $exception) {
+            throw InvalidListException::itemTypeNotFound($itemType, static::class);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function fromItemToArray($item) : array
+    {
+        $itemType = static::itemType();
+
+        try {
+            $relfectionClass = new ReflectionClass($itemType);
+
+            if ($relfectionClass->implementsInterface(ImmutableRecord::class)) {
+                return $item->toArray();
+            }
+
+            throw InvalidListException::fromItemToArrayNotImplemented(static::class);
+        } catch (ReflectionException $exception) {
+            throw InvalidListException::itemTypeNotFound($itemType, static::class);
+        }
     }
 
     /**
@@ -176,11 +226,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     private static function checkTypes($value) : void
     {
-        if (! method_exists(static::class, '__itemType')) {
-            return;
-        }
-
-        $type = static::__itemType();
+        $type = static::itemType();
 
         foreach ($value as $item) {
             if (! $item instanceof $type) {

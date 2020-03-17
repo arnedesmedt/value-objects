@@ -7,6 +7,11 @@ namespace ADS\ValueObjects;
 interface ListValue extends ValueObject
 {
     /**
+     * @return class-string
+     */
+    public static function itemType() : string;
+
+    /**
      * @param array<mixed> $value
      *
      * @return mixed

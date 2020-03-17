@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
+use EventEngine\Data\ImmutableRecord;
 use Exception;
 use function sprintf;
 
@@ -20,6 +21,48 @@ final class InvalidListException extends Exception
                 $givenType,
                 $class,
                 $validType
+            )
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function fromArrayToItemNotImplemented(string $class)
+    {
+        return new static(
+            sprintf(
+                'The method \'fromArrayToItem\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                $class,
+                ImmutableRecord::class
+            )
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function fromItemToArrayNotImplemented(string $class)
+    {
+        return new static(
+            sprintf(
+                'The method \'fromItemToArray\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                $class,
+                ImmutableRecord::class
+            )
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function itemTypeNotFound(string $itemType, string $class)
+    {
+        return new static(
+            sprintf(
+                'Could not found item type \'%s\' for list \'%s\'.',
+                $itemType,
+                $class
             )
         );
     }
