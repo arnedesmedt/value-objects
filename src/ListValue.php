@@ -62,6 +62,13 @@ interface ListValue extends ValueObject
     public function push($item);
 
     /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function put(string $key, $item);
+
+    /**
      * @return static
      */
     public function pop();
