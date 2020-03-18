@@ -35,7 +35,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @return class-string|null
      */
-    private static function __itemType(): ?string
+    private static function __itemType() : ?string // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     {
         return static::itemType();
     }
@@ -43,7 +43,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public static function fromArrayToItem(array $value)
+    public static function fromScalarToItem($value)
     {
         $itemType = static::itemType();
 
@@ -63,7 +63,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public static function fromItemToArray($item) : array
+    public static function fromItemToScalar($item)
     {
         $itemType = static::itemType();
 
@@ -86,7 +86,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     public static function fromArray(array $value)
     {
         return static::fromItems(...array_map(
-            static fn ($array) => static::fromArrayToItem($array),
+            static fn ($array) => static::fromScalarToItem($array),
             $value
         ));
     }
@@ -115,7 +115,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     public function toArray() : array
     {
         return array_map(
-            static fn($item) => static::fromItemToArray($item),
+            static fn($item) => static::fromItemToScalar($item),
             $this->value
         );
     }
@@ -249,7 +249,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
         try {
             self::checkTypes([$item]);
         } catch (InvalidListException $exception) {
-            $item = static::fromArrayToItem($item);
+            $item = static::fromScalarToItem($item);
         }
 
         return $item;

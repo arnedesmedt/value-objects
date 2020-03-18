@@ -12,18 +12,18 @@ interface ListValue extends ValueObject
     public static function itemType() : string;
 
     /**
-     * @param array<mixed> $value
+     * @param mixed $value
      *
      * @return mixed
      */
-    public static function fromArrayToItem(array $value);
+    public static function fromScalarToItem($value);
 
     /**
      * @param mixed $item
      *
-     * @return array<mixed>
+     * @return mixed
      */
-    public static function fromItemToArray($item) : array;
+    public static function fromItemToScalar($item);
 
     /**
      * @param array<mixed> $value
