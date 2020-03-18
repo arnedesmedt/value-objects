@@ -195,6 +195,18 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
+    public function forget(string $key)
+    {
+        $clone = clone $this;
+
+        unset($clone->value[$key]);
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function contains($item) : bool
     {
         $item = static::toItem($item);

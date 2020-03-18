@@ -74,6 +74,11 @@ interface ListValue extends ValueObject
     public function pop();
 
     /**
+     * @return static
+     */
+    public function forget(string $key);
+
+    /**
      * @param mixed $item
      */
     public function contains($item) : bool;
