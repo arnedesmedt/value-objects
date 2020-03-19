@@ -207,6 +207,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
+    public function get(string $key, $default = null)
+    {
+        return $this->value[$key] ?? $default;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function contains($item) : bool
     {
         $item = static::toItem($item);

@@ -79,6 +79,13 @@ interface ListValue extends ValueObject
     public function forget(string $key);
 
     /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function get(string $key, $default);
+
+    /**
      * @param mixed $item
      */
     public function contains($item) : bool;
