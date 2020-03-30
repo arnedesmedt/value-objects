@@ -101,4 +101,6 @@ interface ListValue extends ValueObject
     public function last();
 
     public function count() : int;
+
+    public function isEmpty() : bool;
 }

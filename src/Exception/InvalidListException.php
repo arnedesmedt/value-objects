@@ -28,11 +28,11 @@ final class InvalidListException extends Exception
     /**
      * @return static
      */
-    public static function fromArrayToItemNotImplemented(string $class)
+    public static function fromScalarToItemNotImplemented(string $class)
     {
         return new static(
             sprintf(
-                'The method \'fromArrayToItem\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                'The method \'fromScalarToItem\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
                 $class,
                 ImmutableRecord::class
             )
@@ -42,11 +42,11 @@ final class InvalidListException extends Exception
     /**
      * @return static
      */
-    public static function fromItemToArrayNotImplemented(string $class)
+    public static function fromItemToScalarNotImplemented(string $class)
     {
         return new static(
             sprintf(
-                'The method \'fromItemToArray\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                'The method \'fromItemToScalar\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
                 $class,
                 ImmutableRecord::class
             )

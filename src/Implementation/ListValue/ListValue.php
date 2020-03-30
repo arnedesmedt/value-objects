@@ -13,9 +13,11 @@ use function array_diff;
 use function array_map;
 use function array_pop;
 use function array_push;
+use function array_values;
 use function count;
 use function get_class;
 use function gettype;
+use function is_array;
 use function is_scalar;
 use function print_r;
 
@@ -54,7 +56,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
                 return $itemType::fromArray($value);
             }
 
-            throw InvalidListException::fromArrayToItemNotImplemented(static::class);
+            throw InvalidListException::fromScalarToItemNotImplemented(static::class);
         } catch (ReflectionException $exception) {
             throw InvalidListException::itemTypeNotFound($itemType, static::class);
         }
@@ -74,7 +76,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
                 return $item->toArray();
             }
 
-            throw InvalidListException::fromItemToArrayNotImplemented(static::class);
+            throw InvalidListException::fromItemToScalarNotImplemented(static::class);
         } catch (ReflectionException $exception) {
             throw InvalidListException::itemTypeNotFound($itemType, static::class);
         }
@@ -85,10 +87,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public static function fromArray(array $value)
     {
-        return static::fromItems(...array_map(
+        return static::fromItems(...array_values(array_map(
             static fn ($array) => static::fromScalarToItem($array),
             $value
-        ));
+        )));
     }
 
     /**
@@ -253,6 +255,11 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
         return count($this->value);
     }
 
+    public function isEmpty() : bool
+    {
+        return empty($this->value);
+    }
+
     /**
      * @param mixed $value
      */
@@ -262,8 +269,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
 
         foreach ($value as $item) {
             if (! $item instanceof $type) {
+                $givenType = is_scalar($item) ? gettype($item) : (is_array($item) ? 'array' : get_class($item));
+
                 throw InvalidListException::noValidItemType(
-                    is_scalar($item) ? gettype($item) : get_class($item),
+                    $givenType,
                     $type,
                     static::class
                 );
