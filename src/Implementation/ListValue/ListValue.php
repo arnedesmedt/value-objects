@@ -6,19 +6,25 @@ namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\Exception\InvalidListException;
 use ADS\ValueObjects\ValueObject;
+use Closure;
 use EventEngine\Data\ImmutableRecord;
 use ReflectionClass;
 use ReflectionException;
+use RuntimeException;
 use function array_diff;
+use function array_key_exists;
 use function array_map;
 use function array_pop;
 use function array_push;
+use function array_reverse;
 use function count;
 use function get_class;
 use function gettype;
 use function is_array;
 use function is_scalar;
 use function print_r;
+use function reset;
+use function sprintf;
 
 abstract class ListValue implements \ADS\ValueObjects\ListValue
 {
@@ -31,6 +37,24 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     protected function __construct(array $values)
     {
         $this->value = $values;
+    }
+
+    public static function itemIdentifier() : Closure
+    {
+        return static function ($item) {
+            if ($item instanceof ValueObject) {
+                return $item->__toString();
+            }
+
+            throw new RuntimeException(
+                sprintf(
+                    'The class \'%s\' must override \'itemIdentifier\' ' .
+                    'because the item types \'%s\' are no value objects.',
+                    static::class,
+                    static::itemType()
+                )
+            );
+        };
     }
 
     /**
@@ -174,11 +198,16 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public function put(string $key, $item)
+    public function put($item, ?string $key = null)
     {
         $clone = clone $this;
+        $item = static::toItem($item);
 
-        $clone->value[$key] = static::toItem($item);
+        if ($key === null) {
+            $key = (static::itemIdentifier())($item);
+        }
+
+        $clone->value[$key] = $item;
 
         return $clone;
     }
@@ -215,19 +244,24 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
         return $this->value[$key] ?? $default;
     }
 
+    public function has(string $key) : bool
+    {
+        return array_key_exists($key, $this->value);
+    }
+
     /**
      * @inheritDoc
      */
     public function contains($item) : bool
     {
         $item = static::toItem($item);
+        $identifierClosure = self::itemIdentifier();
 
         foreach ($this->toItems() as $existingItem) {
-            if ($existingItem instanceof ValueObject && $existingItem->isEqualTo($item)) {
-                return true;
-            }
-
-            if ($existingItem === $item) {
+            if ($existingItem instanceof ValueObject && $existingItem->isEqualTo($item)
+                || $identifierClosure($existingItem) === $identifierClosure($item)
+                || $existingItem === $item
+            ) {
                 return true;
             }
         }
@@ -238,17 +272,22 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public function first()
+    public function first($default = null)
     {
-        return $this->value[0] ?? null;
+        $first = reset($this->value);
+
+        return $first === false ? $default : $first;
     }
 
     /**
      * @inheritDoc
      */
-    public function last()
+    public function last($default = null)
     {
-        return $this->value[$this->count() - 1] ?? null;
+        $reversed = array_reverse($this->value);
+        $last = reset($reversed);
+
+        return $last === false ? $default : $last;
     }
 
     public function count() : int

@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
+use Closure;
+
 interface ListValue extends ValueObject
 {
     /**
      * @return class-string
      */
     public static function itemType() : string;
+
+    /**
+     * This returns a closure that will get an item as argument
+     * and returns the identifier of that item.
+     */
+    public static function itemIdentifier() : Closure;
 
     /**
      * @param mixed $value
@@ -66,7 +74,7 @@ interface ListValue extends ValueObject
      *
      * @return static
      */
-    public function put(string $key, $item);
+    public function put($item, ?string $key = null);
 
     /**
      * @return static
@@ -83,7 +91,9 @@ interface ListValue extends ValueObject
      *
      * @return mixed
      */
-    public function get(string $key, $default);
+    public function get(string $key, $default = null);
+
+    public function has(string $key) : bool;
 
     /**
      * @param mixed $item
@@ -91,14 +101,18 @@ interface ListValue extends ValueObject
     public function contains($item) : bool;
 
     /**
+     * @param mixed $default
+     *
      * @return mixed|null
      */
-    public function first();
+    public function first($default = null);
 
     /**
+     * @param mixed $default
+     *
      * @return mixed|null
      */
-    public function last();
+    public function last($default = null);
 
     public function count() : int;
 
