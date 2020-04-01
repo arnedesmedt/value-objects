@@ -33,11 +33,11 @@ interface ListValue extends ValueObject
     public static function fromArray(array $value);
 
     /**
-     * @param array<int,mixed> $value
+     * @param array<mixed> $values
      *
      * @return static
      */
-    public static function fromItems(...$value); // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public static function fromItems(array $values);
 
     /**
      * @return static

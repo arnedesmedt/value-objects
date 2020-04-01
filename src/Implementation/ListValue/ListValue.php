@@ -13,7 +13,6 @@ use function array_diff;
 use function array_map;
 use function array_pop;
 use function array_push;
-use function array_values;
 use function count;
 use function get_class;
 use function gettype;
@@ -27,17 +26,19 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     protected array $value;
 
     /**
-     * @param array<int,mixed> $value
+     * @param array<mixed> $values
      */
-    protected function __construct(...$value) // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    protected function __construct(array $values)
     {
-        $this->value = $value;
+        $this->value = $values;
     }
 
     /**
      * @return class-string|null
+     *
+     * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
      */
-    private static function __itemType() : ?string // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+    private static function __itemType() : ?string
     {
         return static::itemType();
     }
@@ -87,20 +88,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public static function fromArray(array $value)
     {
-        return static::fromItems(...array_values(array_map(
+        return static::fromItems(array_map(
             static fn ($array) => static::fromScalarToItem($array),
             $value
-        )));
+        ));
     }
 
     /**
      * @inheritDoc
      */
-    public static function fromItems(...$value) // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public static function fromItems(array $values)
     {
-        self::checkTypes($value);
+        self::checkTypes($values);
 
-        return new static(...$value);
+        return new static($values);
     }
 
     /**
@@ -261,13 +262,13 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     }
 
     /**
-     * @param mixed $value
+     * @param mixed $values
      */
-    private static function checkTypes($value) : void
+    private static function checkTypes($values) : void
     {
         $type = static::itemType();
 
-        foreach ($value as $item) {
+        foreach ($values as $item) {
             if (! $item instanceof $type) {
                 $givenType = is_scalar($item) ? gettype($item) : (is_array($item) ? 'array' : get_class($item));
 
