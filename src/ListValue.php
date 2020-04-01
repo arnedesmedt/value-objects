@@ -71,10 +71,11 @@ interface ListValue extends ValueObject
 
     /**
      * @param mixed $item
+     * @param ValueObject|string|null $key
      *
      * @return static
      */
-    public function put($item, ?string $key = null);
+    public function put($item, $key = null);
 
     /**
      * @return static
@@ -82,18 +83,24 @@ interface ListValue extends ValueObject
     public function pop();
 
     /**
+     * @param ValueObject|string $key
+     *
      * @return static
      */
-    public function forget(string $key);
+    public function forget($key);
 
     /**
+     * @param ValueObject|string $key
      * @param mixed $default
      *
      * @return mixed
      */
-    public function get(string $key, $default = null);
+    public function get($key, $default = null);
 
-    public function has(string $key) : bool;
+    /**
+     * @param ValueObject|string $key
+     */
+    public function has($key) : bool;
 
     /**
      * @param mixed $item

@@ -198,7 +198,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public function put($item, ?string $key = null)
+    public function put($item, $key = null)
     {
         $clone = clone $this;
         $item = static::toItem($item);
@@ -206,6 +206,8 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
         if ($key === null) {
             $key = (static::itemIdentifier())($item);
         }
+
+        $key = (string) $key;
 
         $clone->value[$key] = $item;
 
@@ -227,9 +229,11 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public function forget(string $key)
+    public function forget($key)
     {
         $clone = clone $this;
+
+        $key = (string) $key;
 
         unset($clone->value[$key]);
 
@@ -239,13 +243,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     /**
      * @inheritDoc
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
+        $key = (string) $key;
+
         return $this->value[$key] ?? $default;
     }
 
-    public function has(string $key) : bool
+    /**
+     * @inheritDoc
+     */
+    public function has($key) : bool
     {
+        $key = (string) $key;
+
         return array_key_exists($key, $this->value);
     }
 
