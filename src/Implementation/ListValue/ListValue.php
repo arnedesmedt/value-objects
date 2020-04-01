@@ -12,6 +12,7 @@ use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 use function array_diff;
+use function array_filter;
 use function array_key_exists;
 use function array_map;
 use function array_pop;
@@ -299,6 +300,21 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
         $last = reset($reversed);
 
         return $last === false ? $default : $last;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function filter(Closure $closure)
+    {
+        $clone = clone $this;
+
+        $clone->value = array_filter(
+            $clone->value,
+            $closure
+        );
+
+        return $clone;
     }
 
     public function count() : int

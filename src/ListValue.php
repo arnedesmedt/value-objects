@@ -121,6 +121,11 @@ interface ListValue extends ValueObject
      */
     public function last($default = null);
 
+    /**
+     * @return static
+     */
+    public function filter(Closure $closure);
+
     public function count() : int;
 
     public function isEmpty() : bool;
