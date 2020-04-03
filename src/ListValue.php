@@ -131,4 +131,9 @@ interface ListValue extends ValueObject
     public function isEmpty() : bool;
 
     public function implode(string $glue) : string;
+
+    /**
+     * @return static
+     */
+    public function unique(?Closure $closure = null);
 }

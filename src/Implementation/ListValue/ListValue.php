@@ -13,11 +13,15 @@ use ReflectionException;
 use RuntimeException;
 use function array_diff;
 use function array_filter;
+use function array_flip;
+use function array_intersect_key;
 use function array_key_exists;
+use function array_keys;
 use function array_map;
 use function array_pop;
 use function array_push;
 use function array_reverse;
+use function array_unique;
 use function count;
 use function get_class;
 use function gettype;
@@ -340,6 +344,21 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
             },
             $this->toArray()
         ));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unique(?Closure $closure = null)
+    {
+        $clone = clone $this;
+
+        $value = $closure !== null ? array_map($closure, $clone->value) : $clone->value;
+
+        $keys = array_keys(array_unique($value));
+        $clone->value = array_intersect_key($clone->value, array_flip($keys));
+
+        return $clone;
     }
 
     /**
