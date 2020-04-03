@@ -21,6 +21,7 @@ use function array_reverse;
 use function count;
 use function get_class;
 use function gettype;
+use function implode;
 use function is_array;
 use function is_scalar;
 use function print_r;
@@ -325,6 +326,16 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     public function isEmpty() : bool
     {
         return empty($this->value);
+    }
+
+    public function implode(string $glue) : string
+    {
+        return implode($glue, array_map(
+            static function ($item) {
+                return (string) $item;
+            },
+            $this->toArray()
+        ));
     }
 
     /**

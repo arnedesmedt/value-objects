@@ -129,4 +129,6 @@ interface ListValue extends ValueObject
     public function count() : int;
 
     public function isEmpty() : bool;
+
+    public function implode(string $glue) : string;
 }
