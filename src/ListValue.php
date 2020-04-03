@@ -103,7 +103,7 @@ interface ListValue extends ValueObject
     public function has($key) : bool;
 
     /**
-     * @param mixed $item
+     * @param mixed|Closure $item
      */
     public function contains($item) : bool;
 

@@ -267,6 +267,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
      */
     public function contains($item) : bool
     {
+        if ($item instanceof Closure) {
+            return ! $this->filter($item)->isEmpty();
+        }
+
         $item = static::toItem($item);
         $identifierClosure = self::itemIdentifier();
 
