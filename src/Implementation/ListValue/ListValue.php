@@ -8,6 +8,8 @@ use ADS\ValueObjects\Exception\InvalidListException;
 use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
+use EventEngine\JsonSchema\JsonSchemaAwareCollection;
+use EventEngine\JsonSchema\JsonSchemaAwareCollectionLogic;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
@@ -32,8 +34,10 @@ use function print_r;
 use function reset;
 use function sprintf;
 
-abstract class ListValue implements \ADS\ValueObjects\ListValue
+abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
 {
+    use JsonSchemaAwareCollectionLogic;
+
     /** @var mixed[] */
     protected array $value;
 
@@ -71,6 +75,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue
     private static function __itemType() : ?string
     {
         return static::itemType();
+    }
+
+    // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+    private static function __allowNestedSchema() : bool
+    {
+        return true;
     }
 
     /**
