@@ -32,7 +32,8 @@ final class InvalidListException extends Exception
     {
         return new static(
             sprintf(
-                'The method \'fromScalarToItem\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                'The method \'fromScalarToItem\' has to be overridden for class \'%s\' ' .
+                'because it\'s not an instance of \'%s\'.',
                 $class,
                 ImmutableRecord::class
             )
@@ -46,7 +47,8 @@ final class InvalidListException extends Exception
     {
         return new static(
             sprintf(
-                'The method \'fromItemToScalar\' has to be overridden for class \'%s\' because it\'s not an instance of \'%s\'.',
+                'The method \'fromItemToScalar\' has to be overridden for class \'%s\' ' .
+                'because it\'s not an instance of \'%s\'.',
                 $class,
                 ImmutableRecord::class
             )
@@ -63,6 +65,21 @@ final class InvalidListException extends Exception
                 'Could not found item type \'%s\' for list \'%s\'.',
                 $itemType,
                 $class
+            )
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function noItemIdentifierFound(string $class, string $itemType)
+    {
+        return new static(
+            sprintf(
+                'The class \'%s\' must override \'itemIdentifier\' ' .
+                'because the item types \'%s\' are no value objects.',
+                $class,
+                $itemType
             )
         );
     }

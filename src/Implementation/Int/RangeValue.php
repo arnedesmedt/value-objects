@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Int;
 
-use RuntimeException;
-use function sprintf;
+use ADS\ValueObjects\Exception\InvalidRangeException;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -16,18 +15,12 @@ abstract class RangeValue extends IntValue
         if ((static::included() && ($value > static::maximum() || $value < static::minimum()))
             || (! static::included() && ($value >= static::maximum() || $value <= static::minimum()))
         ) {
-            $orEqual = static::included() ? 'or equal' : '';
-
-            throw new RuntimeException(
-                sprintf(
-                    'The value \'%d\' for value object \'%s\', has to be lower%s than %d and greater%s than %d.',
-                    $value,
-                    static::class,
-                    $orEqual,
-                    static::maximum(),
-                    $orEqual,
-                    static::minimum()
-                )
+            throw InvalidRangeException::outsideRange(
+                $value,
+                static::class,
+                static::minimum(),
+                static::maximum(),
+                static::included(),
             );
         }
 

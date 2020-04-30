@@ -12,7 +12,6 @@ use EventEngine\JsonSchema\JsonSchemaAwareCollection;
 use EventEngine\JsonSchema\JsonSchemaAwareCollectionLogic;
 use ReflectionClass;
 use ReflectionException;
-use RuntimeException;
 use function array_diff;
 use function array_filter;
 use function array_flip;
@@ -32,7 +31,6 @@ use function is_array;
 use function is_scalar;
 use function print_r;
 use function reset;
-use function sprintf;
 
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
 {
@@ -56,23 +54,19 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 return $item->__toString();
             }
 
-            throw new RuntimeException(
-                sprintf(
-                    'The class \'%s\' must override \'itemIdentifier\' ' .
-                    'because the item types \'%s\' are no value objects.',
-                    static::class,
-                    static::itemType()
-                )
+            throw InvalidListException::noItemIdentifierFound(
+                static::class,
+                static::itemType()
             );
         };
     }
 
     /**
-     * @return class-string|null
+     * @return class-string
      *
      * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
      */
-    private static function __itemType() : ?string
+    private static function __itemType() : string
     {
         return static::itemType();
     }
