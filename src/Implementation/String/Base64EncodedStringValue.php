@@ -11,9 +11,12 @@ use function sprintf;
 
 abstract class Base64EncodedStringValue extends StringValue
 {
-    public static function fromPlainString(string $plainString) : self
+    /**
+     * @return static
+     */
+    public static function fromPlainString(string $plainString)
     {
-        return self::fromString(base64_encode($plainString));
+        return static::fromString(base64_encode($plainString));
     }
 
     public function toPlainString() : string
