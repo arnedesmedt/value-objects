@@ -16,7 +16,8 @@
         "ext-intl": "*",
         "opis/json-schema": "^1.0",
         "ramsey/uuid": "^3.9",
-        "event-engine/php-json-schema": "^2.0"
+        "event-engine/php-json-schema": "^2.0",
+        "fzaninotto/faker": "^1.9"
     },
     "require-dev": {
         "phpro/grumphp": "^0.17.2",
