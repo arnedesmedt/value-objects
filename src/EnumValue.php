@@ -7,7 +7,7 @@ namespace ADS\ValueObjects;
 interface EnumValue extends ValueObject
 {
     /**
-     * @return array<string>
+     * @return array<mixed>
      */
     public static function possibleValues() : array;
 
