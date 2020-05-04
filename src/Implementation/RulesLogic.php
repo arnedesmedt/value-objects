@@ -8,10 +8,12 @@ use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
 use ADS\ValueObjects\Implementation\String\PatternValue;
+use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
 use EventEngine\JsonSchema\Type\IntType;
 use EventEngine\JsonSchema\Type\StringType;
 use ReflectionClass;
+use function array_filter;
 
 trait RulesLogic
 {
@@ -38,9 +40,7 @@ trait RulesLogic
             IntType::EXCLUSIVE_MAXIMUM => $reflection->isSubclassOf(RangeValue::class) ?
                 (static::included() ? null : static::maximum())
                 : null,
-            StringType::FORMAT => $reflection->isSubclassOf(EmailValue::class) ?
-                'email'
-                : null,
+            StringType::FORMAT => self::format($reflection),
             StringType::PATTERN => $reflection->isSubclassOf(UuidValue::class) ?
                 '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
                 : (
@@ -49,5 +49,19 @@ trait RulesLogic
                         : null
                 ),
         ];
+
+        return array_filter($rules);
+    }
+
+    private static function format(ReflectionClass $reflection) : ?string
+    {
+        switch (true) {
+            case $reflection->isSubclassOf(EmailValue::class):
+                return 'email';
+            case $reflection->isSubclassOf(UrlValue::class):
+                return 'uri';
+            default:
+                return null;
+        }
     }
 }

@@ -11,6 +11,7 @@ use ADS\ValueObjects\FloatValue;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\Base64EncodedStringValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
+use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
 use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\StringValue;
@@ -31,6 +32,8 @@ trait ExampleLogic
                 return static::generate();
             case $reflection->isSubclassOf(EmailValue::class):
                 return static::fromString(Factory::create()->email);
+            case $reflection->isSubclassOf(UrlValue::class):
+                return static::fromString(Factory::create()->url);
             case $reflection->isSubclassOf(Base64EncodedStringValue::class):
                 return static::fromPlainString(Factory::create()->word());
             case $reflection->isSubclassOf(RangeValue::class):
