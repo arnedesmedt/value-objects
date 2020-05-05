@@ -20,7 +20,7 @@ trait RulesLogic
     /**
      * @inheritDoc
      */
-    public static function rules() : array
+    public static function validationRules() : array
     {
         $reflection = new ReflectionClass(static::class);
 
