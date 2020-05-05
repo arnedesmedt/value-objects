@@ -32,7 +32,7 @@ trait RulesLogic
                 (static::included() ? static::minimum() : null)
                 : null,
             IntType::MAXIMUM => $reflection->isSubclassOf(RangeValue::class) ?
-                (static::included() ? static::minimum() : null)
+                (static::included() ? static::maximum() : null)
                 : null,
             IntType::EXCLUSIVE_MINIMUM => $reflection->isSubclassOf(RangeValue::class) ?
                 (static::included() ? null : static::minimum())
