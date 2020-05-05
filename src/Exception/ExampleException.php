@@ -21,4 +21,18 @@ final class ExampleException extends Exception
             )
         );
     }
+
+    /**
+     * @return static
+     */
+    public static function noItemExampleFound(string $itemClass, string $class)
+    {
+        return new static(
+            sprintf(
+                'No example found for item value object \'%s\' in array value object \'%s\'.',
+                $itemClass,
+                $class
+            )
+        );
+    }
 }

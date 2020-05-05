@@ -14,7 +14,9 @@ use ADS\ValueObjects\Implementation\String\EmailValue;
 use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
 use ADS\ValueObjects\IntValue;
+use ADS\ValueObjects\ListValue;
 use ADS\ValueObjects\StringValue;
+use ADS\ValueObjects\WithExample;
 use Faker\Factory;
 use ReflectionClass;
 
@@ -48,6 +50,20 @@ trait ExampleLogic
                 return static::fromString(Factory::create()->word());
             case $reflection->implementsInterface(BoolValue::class):
                 return static::fromBool(Factory::create()->boolean());
+            case $reflection->implementsInterface(ListValue::class):
+                $itemType = static::itemType();
+                $reflectionItem = new ReflectionClass($itemType);
+
+                if (! $reflectionItem->implementsInterface(WithExample::class)) {
+                    throw ExampleException::noItemExampleFound($itemType, static::class);
+                }
+
+                return static::fromItems(
+                    [
+                        $itemType::example(),
+                        $itemType::example(),
+                    ]
+                );
             default:
                 throw ExampleException::noExampleFound(static::class);
         }
