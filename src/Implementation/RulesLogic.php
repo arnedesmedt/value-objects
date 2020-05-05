@@ -14,6 +14,8 @@ use EventEngine\JsonSchema\Type\IntType;
 use EventEngine\JsonSchema\Type\StringType;
 use ReflectionClass;
 use function array_filter;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 
 trait RulesLogic
 {
@@ -28,18 +30,10 @@ trait RulesLogic
             StringType::ENUM => $reflection->isSubclassOf(EnumValue::class) ?
                 static::possibleValues()
                 : null,
-            IntType::MINIMUM => $reflection->isSubclassOf(RangeValue::class) ?
-                (static::included() ? static::minimum() : null)
-                : null,
-            IntType::MAXIMUM => $reflection->isSubclassOf(RangeValue::class) ?
-                (static::included() ? static::maximum() : null)
-                : null,
-            IntType::EXCLUSIVE_MINIMUM => $reflection->isSubclassOf(RangeValue::class) ?
-                (static::included() ? null : static::minimum())
-                : null,
-            IntType::EXCLUSIVE_MAXIMUM => $reflection->isSubclassOf(RangeValue::class) ?
-                (static::included() ? null : static::maximum())
-                : null,
+            IntType::MINIMUM => self::inclusiveMinimum($reflection),
+            IntType::MAXIMUM => self::inclusiveMaximum($reflection),
+            IntType::EXCLUSIVE_MINIMUM => self::exclusiveMinimum($reflection),
+            IntType::EXCLUSIVE_MAXIMUM => self::exclusiveMaximum($reflection),
             StringType::FORMAT => self::format($reflection),
             StringType::PATTERN => $reflection->isSubclassOf(UuidValue::class) ?
                 '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
@@ -60,6 +54,62 @@ trait RulesLogic
                 return 'email';
             case $reflection->isSubclassOf(UrlValue::class):
                 return 'uri';
+            default:
+                return null;
+        }
+    }
+
+    private static function inclusiveMinimum(ReflectionClass $reflection) : ?int
+    {
+        switch (true) {
+            case $reflection->isSubclassOf(RangeValue::class):
+                if (static::included() && static::minimum() !== PHP_INT_MIN) {
+                    return static::minimum();
+                }
+
+                return null;
+            default:
+                return null;
+        }
+    }
+
+    private static function inclusiveMaximum(ReflectionClass $reflection) : ?int
+    {
+        switch (true) {
+            case $reflection->isSubclassOf(RangeValue::class):
+                if (static::included() && static::maximum() !== PHP_INT_MAX) {
+                    return static::maximum();
+                }
+
+                return null;
+            default:
+                return null;
+        }
+    }
+
+    private static function exclusiveMinimum(ReflectionClass $reflection) : ?int
+    {
+        switch (true) {
+            case $reflection->isSubclassOf(RangeValue::class):
+                if (! static::included() && static::minimum() !== PHP_INT_MIN) {
+                    return static::minimum();
+                }
+
+                return null;
+            default:
+                return null;
+        }
+    }
+
+    private static function exclusiveMaximum(ReflectionClass $reflection) : ?int
+    {
+        switch (true) {
+            case $reflection->isSubclassOf(RangeValue::class):
+                if (! static::included() && static::maximum() !== PHP_INT_MAX) {
+                    return static::maximum();
+                }
+
+                return null;
             default:
                 return null;
         }
