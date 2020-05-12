@@ -119,7 +119,9 @@ trait JsonSchemaAwareRecordLogic
                     );
                 }
 
-                $props[$propName] = $prop->describedAs($docBlock->getSummary());
+                $props[$propName] = $prop->describedAs(
+                    $docBlock->getSummary() . '<br/>' . $docBlock->getDescription()->render()
+                );
             }
 
             $optionalProps = [];
