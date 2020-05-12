@@ -101,7 +101,7 @@ final class TypeDetector
         }
 
         return $schemaType->withExamples(
-            array_map(
+            ...array_map(
                 static function (ValueObject $valueObject) use ($toMethod) {
                     return $valueObject->{$toMethod}();
                 },
