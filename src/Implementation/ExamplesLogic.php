@@ -6,8 +6,9 @@ namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
 use ADS\ValueObjects\EnumValue;
-use ADS\ValueObjects\Exception\ExampleException;
+use ADS\ValueObjects\Exception\ExamplesException;
 use ADS\ValueObjects\FloatValue;
+use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\Base64EncodedStringValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
@@ -16,11 +17,10 @@ use ADS\ValueObjects\Implementation\String\UuidValue;
 use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\ListValue;
 use ADS\ValueObjects\StringValue;
-use ADS\ValueObjects\WithExample;
 use Faker\Factory;
 use ReflectionClass;
 
-trait ExampleLogic
+trait ExamplesLogic
 {
     /**
      * @inheritDoc
@@ -54,8 +54,8 @@ trait ExampleLogic
                 $itemType = static::itemType();
                 $reflectionItem = new ReflectionClass($itemType);
 
-                if (! $reflectionItem->implementsInterface(WithExample::class)) {
-                    throw ExampleException::noItemExampleFound($itemType, static::class);
+                if (! $reflectionItem->implementsInterface(HasExamples::class)) {
+                    throw ExamplesException::noItemExamplesFound($itemType, static::class);
                 }
 
                 return static::fromItems(
@@ -65,7 +65,15 @@ trait ExampleLogic
                     ]
                 );
             default:
-                throw ExampleException::noExampleFound(static::class);
+                throw ExamplesException::noExamplesFound(static::class);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function examples() : array
+    {
+        return [static::example()];
     }
 }
