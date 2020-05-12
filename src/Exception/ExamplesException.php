@@ -7,16 +7,16 @@ namespace ADS\ValueObjects\Exception;
 use Exception;
 use function sprintf;
 
-final class ExampleException extends Exception
+final class ExamplesException extends Exception
 {
     /**
      * @return static
      */
-    public static function noExampleFound(string $class)
+    public static function noExamplesFound(string $class)
     {
         return new static(
             sprintf(
-                'No example found for value object \'%s\'.',
+                'No examples found for value object \'%s\'.',
                 $class
             )
         );
@@ -25,11 +25,11 @@ final class ExampleException extends Exception
     /**
      * @return static
      */
-    public static function noItemExampleFound(string $itemClass, string $class)
+    public static function noItemExamplesFound(string $itemClass, string $class)
     {
         return new static(
             sprintf(
-                'No example found for item value object \'%s\' in array value object \'%s\'.',
+                'No examples found for item value object \'%s\' in array value object \'%s\'.',
                 $itemClass,
                 $class
             )

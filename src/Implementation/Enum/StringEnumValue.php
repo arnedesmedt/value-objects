@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
-use ADS\ValueObjects\Exception\InvalidEnumException;
+use ADS\ValueObjects\Exception\EnumException;
 use function array_filter;
 use function count;
 use function is_string;
@@ -17,7 +17,7 @@ abstract class StringEnumValue extends EnumValue
     protected function __construct($value)
     {
         if (! is_string($value)) {
-            throw InvalidEnumException::wrongType(
+            throw EnumException::wrongType(
                 $value,
                 'string',
                 static::class
@@ -35,7 +35,7 @@ abstract class StringEnumValue extends EnumValue
             return;
         }
 
-        throw InvalidEnumException::wrongPossibleValueTypes(
+        throw EnumException::wrongPossibleValueTypes(
             $noneStringValues,
             'string',
             static::class

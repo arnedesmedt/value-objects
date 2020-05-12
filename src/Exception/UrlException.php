@@ -7,7 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use Exception;
 use function sprintf;
 
-final class InvalidEmailException extends Exception
+final class UrlException extends Exception
 {
     /**
      * @return static
@@ -16,7 +16,7 @@ final class InvalidEmailException extends Exception
     {
         return new static(
             sprintf(
-                'Could not convert e-mail \'%s\' to IDNA ASCII form for value object \'%s\'.',
+                'Could not convert url \'%s\' to IDNA ASCII form for value object \'%s\'.',
                 $value,
                 $class
             )
@@ -26,11 +26,11 @@ final class InvalidEmailException extends Exception
     /**
      * @return static
      */
-    public static function noValidEmail(string $value, string $class)
+    public static function noValidUrl(string $value, string $class)
     {
         return new static(
             sprintf(
-                '\'%s\' is not a valid e-mail for value object \'%s\'.',
+                '\'%s\' is not a valid url for value object \'%s\'.',
                 $value,
                 $class
             )

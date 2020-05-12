@@ -8,7 +8,7 @@ use Exception;
 use function print_r;
 use function sprintf;
 
-final class InvalidEnumException extends Exception
+final class EnumException extends Exception
 {
     /**
      * @param mixed $value

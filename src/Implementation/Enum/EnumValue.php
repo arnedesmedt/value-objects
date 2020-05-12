@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
-use ADS\ValueObjects\Exception\InvalidEnumException;
+use ADS\ValueObjects\Exception\EnumException;
 use function count;
 use function in_array;
 
@@ -25,11 +25,11 @@ abstract class EnumValue implements EnumValueInterface
         $possibleValues = static::possibleValues();
 
         if (count($possibleValues) <= 0) {
-            throw InvalidEnumException::noPossibleValues(static::class);
+            throw EnumException::noPossibleValues(static::class);
         }
 
         if (! in_array($value, $possibleValues)) {
-            throw InvalidEnumException::noValidValue($value, $possibleValues, static::class);
+            throw EnumException::noValidValue($value, $possibleValues, static::class);
         }
 
         $this->value = $value;

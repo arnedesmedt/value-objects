@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\InvalidBase64EncodedStringException;
+use ADS\ValueObjects\Exception\Base64EncodedStringException;
 use function base64_decode;
 use function base64_encode;
 
@@ -24,7 +24,7 @@ abstract class Base64EncodedStringValue extends StringValue
         $decoded = base64_decode($this->toString());
 
         if ($decoded === false) {
-            throw InvalidBase64EncodedStringException::couldNotDecode($this->toString(), static::class);
+            throw Base64EncodedStringException::couldNotDecode($this->toString(), static::class);
         }
 
         return $decoded;

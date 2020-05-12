@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
-use ADS\ValueObjects\Exception\InvalidListException;
+use ADS\ValueObjects\Exception\ListException;
 use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
@@ -54,7 +54,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 return $item->__toString();
             }
 
-            throw InvalidListException::noItemIdentifierFound(
+            throw ListException::noItemIdentifierFound(
                 static::class,
                 static::itemType()
             );
@@ -91,9 +91,9 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 return $itemType::fromArray($value);
             }
 
-            throw InvalidListException::fromScalarToItemNotImplemented(static::class);
+            throw ListException::fromScalarToItemNotImplemented(static::class);
         } catch (ReflectionException $exception) {
-            throw InvalidListException::itemTypeNotFound($itemType, static::class);
+            throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
 
@@ -111,9 +111,9 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 return $item->toArray();
             }
 
-            throw InvalidListException::fromItemToScalarNotImplemented(static::class);
+            throw ListException::fromItemToScalarNotImplemented(static::class);
         } catch (ReflectionException $exception) {
-            throw InvalidListException::itemTypeNotFound($itemType, static::class);
+            throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
 
@@ -376,7 +376,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             if (! $item instanceof $type) {
                 $givenType = is_scalar($item) ? gettype($item) : (is_array($item) ? 'array' : get_class($item));
 
-                throw InvalidListException::noValidItemType(
+                throw ListException::noValidItemType(
                     $givenType,
                     $type,
                     static::class
@@ -394,7 +394,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         try {
             self::checkTypes([$item]);
-        } catch (InvalidListException $exception) {
+        } catch (ListException $exception) {
             $item = static::fromScalarToItem($item);
         }
 

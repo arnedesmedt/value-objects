@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
-use ADS\ValueObjects\Exception\InvalidEnumException;
+use ADS\ValueObjects\Exception\EnumException;
 use function array_filter;
 use function count;
 use function is_int;
@@ -17,7 +17,7 @@ abstract class IntEnumValue extends EnumValue
     protected function __construct($value)
     {
         if (! is_int($value)) {
-            throw InvalidEnumException::wrongType(
+            throw EnumException::wrongType(
                 $value,
                 'int',
                 static::class
@@ -35,7 +35,7 @@ abstract class IntEnumValue extends EnumValue
             return;
         }
 
-        throw InvalidEnumException::wrongPossibleValueTypes(
+        throw EnumException::wrongPossibleValueTypes(
             $noneIntegerValues,
             'int',
             static::class

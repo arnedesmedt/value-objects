@@ -8,7 +8,7 @@ use EventEngine\Data\ImmutableRecord;
 use Exception;
 use function sprintf;
 
-final class InvalidListException extends Exception
+final class ListException extends Exception
 {
     /**
      * @return static

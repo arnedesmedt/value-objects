@@ -7,7 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use Exception;
 use function sprintf;
 
-final class InvalidRangeException extends Exception
+final class RangeException extends Exception
 {
     /**
      * @return static
@@ -18,15 +18,13 @@ final class InvalidRangeException extends Exception
 
         return new static(
             sprintf(
-                sprintf(
-                    'The value \'%d\' for value object \'%s\', has to be lower%s than %d and greater%s than %d.',
-                    $value,
-                    $class,
-                    $orEqual,
-                    $maximum,
-                    $orEqual,
-                    $minimum
-                )
+                'The value \'%d\' for value object \'%s\', has to be lower%s than %d and greater%s than %d.',
+                $value,
+                $class,
+                $orEqual,
+                $maximum,
+                $orEqual,
+                $minimum
             )
         );
     }

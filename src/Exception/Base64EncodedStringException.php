@@ -7,7 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use Exception;
 use function sprintf;
 
-final class InvalidBase64EncodedStringException extends Exception
+final class Base64EncodedStringException extends Exception
 {
     /**
      * @return static

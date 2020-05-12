@@ -7,7 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use Exception;
 use function sprintf;
 
-final class InvalidPatternException extends Exception
+final class PatternException extends Exception
 {
     /**
      * @return static

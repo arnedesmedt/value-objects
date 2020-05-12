@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\InvalidPatternException;
+use ADS\ValueObjects\Exception\PatternException;
 use Opis\JsonSchema\Validator;
 use function preg_match;
 use function sprintf;
@@ -20,7 +20,7 @@ abstract class PatternValue extends StringValue
             $value,
         )
         ) {
-            throw InvalidPatternException::noMatch($value, $pattern, static::class);
+            throw PatternException::noMatch($value, $pattern, static::class);
         }
 
         parent::__construct($value);

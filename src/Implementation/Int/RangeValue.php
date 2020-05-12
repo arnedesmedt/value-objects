@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Int;
 
-use ADS\ValueObjects\Exception\InvalidRangeException;
+use ADS\ValueObjects\Exception\RangeException;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -15,7 +15,7 @@ abstract class RangeValue extends IntValue
         if ((static::included() && ($value > static::maximum() || $value < static::minimum()))
             || (! static::included() && ($value >= static::maximum() || $value <= static::minimum()))
         ) {
-            throw InvalidRangeException::outsideRange(
+            throw RangeException::outsideRange(
                 $value,
                 static::class,
                 static::minimum(),
