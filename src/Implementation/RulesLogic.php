@@ -12,6 +12,7 @@ use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
 use EventEngine\JsonSchema\Type\IntType;
 use EventEngine\JsonSchema\Type\StringType;
+use Ramsey\Uuid\Uuid;
 use ReflectionClass;
 use function array_filter;
 use const PHP_INT_MAX;
@@ -36,7 +37,7 @@ trait RulesLogic
             IntType::EXCLUSIVE_MAXIMUM => self::exclusiveMaximum($reflection),
             StringType::FORMAT => self::format($reflection),
             StringType::PATTERN => $reflection->isSubclassOf(UuidValue::class) ?
-                '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+                Uuid::VALID_PATTERN
                 : (
                     $reflection->isSubclassOf(PatternValue::class) ?
                         static::pattern()
