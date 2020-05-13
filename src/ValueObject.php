@@ -12,4 +12,9 @@ interface ValueObject
      * @param mixed $other
      */
     public function isEqualTo($other) : bool;
+
+    /**
+     * @return mixed
+     */
+    public function toValue();
 }

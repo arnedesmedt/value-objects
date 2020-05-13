@@ -36,6 +36,14 @@ abstract class FloatValue implements FloatValueInterface
     /**
      * @inheritDoc
      */
+    public function toValue()
+    {
+        return $this->toFloat();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isEqualTo($other) : bool
     {
         if (! $other instanceof self) {

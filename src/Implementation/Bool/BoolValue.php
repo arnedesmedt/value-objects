@@ -36,6 +36,14 @@ abstract class BoolValue implements BoolValueInterface
     /**
      * @inheritDoc
      */
+    public function toValue()
+    {
+        return $this->toBool();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isEqualTo($other) : bool
     {
         if (! $other instanceof self) {

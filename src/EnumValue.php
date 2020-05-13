@@ -17,9 +17,4 @@ interface EnumValue extends ValueObject
      * @return static
      */
     public static function fromValue($value);
-
-    /**
-     * @return mixed
-     */
-    public function toValue();
 }

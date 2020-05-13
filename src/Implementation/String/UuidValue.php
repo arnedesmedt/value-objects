@@ -45,6 +45,14 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
     /**
      * @inheritDoc
      */
+    public function toValue()
+    {
+        return $this->toString();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isEqualTo($other) : bool
     {
         if (! $other instanceof self) {
