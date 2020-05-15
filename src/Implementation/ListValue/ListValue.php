@@ -143,7 +143,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
      */
     public static function emptyList()
     {
-        return new static();
+        return new static([]);
     }
 
     /**
