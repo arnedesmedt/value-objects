@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
+use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
 use Exception;
 use function sprintf;
@@ -33,9 +34,10 @@ final class ListException extends Exception
         return new static(
             sprintf(
                 'The method \'fromScalarToItem\' has to be overridden for class \'%s\' ' .
-                'because it\'s not an instance of \'%s\'.',
+                'because it\'s not an instance of \'%s\' or \'%s\'.',
                 $class,
-                ImmutableRecord::class
+                ImmutableRecord::class,
+                ValueObject::class
             )
         );
     }
@@ -48,9 +50,10 @@ final class ListException extends Exception
         return new static(
             sprintf(
                 'The method \'fromItemToScalar\' has to be overridden for class \'%s\' ' .
-                'because it\'s not an instance of \'%s\'.',
+                'because it\'s not an instance of \'%s\' or \'%s\'.',
                 $class,
-                ImmutableRecord::class
+                ImmutableRecord::class,
+                ValueObject::class
             )
         );
     }

@@ -44,6 +44,14 @@ abstract class StringValue implements StringValueInterface
     /**
      * @inheritDoc
      */
+    public static function fromValue($value)
+    {
+        return static::fromString($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isEqualTo($other) : bool
     {
         if (! $other instanceof self) {

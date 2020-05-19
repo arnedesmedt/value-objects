@@ -91,6 +91,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 return $itemType::fromArray($value);
             }
 
+            if ($relfectionClass->implementsInterface(ValueObject::class)) {
+                return $itemType::fromValue($value);
+            }
+
             throw ListException::fromScalarToItemNotImplemented(static::class);
         } catch (ReflectionException $exception) {
             throw ListException::itemTypeNotFound($itemType, static::class);
@@ -109,6 +113,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
             if ($relfectionClass->implementsInterface(ImmutableRecord::class)) {
                 return $item->toArray();
+            }
+
+            if ($relfectionClass->implementsInterface(ValueObject::class)) {
+                return $item->toValue();
             }
 
             throw ListException::fromItemToScalarNotImplemented(static::class);
@@ -176,6 +184,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     public function toValue()
     {
         return $this->toArray();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function fromValue($value)
+    {
+        return static::fromArray($value);
     }
 
     /**

@@ -17,4 +17,11 @@ interface ValueObject
      * @return mixed
      */
     public function toValue();
+
+    /**
+     * @param mixed $value
+     *
+     * @return static
+     */
+    public static function fromValue($value);
 }

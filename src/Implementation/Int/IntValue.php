@@ -44,6 +44,14 @@ abstract class IntValue implements IntValueInterface
     /**
      * @inheritDoc
      */
+    public static function fromValue($value)
+    {
+        return static::fromInt($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isEqualTo($other) : bool
     {
         if (! $other instanceof self) {
