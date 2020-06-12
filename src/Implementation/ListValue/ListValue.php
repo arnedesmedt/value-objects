@@ -9,7 +9,6 @@ use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
-use EventEngine\JsonSchema\JsonSchemaAwareCollectionLogic;
 use ReflectionClass;
 use ReflectionException;
 use function array_diff;
@@ -34,8 +33,6 @@ use function reset;
 
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
 {
-    use JsonSchemaAwareCollectionLogic;
-
     /** @var mixed[] */
     protected array $value;
 
