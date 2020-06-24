@@ -21,7 +21,9 @@ use function array_map;
 use function array_pop;
 use function array_push;
 use function array_reverse;
+use function array_shift;
 use function array_unique;
+use function array_unshift;
 use function count;
 use function get_class;
 use function gettype;
@@ -253,6 +255,30 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         $clone = clone $this;
 
         array_pop($clone->value);
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function shift()
+    {
+        $clone = clone $this;
+
+        array_shift($clone->value);
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unshift($item)
+    {
+        $clone = clone $this;
+
+        array_unshift($clone->value, static::toItem($item));
 
         return $clone;
     }

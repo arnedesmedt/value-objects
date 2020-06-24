@@ -83,6 +83,18 @@ interface ListValue extends ValueObject
     public function pop();
 
     /**
+     * @return static
+     */
+    public function shift();
+
+    /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function unshift($item);
+
+    /**
      * @param ValueObject|string $key
      *
      * @return static
