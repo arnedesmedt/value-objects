@@ -11,6 +11,7 @@ use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
 use ReflectionClass;
 use ReflectionException;
+
 use function array_diff;
 use function array_filter;
 use function array_flip;
@@ -46,7 +47,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         $this->value = $values;
     }
 
-    public static function itemIdentifier() : Closure
+    public static function itemIdentifier(): Closure
     {
         return static function ($item) {
             if ($item instanceof ValueObject) {
@@ -65,13 +66,13 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
      *
      * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
      */
-    private static function __itemType() : string
+    private static function __itemType(): string
     {
         return static::itemType();
     }
 
     // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
-    private static function __allowNestedSchema() : bool
+    private static function __allowNestedSchema(): bool
     {
         return true;
     }
@@ -156,10 +157,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @return array<mixed>
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return array_map(
-            static fn($item) => static::fromItemToScalar($item),
+            static fn ($item) => static::fromItemToScalar($item),
             $this->value
         );
     }
@@ -167,12 +168,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @return array<mixed>
      */
-    public function toItems() : array
+    public function toItems(): array
     {
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return print_r($this->toArray(), true);
     }
@@ -196,7 +197,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;
@@ -310,7 +311,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function has($key) : bool
+    public function has($key): bool
     {
         $key = (string) $key;
 
@@ -320,7 +321,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function contains($item) : bool
+    public function contains($item): bool
     {
         if ($item instanceof Closure) {
             return ! $this->filter($item)->isEmpty();
@@ -330,7 +331,8 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         $identifierClosure = self::itemIdentifier();
 
         foreach ($this->toItems() as $existingItem) {
-            if ($existingItem instanceof ValueObject && $existingItem->isEqualTo($item)
+            if (
+                $existingItem instanceof ValueObject && $existingItem->isEqualTo($item)
                 || $identifierClosure($existingItem) === $identifierClosure($item)
                 || $existingItem === $item
             ) {
@@ -377,17 +379,17 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->value);
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return empty($this->value);
     }
 
-    public function implode(string $glue) : string
+    public function implode(string $glue): string
     {
         return implode($glue, array_map(
             static function ($item) {
@@ -415,7 +417,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @param mixed $values
      */
-    private static function checkTypes($values) : void
+    private static function checkTypes($values): void
     {
         $type = static::itemType();
 

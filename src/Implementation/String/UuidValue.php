@@ -32,12 +32,12 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
         return new static(Uuid::fromString($value));
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->value->toString();
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -61,7 +61,7 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;

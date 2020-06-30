@@ -11,5 +11,5 @@ interface IntValue extends ValueObject
      */
     public static function fromInt(int $value);
 
-    public function toInt() : int;
+    public function toInt(): int;
 }

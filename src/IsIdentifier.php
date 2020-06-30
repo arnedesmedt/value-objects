@@ -9,5 +9,5 @@ interface IsIdentifier
     /**
      * @return class-string
      */
-    public static function resource() : string;
+    public static function resource(): string;
 }

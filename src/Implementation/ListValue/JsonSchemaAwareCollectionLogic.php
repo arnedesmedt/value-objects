@@ -14,7 +14,7 @@ trait JsonSchemaAwareCollectionLogic
     /**
      * @return class-string
      */
-    private static function __itemType() : string
+    private static function __itemType(): string
     {
         return static::itemType();
     }

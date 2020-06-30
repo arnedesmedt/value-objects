@@ -23,12 +23,12 @@ abstract class FloatValue implements FloatValueInterface
         return new static($value);
     }
 
-    public function toFloat() : float
+    public function toFloat(): float
     {
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return '' . $this->toFloat();
     }
@@ -52,7 +52,7 @@ abstract class FloatValue implements FloatValueInterface
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;

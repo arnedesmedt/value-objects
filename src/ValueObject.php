@@ -6,12 +6,12 @@ namespace ADS\ValueObjects;
 
 interface ValueObject
 {
-    public function __toString() : string;
+    public function __toString(): string;
 
     /**
      * @param mixed $other
      */
-    public function isEqualTo($other) : bool;
+    public function isEqualTo($other): bool;
 
     /**
      * @return mixed

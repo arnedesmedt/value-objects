@@ -11,5 +11,5 @@ interface StringValue extends ValueObject
      */
     public static function fromString(string $value);
 
-    public function toString() : string;
+    public function toString(): string;
 }

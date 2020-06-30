@@ -7,6 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
 use Exception;
+
 use function sprintf;
 
 final class ListException extends Exception

@@ -14,7 +14,9 @@ use EventEngine\JsonSchema\Type\IntType;
 use EventEngine\JsonSchema\Type\StringType;
 use Ramsey\Uuid\Uuid;
 use ReflectionClass;
+
 use function array_filter;
+
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -23,7 +25,7 @@ trait RulesLogic
     /**
      * @inheritDoc
      */
-    public static function validationRules() : array
+    public static function validationRules(): array
     {
         $reflection = new ReflectionClass(static::class);
 
@@ -48,19 +50,21 @@ trait RulesLogic
         return array_filter($rules);
     }
 
-    private static function format(ReflectionClass $reflection) : ?string
+    private static function format(ReflectionClass $reflection): ?string
     {
         switch (true) {
             case $reflection->isSubclassOf(EmailValue::class):
                 return 'email';
+
             case $reflection->isSubclassOf(UrlValue::class):
                 return 'uri';
+
             default:
                 return null;
         }
     }
 
-    private static function inclusiveMinimum(ReflectionClass $reflection) : ?int
+    private static function inclusiveMinimum(ReflectionClass $reflection): ?int
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -69,12 +73,13 @@ trait RulesLogic
                 }
 
                 return null;
+
             default:
                 return null;
         }
     }
 
-    private static function inclusiveMaximum(ReflectionClass $reflection) : ?int
+    private static function inclusiveMaximum(ReflectionClass $reflection): ?int
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -83,12 +88,13 @@ trait RulesLogic
                 }
 
                 return null;
+
             default:
                 return null;
         }
     }
 
-    private static function exclusiveMinimum(ReflectionClass $reflection) : ?int
+    private static function exclusiveMinimum(ReflectionClass $reflection): ?int
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -97,12 +103,13 @@ trait RulesLogic
                 }
 
                 return null;
+
             default:
                 return null;
         }
     }
 
-    private static function exclusiveMaximum(ReflectionClass $reflection) : ?int
+    private static function exclusiveMaximum(ReflectionClass $reflection): ?int
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -111,6 +118,7 @@ trait RulesLogic
                 }
 
                 return null;
+
             default:
                 return null;
         }

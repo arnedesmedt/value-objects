@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\EmailException;
+
 use function filter_var;
 use function idn_to_ascii;
+
 use const FILTER_VALIDATE_EMAIL;
 use const IDNA_DEFAULT;
 use const INTL_IDNA_VARIANT_UTS46;

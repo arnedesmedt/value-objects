@@ -6,7 +6,7 @@ namespace ADS\ValueObjects\Implementation\Int;
 
 abstract class TimestampValue extends RangeValue
 {
-    public static function minimum() : int
+    public static function minimum(): int
     {
         return 0;
     }

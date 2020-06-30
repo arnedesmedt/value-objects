@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\EnumException;
+
 use function array_filter;
 use function count;
 use function is_int;
@@ -50,7 +51,7 @@ abstract class IntEnumValue extends EnumValue
         return static::fromValue($value);
     }
 
-    public function toInt() : int
+    public function toInt(): int
     {
         return (int) $this->toValue();
     }

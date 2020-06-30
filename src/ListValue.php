@@ -11,13 +11,13 @@ interface ListValue extends ValueObject
     /**
      * @return class-string
      */
-    public static function itemType() : string;
+    public static function itemType(): string;
 
     /**
      * This returns a closure that will get an item as argument
      * and returns the identifier of that item.
      */
-    public static function itemIdentifier() : Closure;
+    public static function itemIdentifier(): Closure;
 
     /**
      * @param mixed $value
@@ -55,12 +55,12 @@ interface ListValue extends ValueObject
     /**
      * @return array<mixed>
      */
-    public function toArray() : array;
+    public function toArray(): array;
 
     /**
      * @return array<mixed>
      */
-    public function toItems() : array;
+    public function toItems(): array;
 
     /**
      * @param mixed $item
@@ -112,12 +112,12 @@ interface ListValue extends ValueObject
     /**
      * @param ValueObject|string $key
      */
-    public function has($key) : bool;
+    public function has($key): bool;
 
     /**
      * @param mixed|Closure $item
      */
-    public function contains($item) : bool;
+    public function contains($item): bool;
 
     /**
      * @param mixed $default
@@ -138,11 +138,11 @@ interface ListValue extends ValueObject
      */
     public function filter(Closure $closure);
 
-    public function count() : int;
+    public function count(): int;
 
-    public function isEmpty() : bool;
+    public function isEmpty(): bool;
 
-    public function implode(string $glue) : string;
+    public function implode(string $glue): string;
 
     /**
      * @return static

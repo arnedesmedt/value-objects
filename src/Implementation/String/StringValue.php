@@ -23,12 +23,12 @@ abstract class StringValue implements StringValueInterface
         return new static($value);
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }
@@ -52,7 +52,7 @@ abstract class StringValue implements StringValueInterface
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;

@@ -23,12 +23,12 @@ abstract class IntValue implements IntValueInterface
         return new static($value);
     }
 
-    public function toInt() : int
+    public function toInt(): int
     {
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return '' . $this->toInt();
     }
@@ -52,7 +52,7 @@ abstract class IntValue implements IntValueInterface
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;

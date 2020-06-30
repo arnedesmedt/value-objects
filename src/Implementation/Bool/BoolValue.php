@@ -23,12 +23,12 @@ abstract class BoolValue implements BoolValueInterface
         return new static($value);
     }
 
-    public function toBool() : bool
+    public function toBool(): bool
     {
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toBool() ? 'true' : 'false';
     }
@@ -52,7 +52,7 @@ abstract class BoolValue implements BoolValueInterface
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof self) {
             return false;

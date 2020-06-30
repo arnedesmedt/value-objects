@@ -6,6 +6,7 @@ namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
 use ADS\ValueObjects\Exception\EnumException;
+
 use function count;
 use function in_array;
 
@@ -52,7 +53,7 @@ abstract class EnumValue implements EnumValueInterface
         return $this->value;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return (string) $this->toValue();
     }
@@ -60,7 +61,7 @@ abstract class EnumValue implements EnumValueInterface
     /**
      * @inheritDoc
      */
-    public function isEqualTo($other) : bool
+    public function isEqualTo($other): bool
     {
         if (! $other instanceof static) {
             return false;

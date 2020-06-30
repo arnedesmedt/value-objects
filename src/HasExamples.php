@@ -14,5 +14,5 @@ interface HasExamples
     /**
      * @return array<static>
      */
-    public static function examples() : array;
+    public static function examples(): array;
 }

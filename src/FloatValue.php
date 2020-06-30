@@ -11,5 +11,5 @@ interface FloatValue extends ValueObject
      */
     public static function fromFloat(float $value);
 
-    public function toFloat() : float;
+    public function toFloat(): float;
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\EnumException;
+
 use function array_filter;
 use function count;
 use function is_string;
@@ -50,7 +51,7 @@ abstract class StringEnumValue extends EnumValue
         return static::fromValue($value);
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return (string) $this->toValue();
     }

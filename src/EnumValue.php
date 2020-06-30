@@ -9,5 +9,5 @@ interface EnumValue extends ValueObject
     /**
      * @return array<mixed>
      */
-    public static function possibleValues() : array;
+    public static function possibleValues(): array;
 }

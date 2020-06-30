@@ -6,6 +6,7 @@ namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\PatternException;
 use Opis\JsonSchema\Validator;
+
 use function preg_match;
 use function sprintf;
 
@@ -15,10 +16,11 @@ abstract class PatternValue extends StringValue
     {
         $pattern = sprintf('%s%s%su', Validator::BELL, static::pattern(), Validator::BELL);
 
-        if (! preg_match(
-            $pattern,
-            $value,
-        )
+        if (
+            ! preg_match(
+                $pattern,
+                $value,
+            )
         ) {
             throw PatternException::noMatch($value, $pattern, static::class);
         }
@@ -26,5 +28,5 @@ abstract class PatternValue extends StringValue
         parent::__construct($value);
     }
 
-    abstract public static function pattern() : string;
+    abstract public static function pattern(): string;
 }
