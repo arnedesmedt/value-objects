@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
-use Exception;
-
 use function sprintf;
 
-final class PatternException extends Exception
+final class PatternException extends ValueObjectException
 {
     /**
      * @return static

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
-use Exception;
-
 use function sprintf;
 
-final class UrlException extends Exception
+final class UrlException extends ValueObjectException
 {
     /**
      * @return static
