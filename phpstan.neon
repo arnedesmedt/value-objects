@@ -1,10 +1,2 @@
 parameters:
     inferPrivatePropertyTypeFromConstructor: true
-    autoload_files:
-        - %currentWorkingDirectory%/vendor/autoload.php
-    excludes_analyse:
-        - %currentWorkingDirectory%/.phpstorm.meta.php
-    ignoreErrors:
-        -
-            message: '#Unsafe usage of new static().#'
-            path: %currentWorkingDirectory%/src/Implementation/*.php
