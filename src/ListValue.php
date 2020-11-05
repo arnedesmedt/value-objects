@@ -102,12 +102,22 @@ interface ListValue extends ValueObject
     public function forget($key);
 
     /**
+     * @return static
+     */
+    public function diffByKeys(ListValue $keys);
+
+    /**
      * @param ValueObject|string $key
      * @param mixed $default
      *
      * @return mixed
      */
     public function get($key, $default = null);
+
+    /**
+     * @return static
+     */
+    public function getByKeys(ListValue $keys);
 
     /**
      * @param ValueObject|string $key

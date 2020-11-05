@@ -13,6 +13,7 @@ use ReflectionClass;
 use ReflectionException;
 
 use function array_diff;
+use function array_diff_key;
 use function array_filter;
 use function array_flip;
 use function array_intersect_key;
@@ -301,11 +302,35 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
+    public function diffByKeys(\ADS\ValueObjects\ListValue $keys)
+    {
+        $clone = clone $this;
+
+        $clone->value = array_diff_key($clone->value, array_flip($keys->toArray()));
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function get($key, $default = null)
     {
         $key = (string) $key;
 
         return $this->value[$key] ?? $default;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getByKeys(\ADS\ValueObjects\ListValue $keys)
+    {
+        $clone = clone $this;
+
+        $clone->value = array_intersect_key($clone->value, array_flip($keys->toArray()));
+
+        return $clone;
     }
 
     /**
