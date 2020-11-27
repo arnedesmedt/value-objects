@@ -14,6 +14,7 @@ use ADS\ValueObjects\Implementation\Enum\StringEnumValue;
 use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\StringValue;
 use ADS\ValueObjects\ValueObject;
+use DateTime;
 use EventEngine\JsonSchema\AnnotatedType;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -152,6 +153,13 @@ final class TypeDetector
         $position = strrchr($class, '\\');
 
         if ($position === false) {
+            switch (true) {
+                case $class === DateTime::class:
+                    return new Type\StringType(
+                        [Type\StringType::FORMAT => 'date-time']
+                    );
+            }
+
             throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
         }
 
