@@ -32,9 +32,7 @@ trait ExamplesLogic
 
         switch (true) {
             case $reflection->implementsInterface(DateTimeValue::class):
-                return static::fromItems([
-                    static::fromDateTime(Factory::create()->dateTime()),
-                ]);
+                return static::fromDateTime(Factory::create()->dateTime());
 
             case $reflection->isSubclassOf(UuidValue::class):
                 return static::generate();
