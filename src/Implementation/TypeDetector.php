@@ -27,6 +27,8 @@ use ReflectionClass;
 use function array_map;
 use function call_user_func;
 use function class_exists;
+use function class_implements;
+use function in_array;
 use function is_callable;
 use function strrchr;
 use function substr;
@@ -104,6 +106,10 @@ final class TypeDetector
         return $schemaType->withExamples(
             ...array_map(
                 static function (ValueObject $valueObject) {
+                    if (in_array(DateTimeValue::class, class_implements($valueObject), true)) {
+                        return $valueObject->toString();
+                    }
+
                     return $valueObject->toValue();
                 },
                 $class::examples()

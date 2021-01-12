@@ -31,6 +31,11 @@ trait ExamplesLogic
         $reflection = new ReflectionClass(static::class);
 
         switch (true) {
+            case $reflection->implementsInterface(DateTimeValue::class):
+                return static::fromItems([
+                    static::fromDateTime(Factory::create()->dateTime()),
+                ]);
+
             case $reflection->isSubclassOf(UuidValue::class):
                 return static::generate();
 
@@ -75,11 +80,6 @@ trait ExamplesLogic
                         $itemType::example(),
                     ]
                 );
-
-            case $reflection->implementsInterface(DateTimeValue::class):
-                return static::fromItems([
-                    static::fromDateTime(Factory::create()->dateTime()),
-                ]);
 
             default:
                 throw ExamplesException::noExamplesFound(static::class);
