@@ -2,18 +2,33 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\DateTime;
+namespace ADS\ValueObjects\Implementation\String;
 
 use DateTime;
 use DateTimeInterface;
+
+use function strtotime;
 
 abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 {
     protected DateTimeInterface $value;
 
-    final protected function __construct(DateTimeInterface $value)
+    protected function __construct(DateTimeInterface $value)
     {
         $this->value = $value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function fromString(string $value)
+    {
+        return new static(new DateTime('@' . strtotime($value)));
+    }
+
+    public function toString(): string
+    {
+        return $this->toDateTime()->format(self::getFormat());
     }
 
     public static function fromDateTime(DateTimeInterface $value): self
@@ -28,7 +43,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 
     public function __toString(): string
     {
-        return $this->toDateTime()->format(self::getFormat());
+        return $this->toString();
     }
 
     public function toValue(): DateTimeInterface
