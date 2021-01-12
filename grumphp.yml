@@ -1,6 +1,3 @@
-parameters:
-    git_dir: .
-    bin_dir: vendor/bin
 grumphp:
     fixer:
         enabled: true
@@ -17,8 +14,6 @@ grumphp:
                 - " dump("
                 - "echo "
             triggered_by: ['php']
-            whitelist_patterns:
-                - /^(app|bootstrap|config|database|public|routes|storage|tests)\//
         phpcs:
             standard: ~
         phpstan:
