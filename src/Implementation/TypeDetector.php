@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
+use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ClassException;
 use ADS\ValueObjects\FloatValue;
@@ -58,7 +59,7 @@ final class TypeDetector
             return $schemaType;
         }
 
-        return self::convertClassToType($classOrType);
+        return self::convertClassToType($refObj);
     }
 
     /**
@@ -148,19 +149,26 @@ final class TypeDetector
         return null;
     }
 
-    private static function convertClassToType(string $class): Type
+    private static function convertClassToType(ReflectionClass $class): Type
     {
-        $position = strrchr($class, '\\');
+        $className = $class->name;
+        $position = strrchr($className, '\\');
 
         if ($position === false) {
             switch (true) {
-                case $class === DateTime::class:
+                case $className === DateTime::class:
                     return new Type\StringType(
                         [Type\StringType::FORMAT => 'date-time']
                     );
             }
 
-            throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
+            throw ClassException::fullQualifiedClassNameWithoutBackslash($className);
+        }
+
+        if ($class->implementsInterface(DateTimeValue::class)) {
+            return new Type\StringType(
+                [Type\StringType::FORMAT => 'date-time']
+            );
         }
 
         $ref = substr($position, 1);
