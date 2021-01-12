@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
+use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ExamplesException;
 use ADS\ValueObjects\FloatValue;
@@ -74,6 +75,11 @@ trait ExamplesLogic
                         $itemType::example(),
                     ]
                 );
+
+            case $reflection->implementsInterface(DateTimeValue::class):
+                return static::fromItems([
+                    static::fromDateTime(Factory::create()->dateTime()),
+                ]);
 
             default:
                 throw ExamplesException::noExamplesFound(static::class);
