@@ -6,6 +6,7 @@ namespace ADS\ValueObjects\Implementation\String;
 
 use DateTime;
 use DateTimeInterface;
+use EventEngine\JsonSchema\Type\StringType;
 
 use function strtotime;
 
@@ -74,5 +75,13 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         }
 
         return $this->toDateTime() === $other->toDateTime();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function validationRules(): array
+    {
+        return [StringType::FORMAT => 'date-time'];
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
-use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ClassException;
 use ADS\ValueObjects\FloatValue;
@@ -15,7 +14,6 @@ use ADS\ValueObjects\Implementation\Enum\StringEnumValue;
 use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\StringValue;
 use ADS\ValueObjects\ValueObject;
-use DateTime;
 use EventEngine\JsonSchema\AnnotatedType;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -25,7 +23,6 @@ use EventEngine\JsonSchema\Type;
 use ReflectionClass;
 
 use function array_map;
-use function array_merge;
 use function call_user_func;
 use function class_exists;
 use function is_callable;
@@ -122,10 +119,6 @@ final class TypeDetector
             ? $class::validationRules()
             : null;
 
-        if ($refObj->implementsInterface(DateTimeValue::class)) {
-            $validation = array_merge([Type\StringType::FORMAT => 'date-time'], $validation ?? []);
-        }
-
         if ($refObj->implementsInterface(EnumValue::class)) {
             $possibleValues = $class::possibleValues();
             $type = $refObj->isSubclassOf(StringEnumValue::class)
@@ -159,13 +152,6 @@ final class TypeDetector
         $position = strrchr($class, '\\');
 
         if ($position === false) {
-            switch (true) {
-                case $class === DateTime::class:
-                    return new Type\StringType(
-                        [Type\StringType::FORMAT => 'date-time']
-                    );
-            }
-
             throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
         }
 
