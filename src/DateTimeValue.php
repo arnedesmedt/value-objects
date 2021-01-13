@@ -11,4 +11,6 @@ interface DateTimeValue extends StringValue
     public static function fromDateTime(DateTimeInterface $value): DateTimeValue;
 
     public function toDateTime(): DateTimeInterface;
+
+    public function toFormattedString(string $format): string;
 }

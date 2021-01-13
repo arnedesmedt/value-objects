@@ -28,7 +28,12 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 
     public function toString(): string
     {
-        return $this->toDateTime()->format(self::getFormat());
+        return $this->toFormattedString(DateTime::RFC3339_EXTENDED);
+    }
+
+    public function toFormattedString(string $format): string
+    {
+        return $this->toDateTime()->format($format);
     }
 
     public static function fromDateTime(DateTimeInterface $value): self
@@ -46,9 +51,9 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         return $this->toString();
     }
 
-    public function toValue(): DateTimeInterface
+    public function toValue(): string
     {
-        return $this->toDateTime();
+        return $this->toString();
     }
 
     /**
@@ -56,7 +61,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
      */
     public static function fromValue($value): DateTimeValue
     {
-        return static::fromDateTime($value);
+        return static::fromString($value);
     }
 
     /**
@@ -69,10 +74,5 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         }
 
         return $this->toDateTime() === $other->toDateTime();
-    }
-
-    public static function getFormat(): string
-    {
-        return DateTime::RFC3339_EXTENDED;
     }
 }

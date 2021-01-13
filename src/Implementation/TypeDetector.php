@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
-use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ClassException;
 use ADS\ValueObjects\FloatValue;
@@ -27,8 +26,6 @@ use ReflectionClass;
 use function array_map;
 use function call_user_func;
 use function class_exists;
-use function class_implements;
-use function in_array;
 use function is_callable;
 use function strrchr;
 use function substr;
@@ -61,7 +58,7 @@ final class TypeDetector
             return $schemaType;
         }
 
-        return self::convertClassToType($refObj);
+        return self::convertClassToType($classOrType);
     }
 
     /**
@@ -106,10 +103,6 @@ final class TypeDetector
         return $schemaType->withExamples(
             ...array_map(
                 static function (ValueObject $valueObject) {
-                    if (in_array(DateTimeValue::class, class_implements($valueObject), true)) {
-                        return $valueObject->toString();
-                    }
-
                     return $valueObject->toValue();
                 },
                 $class::examples()
@@ -155,26 +148,19 @@ final class TypeDetector
         return null;
     }
 
-    private static function convertClassToType(ReflectionClass $class): Type
+    private static function convertClassToType(string $class): Type
     {
-        $className = $class->name;
-        $position = strrchr($className, '\\');
+        $position = strrchr($class, '\\');
 
         if ($position === false) {
             switch (true) {
-                case $className === DateTime::class:
+                case $class === DateTime::class:
                     return new Type\StringType(
                         [Type\StringType::FORMAT => 'date-time']
                     );
             }
 
-            throw ClassException::fullQualifiedClassNameWithoutBackslash($className);
-        }
-
-        if ($class->implementsInterface(DateTimeValue::class)) {
-            return new Type\StringType(
-                [Type\StringType::FORMAT => 'date-time']
-            );
+            throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
         }
 
         $ref = substr($position, 1);
