@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
+use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ExamplesException;
 use ADS\ValueObjects\FloatValue;
@@ -30,6 +31,9 @@ trait ExamplesLogic
         $reflection = new ReflectionClass(static::class);
 
         switch (true) {
+            case $reflection->implementsInterface(DateTimeValue::class):
+                return static::fromDateTime(Factory::create()->dateTime());
+
             case $reflection->isSubclassOf(UuidValue::class):
                 return static::generate();
 
