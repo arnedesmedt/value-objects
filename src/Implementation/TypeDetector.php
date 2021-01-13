@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\BoolValue;
+use ADS\ValueObjects\DateTimeValue;
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ClassException;
 use ADS\ValueObjects\FloatValue;
@@ -24,6 +25,7 @@ use EventEngine\JsonSchema\Type;
 use ReflectionClass;
 
 use function array_map;
+use function array_merge;
 use function call_user_func;
 use function class_exists;
 use function is_callable;
@@ -119,6 +121,10 @@ final class TypeDetector
         $validation = $refObj->implementsInterface(ProvidesValidationRules::class)
             ? $class::validationRules()
             : null;
+
+        if ($refObj->implementsInterface(DateTimeValue::class)) {
+            $validation = array_merge([Type\StringType::FORMAT => 'date-time'], $validation ?? []);
+        }
 
         if ($refObj->implementsInterface(EnumValue::class)) {
             $possibleValues = $class::possibleValues();
