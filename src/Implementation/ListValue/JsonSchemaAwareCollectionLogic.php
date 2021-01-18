@@ -42,4 +42,12 @@ trait JsonSchemaAwareCollectionLogic
 
         return self::$__itemSchema;
     }
+
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     */
+    private static function __allowNestedSchema(): bool
+    {
+        return true;
+    }
 }
