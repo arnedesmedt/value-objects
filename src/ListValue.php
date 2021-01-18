@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace ADS\ValueObjects;
 
 use Closure;
+use Countable;
 
-interface ListValue extends ValueObject
+interface ListValue extends ValueObject, Countable
 {
     /**
      * @return class-string
@@ -147,8 +148,6 @@ interface ListValue extends ValueObject
      * @return static
      */
     public function filter(Closure $closure);
-
-    public function count(): int;
 
     public function isEmpty(): bool;
 
