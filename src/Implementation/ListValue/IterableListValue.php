@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
+use ArrayAccess;
 use Iterator;
+
+use function array_key_exists;
 
 /**
  * @implements Iterator<int, mixed>
  */
-abstract class IterableListValue extends ListValue implements Iterator
+abstract class IterableListValue extends ListValue implements Iterator, ArrayAccess
 {
     private int $index = 0;
 
@@ -39,5 +42,42 @@ abstract class IterableListValue extends ListValue implements Iterator
     public function rewind(): void
     {
         $this->index = 0;
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset): bool
+    {
+        return array_key_exists($offset, $this->value);
+    }
+
+    /**
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->value[$offset];
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     *
+     * @return mixed|void
+     */
+    public function offsetSet($offset, $value)
+    {
+        return $this->value[$offset] = $value;
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset): void
+    {
+        unset($this->value[$offset]);
     }
 }
