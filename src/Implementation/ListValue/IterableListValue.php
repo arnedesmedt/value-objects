@@ -65,12 +65,10 @@ abstract class IterableListValue extends ListValue implements Iterator, ArrayAcc
     /**
      * @param mixed $offset
      * @param mixed $value
-     *
-     * @return mixed|void
      */
     public function offsetSet($offset, $value)
     {
-        return $this->value[$offset] = $value;
+        $this->value[$offset] = $value;
     }
 
     /**
