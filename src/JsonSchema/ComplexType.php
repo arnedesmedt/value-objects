@@ -8,6 +8,7 @@ use EventEngine\JsonSchema\AnnotatedType;
 use EventEngine\JsonSchema\Type;
 use RuntimeException;
 
+use function addslashes;
 use function get_class;
 use function method_exists;
 use function preg_match;
@@ -88,7 +89,7 @@ final class ComplexType implements AnnotatedType
             return $schema;
         }
 
-        $schema['type'] = $this->className;
+        $schema['type'] = '\\' . addslashes($this->className);
 
         return $schema;
     }
