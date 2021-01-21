@@ -40,7 +40,7 @@ trait JsonSchemaAwareCollectionLogic
             self::$__itemSchema = TypeDetector::getTypeFromClass(
                 $itemType,
                 self::__allowNestedSchema(),
-                $_GET['complex'] ?? false
+                isset($_GET['complex'])
             );
         }
 

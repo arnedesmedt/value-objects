@@ -10,6 +10,8 @@ use RuntimeException;
 
 use function get_class;
 use function method_exists;
+use function preg_match;
+use function preg_quote;
 use function property_exists;
 use function sprintf;
 
@@ -81,6 +83,10 @@ final class ComplexType implements AnnotatedType
     public function toArray(): array
     {
         $schema = $this->originalType->toArray();
+
+        if (! preg_match(sprintf('#%s#', preg_quote($_GET['complex'], '#')), $this->className)) {
+            return $schema;
+        }
 
         $schema['type'] = $this->className;
 
