@@ -37,7 +37,11 @@ trait JsonSchemaAwareCollectionLogic
                 return JsonSchema::schemaFromScalarPhpType($itemType, false);
             }
 
-            self::$__itemSchema = TypeDetector::getTypeFromClass($itemType, self::__allowNestedSchema());
+            self::$__itemSchema = TypeDetector::getTypeFromClass(
+                $itemType,
+                self::__allowNestedSchema(),
+                isset($_GET['complex'])
+            );
         }
 
         return self::$__itemSchema;

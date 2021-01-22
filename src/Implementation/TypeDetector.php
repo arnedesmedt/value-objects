@@ -13,6 +13,7 @@ use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\Enum\StringEnumValue;
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
 use ADS\ValueObjects\IntValue;
+use ADS\ValueObjects\JsonSchema\ComplexType;
 use ADS\ValueObjects\StringValue;
 use ADS\ValueObjects\ValueObject;
 use DateTime;
@@ -33,8 +34,11 @@ use function substr;
 
 final class TypeDetector
 {
-    public static function getTypeFromClass(string $classOrType, bool $allowNestedSchema = true): Type
-    {
+    public static function getTypeFromClass(
+        string $classOrType,
+        bool $allowNestedSchema = true,
+        bool $complexType = false
+    ): Type {
         if (! class_exists($classOrType)) {
             return JsonSchema::typeRef($classOrType);
         }
@@ -53,22 +57,24 @@ final class TypeDetector
             }
         }
 
-        $schemaType = self::determineScalarTypeOrListIfPossible($classOrType, $refObj);
+        $schemaType = self::determineScalarTypeOrListIfPossible($refObj)
+            ?? self::convertClassToType($classOrType);
 
-        if ($schemaType) {
+        if (! $complexType) {
             return $schemaType;
         }
 
-        return self::convertClassToType($classOrType);
+        return ComplexType::fromTypeAndClass($schemaType, $classOrType);
     }
 
     /**
-     * @param class-string $class
      * @param ReflectionClass<object> $refObj
      */
-    private static function determineScalarTypeOrListIfPossible(string $class, ReflectionClass $refObj): ?Type
+    private static function determineScalarTypeOrListIfPossible(ReflectionClass $refObj): ?Type
     {
         $schemaType = null;
+        /** @var class-string $class */
+        $class = $refObj->getName();
 
         if ($refObj->implementsInterface(JsonSchemaAwareCollection::class)) {
             $callback = [$class, 'validationRules'];
@@ -83,7 +89,7 @@ final class TypeDetector
         }
 
         if (! $schemaType) {
-            $schemaType = $scalarSchemaType = self::determineScalarTypeIfPossible($class, $refObj);
+            $schemaType = $scalarSchemaType = self::determineScalarTypeIfPossible($refObj);
         }
 
         if (! $schemaType) {
@@ -112,11 +118,12 @@ final class TypeDetector
     }
 
     /**
-     * @param class-string $class
      * @param ReflectionClass<object> $refObj
      */
-    private static function determineScalarTypeIfPossible(string $class, ReflectionClass $refObj): ?Type
+    private static function determineScalarTypeIfPossible(ReflectionClass $refObj): ?Type
     {
+        /** @var class-string $class */
+        $class = $refObj->getName();
         $validation = $refObj->implementsInterface(ProvidesValidationRules::class)
             ? $class::validationRules()
             : null;
