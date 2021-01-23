@@ -77,15 +77,11 @@ final class TypeDetector
         $class = $refObj->getName();
 
         if ($refObj->implementsInterface(JsonSchemaAwareCollection::class)) {
-            $callback = [$class, 'validationRules'];
-            $validation = is_callable($callback)
-                ? call_user_func($callback)
+            $validation = $refObj->implementsInterface(ProvidesValidationRules::class)
+                ? $class::validationRules()
                 : null;
 
-            $callback = [$class, '__itemSchema'];
-            if (is_callable($callback)) {
-                $schemaType = JsonSchema::array(call_user_func($callback), $validation);
-            }
+            $schemaType = JsonSchema::array($class::__itemSchema(), $validation);
         }
 
         if (! $schemaType) {
