@@ -10,6 +10,8 @@ use ADS\ValueObjects\Implementation\String\EmailValue;
 use ADS\ValueObjects\Implementation\String\PatternValue;
 use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
+use ADS\ValueObjects\ListValue;
+use EventEngine\JsonSchema\Type\ArrayType;
 use EventEngine\JsonSchema\Type\IntType;
 use EventEngine\JsonSchema\Type\StringType;
 use Ramsey\Uuid\Uuid;
@@ -45,6 +47,18 @@ trait RulesLogic
                         static::pattern()
                         : null
                 ),
+            ArrayType::CONTAINS => $reflection->isSubclassOf(ListValue::class) ?
+                static::containsType()
+                : null,
+            ArrayType::MIN_ITEMS => $reflection->isSubclassOf(ListValue::class) ?
+                static::minItems()
+                : null,
+            ArrayType::MAX_ITEMS => $reflection->isSubclassOf(ListValue::class) ?
+                static::maxItems()
+                : null,
+            ArrayType::UNIQUE_ITEMS => $reflection->isSubclassOf(ListValue::class) ?
+                static::uniqueItems()
+                : null,
         ];
 
         return array_filter($rules);

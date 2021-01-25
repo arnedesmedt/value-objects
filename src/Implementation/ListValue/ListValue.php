@@ -9,6 +9,7 @@ use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
+use EventEngine\Schema\TypeSchema;
 use ReflectionClass;
 use ReflectionException;
 
@@ -473,5 +474,25 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         }
 
         return $item;
+    }
+
+    public static function containsType(): ?TypeSchema
+    {
+        return null;
+    }
+
+    public static function minItems(): ?int
+    {
+        return null;
+    }
+
+    public static function maxItems(): ?int
+    {
+        return null;
+    }
+
+    public static function uniqueItems(): ?bool
+    {
+        return null;
     }
 }
