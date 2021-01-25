@@ -6,7 +6,11 @@ namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
+use ADS\ValueObjects\Implementation\String\DateTimeValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
+use ADS\ValueObjects\Implementation\String\HostnameValue;
+use ADS\ValueObjects\Implementation\String\IpV4Value;
+use ADS\ValueObjects\Implementation\String\IpV6Value;
 use ADS\ValueObjects\Implementation\String\PatternValue;
 use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
@@ -72,6 +76,18 @@ trait RulesLogic
 
             case $reflection->isSubclassOf(UrlValue::class):
                 return 'uri';
+
+            case $reflection->isSubclassOf(DateTimeValue::class):
+                return 'date-time';
+
+            case $reflection->isSubclassOf(HostnameValue::class):
+                return 'hostname';
+
+            case $reflection->isSubclassOf(IpV4Value::class):
+                return 'ipv4';
+
+            case $reflection->isSubclassOf(IpV6Value::class):
+                return 'ipv6';
 
             default:
                 return null;
