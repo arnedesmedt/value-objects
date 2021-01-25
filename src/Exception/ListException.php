@@ -7,6 +7,7 @@ namespace ADS\ValueObjects\Exception;
 use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
 
+use function get_class;
 use function sprintf;
 
 final class ListException extends ValueObjectException
@@ -83,6 +84,19 @@ final class ListException extends ValueObjectException
                 'because the item types \'%s\' are no value objects.',
                 $class,
                 $itemType
+            )
+        );
+    }
+
+    /**
+     * @return static
+     */
+    public static function valueIsNotScalar(object $value)
+    {
+        return new static(
+            sprintf(
+                'The given value is not a scalar: \'%s\'.',
+                get_class($value)
             )
         );
     }
