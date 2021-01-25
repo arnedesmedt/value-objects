@@ -26,9 +26,7 @@ use EventEngine\JsonSchema\Type;
 use ReflectionClass;
 
 use function array_map;
-use function call_user_func;
 use function class_exists;
-use function is_callable;
 use function strrchr;
 use function substr;
 
@@ -46,15 +44,11 @@ final class TypeDetector
         $refObj = new ReflectionClass($classOrType);
 
         if ($refObj->implementsInterface(JsonSchemaAwareRecord::class)) {
-            $callback = [$classOrType, '__schema'];
-            if ($allowNestedSchema && is_callable($callback)) {
-                return call_user_func($callback);
+            if ($allowNestedSchema) {
+                return $classOrType::__schema();
             }
 
-            $callback = [$classOrType, '__type'];
-            if (is_callable($callback)) {
-                return new Type\TypeRef(call_user_func($callback));
-            }
+            return new Type\TypeRef($classOrType::__type());
         }
 
         $schemaType = self::determineScalarTypeOrListIfPossible($refObj)
