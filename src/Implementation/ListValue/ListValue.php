@@ -32,6 +32,7 @@ use function get_class;
 use function gettype;
 use function implode;
 use function is_array;
+use function is_object;
 use function is_scalar;
 use function print_r;
 use function reset;
@@ -84,6 +85,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
      */
     public static function fromScalarToItem($value)
     {
+        if (is_object($value)) {
+            throw ListException::valueIsNotScalar($value);
+        }
+
         $itemType = static::itemType();
 
         try {
@@ -470,7 +475,15 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         try {
             self::checkTypes([$item]);
         } catch (ListException $exception) {
-            $item = static::fromScalarToItem($item);
+            try {
+                $item = static::fromScalarToItem($item);
+            } catch (ListException $exception) {
+                throw ListException::noValidItemType(
+                    get_class($item),
+                    static::itemType(),
+                    static::class
+                );
+            }
         }
 
         return $item;
