@@ -18,4 +18,10 @@
         <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/>
         <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming"/>
     </rule>
+
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array" value="var_dump=>null,die=>null,exit=>null,dump=>null,echo=>null,dd=>null"/>
+        </properties>
+    </rule>
 </ruleset>
