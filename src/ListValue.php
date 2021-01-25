@@ -6,6 +6,7 @@ namespace ADS\ValueObjects;
 
 use Closure;
 use Countable;
+use EventEngine\Schema\TypeSchema;
 
 interface ListValue extends ValueObject, Countable
 {
@@ -157,4 +158,12 @@ interface ListValue extends ValueObject, Countable
      * @return static
      */
     public function unique(?Closure $closure = null);
+
+    public static function containsType(): ?TypeSchema;
+
+    public static function minItems(): ?int;
+
+    public static function maxItems(): ?int;
+
+    public static function uniqueItems(): ?bool;
 }
