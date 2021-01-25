@@ -13,6 +13,9 @@ use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\Base64EncodedStringValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
+use ADS\ValueObjects\Implementation\String\HostnameValue;
+use ADS\ValueObjects\Implementation\String\IpV4Value;
+use ADS\ValueObjects\Implementation\String\IpV6Value;
 use ADS\ValueObjects\Implementation\String\UrlValue;
 use ADS\ValueObjects\Implementation\String\UuidValue;
 use ADS\ValueObjects\IntValue;
@@ -39,6 +42,15 @@ trait ExamplesLogic
 
             case $reflection->isSubclassOf(EmailValue::class):
                 return static::fromString(Factory::create()->email);
+
+            case $reflection->isSubclassOf(IpV4Value::class):
+                return static::fromString(Factory::create()->ipv4);
+
+            case $reflection->isSubclassOf(IpV6Value::class):
+                return static::fromString(Factory::create()->ipv6);
+
+            case $reflection->isSubclassOf(HostnameValue::class):
+                return static::fromString(Factory::create()->domainName);
 
             case $reflection->isSubclassOf(UrlValue::class):
                 return static::fromString(Factory::create()->url);
