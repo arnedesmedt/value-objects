@@ -28,6 +28,7 @@ use function array_reverse;
 use function array_shift;
 use function array_unique;
 use function array_unshift;
+use function array_values;
 use function count;
 use function get_class;
 use function gettype;
@@ -399,7 +400,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function filter(Closure $closure)
+    public function filter(Closure $closure, bool $resetKeys = false)
     {
         $clone = clone $this;
 
@@ -407,6 +408,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             $clone->value,
             $closure
         );
+
+        if ($resetKeys) {
+            $clone->value = array_values($clone->value);
+        }
 
         return $clone;
     }

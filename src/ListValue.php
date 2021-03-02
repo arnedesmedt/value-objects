@@ -148,7 +148,7 @@ interface ListValue extends ValueObject, Countable
     /**
      * @return static
      */
-    public function filter(Closure $closure);
+    public function filter(Closure $closure, bool $resetKeys = false);
 
     public function isEmpty(): bool;
 
