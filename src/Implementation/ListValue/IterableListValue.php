@@ -4,34 +4,37 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
-use ArrayAccess;
 use Iterator;
 
-use function array_key_exists;
+use function current;
+use function key;
+use function next;
+use function reset;
 
 /**
- * @implements Iterator<int, mixed>
+ * @implements Iterator<int|string, mixed>
  */
-abstract class IterableListValue extends ListValue implements Iterator, ArrayAccess
+abstract class IterableListValue extends ListValue implements Iterator
 {
-    private int $index = 0;
-
     /**
      * @return mixed
      */
     public function current()
     {
-        return $this->value[$this->key()];
+        return current($this->value);
     }
 
     public function next(): void
     {
-        ++$this->index;
+        next($this->value);
     }
 
-    public function key(): int
+    /**
+     * @return bool|float|int|string|null
+     */
+    public function key()
     {
-        return $this->index;
+        return key($this->value);
     }
 
     public function valid(): bool
@@ -41,45 +44,6 @@ abstract class IterableListValue extends ListValue implements Iterator, ArrayAcc
 
     public function rewind(): void
     {
-        $this->index = 0;
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetExists($offset): bool
-    {
-        return array_key_exists($offset, $this->value);
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->value[$offset];
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value): void
-    {
-        if ($offset === null) {
-            $this->value[] = $value;
-        } else {
-            $this->value[$offset] = $value;
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset): void
-    {
-        unset($this->value[$offset]);
+        reset($this->value);
     }
 }
