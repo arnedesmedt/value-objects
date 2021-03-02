@@ -6,6 +6,7 @@ namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\Exception\ListException;
 use ADS\ValueObjects\ValueObject;
+use ArrayAccess;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -37,7 +38,7 @@ use function is_scalar;
 use function print_r;
 use function reset;
 
-abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
+abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess
 {
     /** @var mixed[] */
     protected array $value;
@@ -507,5 +508,44 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     public static function uniqueItems(): ?bool
     {
         return null;
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset): bool
+    {
+        return array_key_exists($offset, $this->value);
+    }
+
+    /**
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->value[$offset];
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value): void
+    {
+        if ($offset === null) {
+            $this->value[] = $value;
+        } else {
+            $this->value[$offset] = $value;
+        }
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset): void
+    {
+        unset($this->value[$offset]);
     }
 }
