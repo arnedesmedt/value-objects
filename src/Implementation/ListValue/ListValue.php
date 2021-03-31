@@ -361,7 +361,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         }
 
         $item = static::toItem($item);
-        $identifierClosure = self::itemIdentifier();
+        $identifierClosure = static::itemIdentifier();
 
         foreach ($this->toItems() as $existingItem) {
             if (
