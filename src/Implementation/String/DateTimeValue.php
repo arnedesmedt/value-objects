@@ -14,7 +14,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 {
     protected DateTimeInterface $value;
 
-    protected function __construct(DateTimeInterface $value)
+    final protected function __construct(DateTimeInterface $value)
     {
         $this->value = $value;
     }
@@ -29,7 +29,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 
     public function toString(): string
     {
-        return $this->toFormattedString(DateTime::RFC3339_EXTENDED);
+        return $this->toFormattedString(DateTimeInterface::RFC3339_EXTENDED);
     }
 
     public function toFormattedString(string $format): string
@@ -74,7 +74,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
             return false;
         }
 
-        return $this->toDateTime() == $other->toDateTime();
+        return $this->toDateTime() === $other->toDateTime();
     }
 
     /**
