@@ -35,18 +35,4 @@ final class UrlException extends ValueObjectException
             )
         );
     }
-
-    /**
-     * @return static
-     */
-    public static function noValidUrlOrPath(string $value, string $class)
-    {
-        return new static(
-            sprintf(
-                '\'%s\' is not a valid url or path for value object \'%s\'.',
-                $value,
-                $class
-            )
-        );
-    }
 }
