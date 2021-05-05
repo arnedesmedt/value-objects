@@ -41,19 +41,19 @@ trait ExamplesLogic
                 return static::generate();
 
             case $reflection->isSubclassOf(EmailValue::class):
-                return static::fromString(Factory::create()->email);
+                return static::fromString(Factory::create()->email());
 
             case $reflection->isSubclassOf(IpV4Value::class):
-                return static::fromString(Factory::create()->ipv4);
+                return static::fromString(Factory::create()->ipv4());
 
             case $reflection->isSubclassOf(IpV6Value::class):
-                return static::fromString(Factory::create()->ipv6);
+                return static::fromString(Factory::create()->ipv6());
 
             case $reflection->isSubclassOf(HostnameValue::class):
-                return static::fromString(Factory::create()->domainName);
+                return static::fromString(Factory::create()->domainName());
 
             case $reflection->isSubclassOf(UrlValue::class):
-                return static::fromString(Factory::create()->url);
+                return static::fromString(Factory::create()->url());
 
             case $reflection->isSubclassOf(Base64EncodedStringValue::class):
                 return static::fromPlainString(Factory::create()->word());
