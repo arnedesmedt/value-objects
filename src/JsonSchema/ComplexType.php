@@ -18,8 +18,6 @@ use function sprintf;
 
 final class ComplexType implements AnnotatedType
 {
-    use Type\NullableType;
-
     private Type $originalType;
     /** @var class-string */
     private string $className;
@@ -148,6 +146,15 @@ final class ComplexType implements AnnotatedType
         $cp = clone $this;
 
         $cp->originalType = $this->originalType->withExamples(...$examples);
+
+        return $cp;
+    }
+
+    public function asNullable(): Type
+    {
+        $cp = clone $this;
+
+        $cp->originalType = $this->originalType->asNullable();
 
         return $cp;
     }
