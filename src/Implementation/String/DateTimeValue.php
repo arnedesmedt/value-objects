@@ -74,7 +74,7 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
             return false;
         }
 
-        return $this->toDateTime() === $other->toDateTime();
+        return $this->toDateTime()->getTimestamp() === $other->toDateTime()->getTimestamp();
     }
 
     /**
