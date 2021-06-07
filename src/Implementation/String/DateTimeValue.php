@@ -10,7 +10,7 @@ use EventEngine\JsonSchema\Type\StringType;
 
 use function strtotime;
 
-abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
+class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 {
     protected DateTimeInterface $value;
 
@@ -78,6 +78,8 @@ abstract class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
     }
 
     /**
+     * @return array<mixed>
+     *
      * @inheritDoc
      */
     public static function validationRules(): array
