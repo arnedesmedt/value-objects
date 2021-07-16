@@ -37,7 +37,10 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         return $this->toDateTime()->format($format);
     }
 
-    public static function fromDateTime(DateTimeInterface $value): self
+    /**
+     * @inheritDoc
+     */
+    public static function fromDateTime(DateTimeInterface $value)
     {
         return new static($value);
     }
@@ -60,9 +63,17 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
     /**
      * @inheritDoc
      */
-    public static function fromValue($value): DateTimeValue
+    public static function fromValue($value)
     {
         return static::fromString($value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function now()
+    {
+        return static::fromString('now');
     }
 
     /**
