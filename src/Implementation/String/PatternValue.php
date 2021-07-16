@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\PatternException;
+use ADS\ValueObjects\PatternValue as PatternValueInterface;
 use Opis\JsonSchema\Validator;
 
 use function preg_match;
 use function sprintf;
 
-abstract class PatternValue extends StringValue
+abstract class PatternValue extends StringValue implements PatternValueInterface
 {
     protected function __construct(string $value)
     {
