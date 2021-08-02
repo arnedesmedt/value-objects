@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Int;
+namespace ADS\ValueObjects\Implementation\Float;
 
 use ADS\ValueObjects\Exception\RangeException;
-use ADS\ValueObjects\Implementation\Float\FloatValue;
 
 use const PHP_FLOAT_MAX;
 use const PHP_FLOAT_MIN;
