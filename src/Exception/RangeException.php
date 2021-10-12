@@ -17,7 +17,7 @@ final class RangeException extends ValueObjectException
      */
     public static function outsideRange($value, string $class, $minimum, $maximum, bool $included)
     {
-        $orEqual = $included ? 'or equal' : '';
+        $orEqual = $included ? ' or equal' : '';
 
         return new static(
             sprintf(
