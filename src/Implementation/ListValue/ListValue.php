@@ -453,16 +453,6 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     /**
      * @param mixed $offset
-     *
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->value[$offset];
-    }
-
-    /**
-     * @param mixed $offset
      * @param mixed $value
      */
     public function offsetSet($offset, $value): void
