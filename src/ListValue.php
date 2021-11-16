@@ -139,11 +139,25 @@ interface ListValue extends ValueObject, Countable
     public function first($default = null);
 
     /**
+     * @param string|int $default
+     *
+     * @return string|int|null
+     */
+    public function firstKey($default = null);
+
+    /**
      * @param mixed $default
      *
      * @return mixed|null
      */
     public function last($default = null);
+
+    /**
+     * @param string|int $default
+     *
+     * @return string|int|null
+     */
+    public function lastKey($default = null);
 
     /**
      * @return static

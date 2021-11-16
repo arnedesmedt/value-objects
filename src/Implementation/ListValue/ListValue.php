@@ -20,6 +20,8 @@ use function array_filter;
 use function array_flip;
 use function array_intersect_key;
 use function array_key_exists;
+use function array_key_first;
+use function array_key_last;
 use function array_keys;
 use function array_map;
 use function array_pop;
@@ -389,12 +391,28 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
+    public function firstKey($default = null)
+    {
+        return array_key_first($this->value);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function last($default = null)
     {
         $reversed = array_reverse($this->value);
         $last = reset($reversed);
 
         return $last === false ? $default : $last;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function lastKey($default = null)
+    {
+        return array_key_last($this->value);
     }
 
     /**
