@@ -470,45 +470,6 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
-     * @param mixed $offset
-     */
-    public function offsetExists($offset): bool
-    {
-        return array_key_exists($offset, $this->value);
-    }
-
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->value[$offset];
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value): void
-    {
-        if ($offset === null) {
-            $this->value[] = $value;
-        } else {
-            $this->value[$offset] = $value;
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset): void
-    {
-        unset($this->value[$offset]);
-    }
-
-    /**
      * @param mixed $values
      */
     private static function checkTypes($values): void
@@ -570,5 +531,40 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     public static function uniqueItems(): ?bool
     {
         return null;
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset): bool
+    {
+        return $this->has($offset);
+    }
+
+    /**
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->value[$offset];
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value): void
+    {
+        $this->put($value, $offset);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset): void
+    {
+        $this->forget($offset);
     }
 }
