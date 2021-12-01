@@ -8,6 +8,6 @@ abstract class IpV6Value extends PatternValue
 {
     public static function pattern(): string
     {
-        return '^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$';
+        return '^(?:[a-fA-F0-9]{1,4}:){7}[a-fA-F0-9]{1,4}$';
     }
 }
