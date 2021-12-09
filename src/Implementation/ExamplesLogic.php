@@ -10,6 +10,7 @@ use ADS\ValueObjects\EnumValue;
 use ADS\ValueObjects\Exception\ExamplesException;
 use ADS\ValueObjects\FloatValue;
 use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\Float\FloatRangeValue;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\Base64EncodedStringValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
@@ -32,49 +33,57 @@ trait ExamplesLogic
     public static function example()
     {
         $reflection = new ReflectionClass(static::class);
+        $generator = Factory::create();
 
         switch (true) {
             case $reflection->implementsInterface(DateTimeValue::class):
-                return static::fromDateTime(Factory::create()->dateTime());
+                return static::fromDateTime($generator->dateTime());
 
             case $reflection->isSubclassOf(UuidValue::class):
                 return static::generate();
 
             case $reflection->isSubclassOf(EmailValue::class):
-                return static::fromString(Factory::create()->email());
+                return static::fromString($generator->email());
 
             case $reflection->isSubclassOf(IpV4Value::class):
-                return static::fromString(Factory::create()->ipv4());
+                return static::fromString($generator->ipv4());
 
             case $reflection->isSubclassOf(IpV6Value::class):
-                return static::fromString(Factory::create()->ipv6());
+                return static::fromString($generator->ipv6());
 
             case $reflection->isSubclassOf(HostnameValue::class):
-                return static::fromString(Factory::create()->domainName());
+                return static::fromString($generator->domainName());
 
             case $reflection->isSubclassOf(UrlValue::class):
-                return static::fromString(Factory::create()->url());
+                return static::fromString($generator->url());
 
             case $reflection->isSubclassOf(Base64EncodedStringValue::class):
-                return static::fromPlainString(Factory::create()->word());
+                return static::fromPlainString($generator->word());
 
             case $reflection->isSubclassOf(RangeValue::class):
-                return static::fromInt(Factory::create()->numberBetween(static::minimum(), static::maximum()));
+                return static::fromInt($generator->numberBetween(static::minimum(), static::maximum()));
+
+            case $reflection->isSubclassOf(FloatRangeValue::class):
+                return static::fromFloat($generator->randomFloat(
+                    $generator->numberBetween(0, 1),
+                    static::minimum(),
+                    static::maximum()
+                ));
 
             case $reflection->implementsInterface(EnumValue::class):
-                return static::fromValue(Factory::create()->randomElement(static::possibleValues()));
+                return static::fromValue($generator->randomElement(static::possibleValues()));
 
             case $reflection->implementsInterface(FloatValue::class):
-                return static::fromFloat(Factory::create()->randomFloat());
+                return static::fromFloat($generator->randomFloat());
 
             case $reflection->implementsInterface(IntValue::class):
-                return static::fromInt(Factory::create()->randomNumber());
+                return static::fromInt($generator->randomNumber());
 
             case $reflection->implementsInterface(StringValue::class):
-                return static::fromString(Factory::create()->word());
+                return static::fromString($generator->word());
 
             case $reflection->implementsInterface(BoolValue::class):
-                return static::fromBool(Factory::create()->boolean());
+                return static::fromBool($generator->boolean());
 
             case $reflection->implementsInterface(ListValue::class):
                 $itemType = static::itemType();
