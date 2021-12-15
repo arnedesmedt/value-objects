@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation;
 
 use ADS\ValueObjects\EnumValue;
+use ADS\ValueObjects\Implementation\Float\FloatRangeValue;
 use ADS\ValueObjects\Implementation\Int\RangeValue;
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
 use ADS\ValueObjects\Implementation\String\EmailValue;
@@ -23,6 +24,8 @@ use ReflectionClass;
 
 use function array_filter;
 
+use const PHP_FLOAT_MAX;
+use const PHP_FLOAT_MIN;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -104,6 +107,13 @@ trait RulesLogic
 
                 return null;
 
+            case $reflection->isSubclassOf(FloatRangeValue::class):
+                if (static::included() && static::minimum() !== PHP_FLOAT_MIN) {
+                    return static::minimum();
+                }
+
+                return null;
+
             default:
                 return null;
         }
@@ -114,6 +124,13 @@ trait RulesLogic
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
                 if (static::included() && static::maximum() !== PHP_INT_MAX) {
+                    return static::maximum();
+                }
+
+                return null;
+
+            case $reflection->isSubclassOf(FloatRangeValue::class):
+                if (static::included() && static::maximum() !== PHP_FLOAT_MAX) {
                     return static::maximum();
                 }
 
@@ -134,6 +151,13 @@ trait RulesLogic
 
                 return null;
 
+            case $reflection->isSubclassOf(FloatRangeValue::class):
+                if (! static::included() && static::minimum() !== PHP_FLOAT_MIN) {
+                    return static::minimum();
+                }
+
+                return null;
+
             default:
                 return null;
         }
@@ -144,6 +168,13 @@ trait RulesLogic
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
                 if (! static::included() && static::maximum() !== PHP_INT_MAX) {
+                    return static::maximum();
+                }
+
+                return null;
+
+            case $reflection->isSubclassOf(FloatRangeValue::class):
+                if (! static::included() && static::maximum() !== PHP_FLOAT_MAX) {
                     return static::maximum();
                 }
 
