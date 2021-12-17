@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Int;
 
 use ADS\ValueObjects\IntValue as IntValueInterface;
+use Stringable;
 
-abstract class IntValue implements IntValueInterface
+use function intval;
+
+abstract class IntValue implements IntValueInterface, Stringable
 {
-    protected int $value;
-
-    protected function __construct(int $value)
+    protected function __construct(protected int $value)
     {
-        $this->value = $value;
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class IntValue implements IntValueInterface
      */
     public static function fromValue($value)
     {
-        return static::fromInt($value);
+        return static::fromInt(intval($value));
     }
 
     /**

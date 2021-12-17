@@ -7,16 +7,15 @@ namespace ADS\ValueObjects\Implementation\String;
 use DateTime;
 use DateTimeInterface;
 use EventEngine\JsonSchema\Type\StringType;
+use Stringable;
 
 use function strtotime;
+use function strval;
 
-class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
+class DateTimeValue implements \ADS\ValueObjects\DateTimeValue, Stringable
 {
-    protected DateTimeInterface $value;
-
-    final protected function __construct(DateTimeInterface $value)
+    final protected function __construct(protected DateTimeInterface $value)
     {
-        $this->value = $value;
     }
 
     /**
@@ -65,7 +64,7 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
      */
     public static function fromValue($value)
     {
-        return static::fromString($value);
+        return static::fromString(strval($value));
     }
 
     /**

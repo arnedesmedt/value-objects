@@ -6,20 +6,17 @@ namespace ADS\ValueObjects\Implementation\String;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Stringable;
 
-abstract class UuidValue implements \ADS\ValueObjects\UuidValue
+use function strval;
+
+abstract class UuidValue implements \ADS\ValueObjects\UuidValue, Stringable
 {
-    protected UuidInterface $value;
-
-    protected function __construct(UuidInterface $value)
+    protected function __construct(protected UuidInterface $value)
     {
-        $this->value = $value;
     }
 
-    /**
-     * @return static
-     */
-    public static function generate()
+    public static function generate(): static
     {
         return new static(Uuid::uuid4());
     }
@@ -55,7 +52,7 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
      */
     public static function fromValue($value)
     {
-        return static::fromString($value);
+        return static::fromString(strval($value));
     }
 
     /**

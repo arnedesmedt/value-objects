@@ -9,7 +9,6 @@ use EventEngine\JsonSchema\Type;
 use RuntimeException;
 
 use function addslashes;
-use function get_class;
 use function method_exists;
 use function preg_match;
 use function preg_quote;
@@ -18,29 +17,24 @@ use function sprintf;
 
 final class ComplexType implements AnnotatedType
 {
-    private Type $originalType;
-    /** @var class-string */
-    private string $className;
+    private readonly Type $originalType;
 
     /**
-     * @param class-string $class
+     * @param class-string $className
      */
-    private function __construct(Type $type, string $class)
+    private function __construct(Type $type, private readonly string $className)
     {
         $this->originalType = $type;
-        $this->className = $class;
     }
 
     /**
      * @param array<mixed> $arguments
-     *
-     * @return mixed
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         if (! method_exists($this->originalType, $name)) {
             throw new RuntimeException(
-                sprintf('Method \'%s\' not found on type \'%s\'.', $name, get_class($this->originalType))
+                sprintf('Method \'%s\' not found on type \'%s\'.', $name, $this->originalType::class)
             );
         }
 
@@ -52,14 +46,11 @@ final class ComplexType implements AnnotatedType
         return property_exists($this->originalType, $name);
     }
 
-    /**
-     * @return mixed
-     */
-    public function __get(string $name)
+    public function __get(string $name): mixed
     {
         if (! $this->__isset($name)) {
             throw new RuntimeException(
-                sprintf('Property \'%s\' not found on type \'%s\'.', $name, get_class($this->originalType))
+                sprintf('Property \'%s\' not found on type \'%s\'.', $name, $this->originalType::class)
             );
         }
 
@@ -118,10 +109,7 @@ final class ComplexType implements AnnotatedType
         return $cp;
     }
 
-    /**
-     * @param mixed $default
-     */
-    public function withDefault($default): self
+    public function withDefault(mixed $default): self
     {
         if (! $this->originalType instanceof AnnotatedType) {
             return $this;
@@ -134,10 +122,7 @@ final class ComplexType implements AnnotatedType
         return $cp;
     }
 
-    /**
-     * @param mixed ...$examples
-     */
-    public function withExamples(...$examples): self
+    public function withExamples(mixed ...$examples): self
     {
         if (! $this->originalType instanceof AnnotatedType) {
             return $this;

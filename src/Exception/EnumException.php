@@ -10,17 +10,16 @@ use function sprintf;
 final class EnumException extends ValueObjectException
 {
     /**
-     * @param mixed $value
-     * @param array<string> $possibleValues
+     * @param array<int|string> $possibleValues
      *
      * @return static
      */
-    public static function noValidValue($value, array $possibleValues, string $class)
+    public static function noValidValue(int|string $value, array $possibleValues, string $class): static
     {
         return new static(
             sprintf(
                 'The value \'%s\' of enum object \'%s\' is not valid. Allowed values: %s.',
-                $value,
+                (string) $value,
                 $class,
                 print_r($possibleValues, true)
             )
@@ -30,7 +29,7 @@ final class EnumException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noPossibleValues(string $class)
+    public static function noPossibleValues(string $class): static
     {
         return new static(
             sprintf(
@@ -41,11 +40,9 @@ final class EnumException extends ValueObjectException
     }
 
     /**
-     * @param mixed $value
-     *
      * @return static
      */
-    public static function wrongType($value, string $type, string $class)
+    public static function wrongType(int|string $value, string $type, string $class): static
     {
         return new static(
             sprintf(
@@ -58,11 +55,11 @@ final class EnumException extends ValueObjectException
     }
 
     /**
-     * @param mixed[] $possibleValues
+     * @param int[]|string[] $possibleValues
      *
      * @return static
      */
-    public static function wrongPossibleValueTypes(array $possibleValues, string $type, string $class)
+    public static function wrongPossibleValueTypes(array $possibleValues, string $type, string $class): static
     {
         return new static(
             sprintf(

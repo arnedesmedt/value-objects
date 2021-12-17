@@ -99,9 +99,7 @@ final class TypeDetector
 
         return $schemaType->withExamples(
             ...array_map(
-                static function (ValueObject $valueObject) {
-                    return $valueObject->toValue();
-                },
+                static fn (ValueObject $valueObject) => $valueObject->toValue(),
                 $class::examples()
             )
         );
@@ -151,12 +149,10 @@ final class TypeDetector
         $position = strrchr($class, '\\');
 
         if ($position === false) {
-            switch (true) {
-                case $class === DateTime::class:
-                    return new Type\StringType(DateTimeValue::validationRules());
-            }
-
-            throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
+            return match (true) {
+                $class === DateTime::class => new Type\StringType(DateTimeValue::validationRules()),
+                default => throw ClassException::fullQualifiedClassNameWithoutBackslash($class),
+            };
         }
 
         $ref = substr($position, 1);

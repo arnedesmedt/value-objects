@@ -8,15 +8,13 @@ use function sprintf;
 
 final class RangeException extends ValueObjectException
 {
-    /**
-     * @param int|float $value
-     * @param int|float $minimum
-     * @param int|float $maximum
-     *
-     * @return static
-     */
-    public static function outsideRange($value, string $class, $minimum, $maximum, bool $included)
-    {
+    public static function outsideRange(
+        float|int $value,
+        string $class,
+        float|int $minimum,
+        float|int $maximum,
+        bool $included
+    ): static {
         $orEqual = $included ? ' or equal' : '';
 
         return new static(

@@ -9,7 +9,7 @@ use ADS\ValueObjects\Exception\UrlException;
 use function filter_var;
 use function parse_url;
 use function preg_match;
-use function strpos;
+use function str_contains;
 
 use const FILTER_VALIDATE_URL;
 
@@ -19,7 +19,7 @@ abstract class UrlValue extends StringValue
     {
         if (
             ! filter_var($value, FILTER_VALIDATE_URL)
-            || strpos($value, '$IFS') !== false // A hint of abusers (https://bash.cyberciti.biz/guide/$IFS)
+            || str_contains($value, '$IFS') // A hint of abusers (https://bash.cyberciti.biz/guide/$IFS)
             || preg_match('/\$\(.+\)/', $value) // Avoid $() code injection
             || preg_match('/[`"]+/', $value) // Avoid `` code injection, and some extra chars
             || parse_url($value) === false

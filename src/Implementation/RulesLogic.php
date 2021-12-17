@@ -73,34 +73,18 @@ trait RulesLogic
 
     private static function format(ReflectionClass $reflection): ?string
     {
-        switch (true) {
-            case $reflection->isSubclassOf(EmailValue::class):
-                return 'email';
-
-            case $reflection->isSubclassOf(UrlValue::class):
-                return 'uri';
-
-            case $reflection->isSubclassOf(DateTimeValue::class):
-                return 'date-time';
-
-            case $reflection->isSubclassOf(HostnameValue::class):
-                return 'hostname';
-
-            case $reflection->isSubclassOf(IpV4Value::class):
-                return 'ipv4';
-
-            case $reflection->isSubclassOf(IpV6Value::class):
-                return 'ipv6';
-
-            default:
-                return null;
-        }
+        return match (true) {
+            $reflection->isSubclassOf(EmailValue::class) => 'email',
+            $reflection->isSubclassOf(UrlValue::class) => 'uri',
+            $reflection->isSubclassOf(DateTimeValue::class) => 'date-time',
+            $reflection->isSubclassOf(HostnameValue::class) => 'hostname',
+            $reflection->isSubclassOf(IpV4Value::class) => 'ipv4',
+            $reflection->isSubclassOf(IpV6Value::class) => 'ipv6',
+            default => null,
+        };
     }
 
-    /**
-     * @return int|float|null
-     */
-    private static function inclusiveMinimum(ReflectionClass $reflection)
+    private static function inclusiveMinimum(ReflectionClass $reflection): int|float|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -122,10 +106,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return int|float|null
-     */
-    private static function inclusiveMaximum(ReflectionClass $reflection)
+    private static function inclusiveMaximum(ReflectionClass $reflection): int|float|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -147,10 +128,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return int|float|null
-     */
-    private static function exclusiveMinimum(ReflectionClass $reflection)
+    private static function exclusiveMinimum(ReflectionClass $reflection): int|float|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -172,10 +150,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return int|float|null
-     */
-    private static function exclusiveMaximum(ReflectionClass $reflection)
+    private static function exclusiveMaximum(ReflectionClass $reflection): int|float|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):

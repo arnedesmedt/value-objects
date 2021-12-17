@@ -9,7 +9,7 @@ interface BoolValue extends ValueObject
     /**
      * @return static
      */
-    public static function fromBool(bool $value);
+    public static function fromBool(bool $value): static;
 
     public function toBool(): bool;
 }
