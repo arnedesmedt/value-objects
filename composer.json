@@ -23,7 +23,8 @@
         "phpro/grumphp": "^1",
         "phpstan/phpstan": "^1",
         "squizlabs/php_codesniffer": "^3",
-        "doctrine/coding-standard": "^9"
+        "doctrine/coding-standard": "^9",
+        "rector/rector": "^0.12.8"
     },
     "autoload": {
         "psr-4": {
