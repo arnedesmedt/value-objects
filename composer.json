@@ -12,19 +12,19 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8",
         "ext-intl": "*",
-        "opis/json-schema": "^2",
-        "ramsey/uuid": "^4",
-        "event-engine/php-json-schema": "^2",
-        "fakerphp/faker": "^1"
+        "opis/json-schema": "~2.0",
+        "ramsey/uuid": "~4.0",
+        "event-engine/php-json-schema": "~2.0",
+        "fakerphp/faker": "~1.0"
     },
     "require-dev": {
-        "phpro/grumphp": "^1",
-        "phpstan/phpstan": "^1",
-        "squizlabs/php_codesniffer": "^3",
-        "doctrine/coding-standard": "^9",
-        "rector/rector": "^0.12.8"
+        "phpro/grumphp": "~1.0",
+        "phpstan/phpstan": "~1.0",
+        "squizlabs/php_codesniffer": "~3.0",
+        "doctrine/coding-standard": "~9.0",
+        "rector/rector": "~0.1"
     },
     "autoload": {
         "psr-4": {
