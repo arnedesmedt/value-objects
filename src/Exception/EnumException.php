@@ -6,6 +6,7 @@ namespace ADS\ValueObjects\Exception;
 
 use function print_r;
 use function sprintf;
+use function strval;
 
 final class EnumException extends ValueObjectException
 {
@@ -42,14 +43,14 @@ final class EnumException extends ValueObjectException
     /**
      * @return static
      */
-    public static function wrongType(int|string $value, string $type, string $class): static
+    public static function wrongType(mixed $value, string $type, string $class): static
     {
         return new static(
             sprintf(
                 'The type of enum object \'%s\' must be \'%s\', \'%s\' given.',
                 $class,
                 $type,
-                (string) $value
+                strval($value)
             )
         );
     }

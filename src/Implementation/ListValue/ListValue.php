@@ -41,8 +41,12 @@ use function is_object;
 use function is_scalar;
 use function print_r;
 use function reset;
+use function sprintf;
 use function strval;
 
+/**
+ * @template-implements ArrayAccess<string|int, mixed>
+ */
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess, Stringable
 {
     /** @var mixed[] */
@@ -73,14 +77,13 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @return class-string
      *
-     * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
+     * @phpstan
      */
     private static function __itemType(): string
     {
         return static::itemType();
     }
 
-    // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     private static function __allowNestedSchema(): bool
     {
         return true;
@@ -240,7 +243,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function put(mixed $item, ValueObject|string|null $key = null): static
+    public function put(mixed $item, ValueObject|string|int|null $key = null): static
     {
         $clone = clone $this;
         $item = static::toItem($item);
@@ -283,7 +286,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function forget(ValueObject|string $key): static
+    public function forget(ValueObject|string|int $key): static
     {
         $clone = clone $this;
 
@@ -325,20 +328,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function has($key): bool
+    public function has(ValueObject|string|int $key): bool
     {
         $key = (string) $key;
 
         return array_key_exists($key, $this->value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function contains($item): bool
+    public function contains(mixed $item): bool
     {
         if ($item instanceof Closure) {
             return ! $this->filter($item)->isEmpty();
@@ -485,21 +482,33 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return null;
     }
 
+    /**
+     * @param string|ValueObject|int $offset
+     */
     public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
     }
 
+    /**
+     * @param string|ValueObject|int $offset
+     */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->value[$offset];
+        return $this->value[(string) $offset];
     }
 
+    /**
+     * @param string|ValueObject|int|null $offset
+     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->put($value, $offset);
     }
 
+    /**
+     * @param string|ValueObject|int $offset
+     */
     public function offsetUnset(mixed $offset): void
     {
         $this->forget($offset);
@@ -507,6 +516,23 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public static function getType(mixed $item): string
     {
-        return is_scalar($item) ? gettype($item) : (is_array($item) ? 'array' : $item::class);
+        if (is_scalar($item)) {
+            return gettype($item);
+        }
+
+        if (is_array($item)) {
+            return 'array';
+        }
+
+        if (is_object($item)) {
+            return $item::class;
+        }
+
+        throw new RuntimeException(
+            sprintf(
+                'Type not found for value \'%s\'.',
+                strval($item)
+            )
+        );
     }
 }

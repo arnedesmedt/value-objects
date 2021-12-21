@@ -9,13 +9,11 @@ use ADS\ValueObjects\Exception\EnumException;
 use function array_filter;
 use function count;
 use function is_string;
+use function strval;
 
 abstract class StringEnumValue extends EnumValue
 {
-    /**
-     * @param mixed $value
-     */
-    protected function __construct($value)
+    protected function __construct(mixed $value)
     {
         if (! is_string($value)) {
             throw EnumException::wrongType(
@@ -46,13 +44,13 @@ abstract class StringEnumValue extends EnumValue
     /**
      * @return static
      */
-    public static function fromString(string $value)
+    public static function fromString(string $value): static
     {
         return static::fromValue($value);
     }
 
     public function toString(): string
     {
-        return (string) $this->toValue();
+        return strval($this->toValue());
     }
 }
