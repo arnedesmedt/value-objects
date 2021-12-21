@@ -41,9 +41,6 @@ abstract class IntEnumValue extends EnumValue
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromInt(int $value): static
     {
         return static::fromValue($value);

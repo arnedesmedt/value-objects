@@ -16,10 +16,7 @@ use function reset;
  */
 abstract class IterableListValue extends ListValue implements Iterator
 {
-    /**
-     * @return mixed
-     */
-    public function current()
+    public function current(): mixed
     {
         return current($this->value);
     }
@@ -32,7 +29,7 @@ abstract class IterableListValue extends ListValue implements Iterator
     /**
      * @return bool|float|int|string|null
      */
-    public function key()
+    public function key(): mixed
     {
         return key($this->value);
     }
