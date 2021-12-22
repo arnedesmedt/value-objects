@@ -34,14 +34,11 @@ use function array_unique;
 use function array_unshift;
 use function array_values;
 use function count;
-use function gettype;
 use function implode;
 use function is_array;
 use function is_object;
-use function is_scalar;
 use function print_r;
 use function reset;
-use function sprintf;
 use function strval;
 
 /**
@@ -435,7 +432,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         foreach ($values as $item) {
             if (! $item instanceof $type) {
                 throw ListException::noValidItemType(
-                    self::getType($item),
+                    $item,
                     $type,
                     static::class
                 );
@@ -452,7 +449,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 $item = static::fromScalarToItem($item);
             } catch (ListException) {
                 throw ListException::noValidItemType(
-                    self::getType($item),
+                    $item,
                     static::itemType(),
                     static::class
                 );
@@ -512,27 +509,5 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     public function offsetUnset(mixed $offset): void
     {
         $this->forget($offset);
-    }
-
-    public static function getType(mixed $item): string
-    {
-        if (is_scalar($item)) {
-            return gettype($item);
-        }
-
-        if (is_array($item)) {
-            return 'array';
-        }
-
-        if (is_object($item)) {
-            return $item::class;
-        }
-
-        throw new RuntimeException(
-            sprintf(
-                'Type not found for value \'%s\'.',
-                strval($item)
-            )
-        );
     }
 }
