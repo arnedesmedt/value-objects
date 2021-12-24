@@ -12,9 +12,11 @@ use function sprintf;
 
 abstract class PatternValue extends StringValue implements PatternValueInterface
 {
+    public const BELL = "\x07";
+
     protected function __construct(string $value)
     {
-        $pattern = sprintf('\x07%s\x07uD', static::pattern());
+        $pattern = sprintf(self::BELL . '%s' . self::BELL . 'uD', static::pattern());
 
         if (
             ! preg_match(
