@@ -443,7 +443,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     private static function toItem(mixed $item): mixed
     {
         try {
-            self::checkTypes([$item]);
+            self::checkTypes($item);
         } catch (ListException) {
             try {
                 $item = static::fromScalarToItem($item);
