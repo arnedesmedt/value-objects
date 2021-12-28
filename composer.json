@@ -14,7 +14,6 @@
     "require": {
         "php": "^8",
         "ext-intl": "*",
-        "opis/json-schema": "~2.0",
         "ramsey/uuid": "~4.0",
         "event-engine/php-json-schema": "~2.0",
         "fakerphp/faker": "~1.0",
