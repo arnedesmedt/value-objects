@@ -46,15 +46,11 @@ use function strval;
  */
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess, Stringable
 {
-    /** @var mixed[] */
-    protected array $value;
-
     /**
-     * @param array<mixed> $values
+     * @param array<mixed> $value
      */
-    protected function __construct(array $values)
+    protected function __construct(protected array $value)
     {
-        $this->value = $values;
     }
 
     public static function itemIdentifier(): Closure

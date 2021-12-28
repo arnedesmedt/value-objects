@@ -17,7 +17,7 @@
         "ramsey/uuid": "~4.0",
         "event-engine/php-json-schema": "~2.0",
         "fakerphp/faker": "~1.0",
-        "arnedesmedt/php-util": "^0.2.2"
+        "arnedesmedt/php-util": "~0.1"
     },
     "require-dev": {
         "phpro/grumphp": "~1.0",

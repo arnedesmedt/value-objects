@@ -17,14 +17,11 @@ use function sprintf;
 
 final class ComplexType implements AnnotatedType
 {
-    private readonly Type $originalType;
-
     /**
      * @param class-string $className
      */
-    private function __construct(Type $type, private readonly string $className)
+    private function __construct(private Type $originalType, private string $className)
     {
-        $this->originalType = $type;
     }
 
     /**
