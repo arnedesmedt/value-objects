@@ -22,7 +22,7 @@ abstract class FloatRangeValue extends FloatValue
                 static::class,
                 static::minimum(),
                 static::maximum(),
-                static::included(),
+                static::included()
             );
         }
 

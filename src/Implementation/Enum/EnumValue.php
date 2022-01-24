@@ -6,20 +6,22 @@ namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
 use ADS\ValueObjects\Exception\EnumException;
-use Stringable;
 
 use function count;
 use function in_array;
 use function strval;
 
-abstract class EnumValue implements EnumValueInterface, Stringable
+abstract class EnumValue implements EnumValueInterface
 {
     protected mixed $value;
 
     /** @var int[]|string[] */
     protected array $possibleValues;
 
-    protected function __construct(int|string $value)
+    /**
+     * @param int|string $value
+     */
+    protected function __construct($value)
     {
         $possibleValues = static::possibleValues();
 

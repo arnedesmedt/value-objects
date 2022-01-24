@@ -21,21 +21,38 @@ interface ListValue extends ValueObject, Countable
      */
     public static function itemIdentifier(): Closure;
 
-    public static function fromScalarToItem(mixed $value): mixed;
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function fromScalarToItem($value);
 
-    public static function fromItemToScalar(mixed $item): mixed;
+    /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    public static function fromItemToScalar($item);
 
     /**
      * @param array<mixed> $value
+     *
+     * @return static
      */
-    public static function fromArray(array $value): static;
+    public static function fromArray(array $value);
 
     /**
      * @param array<mixed> $values
+     *
+     * @return static
      */
-    public static function fromItems(array $values): static;
+    public static function fromItems(array $values);
 
-    public static function emptyList(): static;
+    /**
+     * @return static
+     */
+    public static function emptyList();
 
     /**
      * @return array<mixed>
@@ -47,43 +64,114 @@ interface ListValue extends ValueObject, Countable
      */
     public function toItems(): array;
 
-    public function push(mixed $item): static;
+    /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function push($item);
 
-    public function put(mixed $item, ValueObject|string|null $key = null): static;
+    /**
+     * @param ValueObject|string|null $key
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function put($item, $key = null);
 
-    public function pop(): static;
+    /**
+     * @return static
+     */
+    public function pop();
 
-    public function shift(): static;
+    /**
+     * @return static
+     */
+    public function shift();
 
-    public function unshift(mixed $item): static;
+    /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function unshift($item);
 
-    public function forget(ValueObject|string $key): static;
+    /**
+     * @param ValueObject|string $key
+     *
+     * @return static
+     */
+    public function forget($key);
 
-    public function diffByKeys(ListValue $keys): static;
+    /**
+     * @return static
+     */
+    public function diffByKeys(ListValue $keys);
 
-    public function get(ValueObject|string $key, mixed $default = null): mixed;
+    /**
+     * @param ValueObject|string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function get($key, $default = null);
 
-    public function getByKeys(ListValue $keys): static;
+    /**
+     * @return static
+     */
+    public function getByKeys(ListValue $keys);
 
-    public function has(ValueObject|string $key): bool;
+    /**
+     * @param ValueObject|string $key
+     */
+    public function has($key): bool;
 
-    public function contains(mixed $item): bool;
+    /**
+     * @param mixed $item
+     */
+    public function contains($item): bool;
 
-    public function first(mixed $default = null): mixed;
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function first($default = null);
 
-    public function firstKey(int|string|null $default = null): string|int|null;
+    /**
+     * @param int|string|null $default
+     *
+     * @return int|string|null
+     */
+    public function firstKey($default = null);
 
-    public function last(mixed $default = null): mixed;
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function last($default = null);
 
-    public function lastKey(int|string|null $default = null): string|int|null;
+    /**
+     * @param int|string|null $default
+     *
+     * @return int|string|null
+     */
+    public function lastKey($default = null);
 
-    public function filter(Closure $closure, bool $resetKeys = false): static;
+    /**
+     * @return static
+     */
+    public function filter(Closure $closure, bool $resetKeys = false);
 
     public function isEmpty(): bool;
 
     public function implode(string $glue): string;
 
-    public function unique(?Closure $closure = null): static;
+    /**
+     * @return static
+     */
+    public function unique(?Closure $closure = null);
 
     public static function containsType(): ?TypeSchema;
 

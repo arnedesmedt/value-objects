@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Bool;
 
 use ADS\ValueObjects\BoolValue as BoolValueInterface;
-use Stringable;
 
-abstract class BoolValue implements BoolValueInterface, Stringable
+abstract class BoolValue implements BoolValueInterface
 {
-    protected function __construct(protected bool $value)
+    protected bool $value;
+
+    protected function __construct(bool $value)
     {
+        $this->value = $value;
     }
 
-    public static function fromBool(bool $value): static
+    /**
+     * @return static
+     */
+    public static function fromBool(bool $value)
     {
         return new static($value);
     }

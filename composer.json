@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^8",
+        "php": "^7.4 || ^8",
         "ext-intl": "*",
         "ramsey/uuid": "~4.0",
         "event-engine/php-json-schema": "~2.0",

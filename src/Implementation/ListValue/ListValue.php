@@ -13,8 +13,8 @@ use EventEngine\JsonSchema\JsonSchemaAwareCollection;
 use EventEngine\Schema\TypeSchema;
 use ReflectionClass;
 use ReflectionException;
+use ReturnTypeWillChange;
 use RuntimeException;
-use Stringable;
 
 use function array_diff;
 use function array_diff_key;
@@ -44,13 +44,17 @@ use function strval;
 /**
  * @template-implements ArrayAccess<string|int, mixed>
  */
-abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess, Stringable
+abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess
 {
+    /** @var array<mixed> */
+    protected array $value;
+
     /**
      * @param array<mixed> $value
      */
-    protected function __construct(protected array $value)
+    protected function __construct(array $value)
     {
+        $this->value = $value;
     }
 
     public static function itemIdentifier(): Closure
@@ -82,7 +86,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return true;
     }
 
-    public static function fromScalarToItem(mixed $value): mixed
+    /**
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public static function fromScalarToItem($value)
     {
         if (is_object($value)) {
             throw ListException::valueIsNotScalar($value);
@@ -102,12 +111,17 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             }
 
             throw ListException::fromScalarToItemNotImplemented(static::class);
-        } catch (ReflectionException) {
+        } catch (ReflectionException $exception) {
             throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
 
-    public static function fromItemToScalar(mixed $item): mixed
+    /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    public static function fromItemToScalar($item)
     {
         $itemType = static::itemType();
 
@@ -129,15 +143,17 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             }
 
             throw ListException::fromItemToScalarNotImplemented(static::class);
-        } catch (ReflectionException) {
+        } catch (ReflectionException $exception) {
             throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
 
     /**
+     * @return static
+     *
      * @inheritDoc
      */
-    public static function fromArray(array $value): static
+    public static function fromArray(array $value)
     {
         return static::fromItems(array_map(
             static fn ($array) => static::fromScalarToItem($array),
@@ -146,16 +162,21 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
+     * @return static
+     *
      * @inheritDoc
      */
-    public static function fromItems(array $values): static
+    public static function fromItems(array $values)
     {
         self::checkTypes(...$values);
 
         return new static($values);
     }
 
-    public static function emptyList(): static
+    /**
+     * @return static
+     */
+    public static function emptyList()
     {
         return new static([]);
     }
@@ -227,7 +248,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             );
     }
 
-    public function push(mixed $item): static
+    /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function push($item)
     {
         $clone = clone $this;
 
@@ -236,7 +262,13 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function put(mixed $item, ValueObject|string|int|null $key = null): static
+    /**
+     * @param ValueObject|int|string|null $key
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function put($item, $key = null)
     {
         $clone = clone $this;
         $item = static::toItem($item);
@@ -252,7 +284,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function pop(): static
+    /**
+     * @return static
+     */
+    public function pop()
     {
         $clone = clone $this;
 
@@ -261,7 +296,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function shift(): static
+    /**
+     * @return static
+     */
+    public function shift()
     {
         $clone = clone $this;
 
@@ -270,7 +308,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function unshift(mixed $item): static
+    /**
+     * @param mixed $item
+     *
+     * @return static
+     */
+    public function unshift($item)
     {
         $clone = clone $this;
 
@@ -279,7 +322,12 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function forget(ValueObject|string|int $key): static
+    /**
+     * @param ValueObject|int|string $key
+     *
+     * @return static
+     */
+    public function forget($key)
     {
         $clone = clone $this;
 
@@ -290,7 +338,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function diffByKeys(\ADS\ValueObjects\ListValue $keys): static
+    /**
+     * @return static
+     */
+    public function diffByKeys(\ADS\ValueObjects\ListValue $keys)
     {
         $clone = clone $this;
 
@@ -302,14 +353,23 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function get(ValueObject|string $key, mixed $default = null): mixed
+    /**
+     * @param ValueObject|string $key
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function get($key, $default = null)
     {
         $key = (string) $key;
 
         return $this->value[$key] ?? $default;
     }
 
-    public function getByKeys(\ADS\ValueObjects\ListValue $keys): static
+    /**
+     * @return static
+     */
+    public function getByKeys(\ADS\ValueObjects\ListValue $keys)
     {
         $clone = clone $this;
 
@@ -321,14 +381,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function has(ValueObject|string|int $key): bool
+    /**
+     * @param ValueObject|int|string $key
+     */
+    public function has($key): bool
     {
         $key = (string) $key;
 
         return array_key_exists($key, $this->value);
     }
 
-    public function contains(mixed $item): bool
+    /**
+     * @param mixed $item
+     */
+    public function contains($item): bool
     {
         if ($item instanceof Closure) {
             return ! $this->filter($item)->isEmpty();
@@ -350,19 +416,34 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return false;
     }
 
-    public function first(mixed $default = null): mixed
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function first($default = null)
     {
         $first = reset($this->value);
 
         return $first === false ? $default : $first;
     }
 
-    public function firstKey(int|string|null $default = null): string|int|null
+    /**
+     * @param int|string|null $default
+     *
+     * @return int|string|null
+     */
+    public function firstKey($default = null)
     {
         return array_key_first($this->value);
     }
 
-    public function last(mixed $default = null): mixed
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
+    public function last($default = null)
     {
         $reversed = array_reverse($this->value);
         $last = reset($reversed);
@@ -370,12 +451,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $last === false ? $default : $last;
     }
 
-    public function lastKey(int|string|null $default = null): string|int|null
+    /**
+     * @param int|string|null $default
+     *
+     * @return int|string|null
+     */
+    public function lastKey($default = null)
     {
         return array_key_last($this->value);
     }
 
-    public function filter(Closure $closure, bool $resetKeys = false): static
+    /**
+     * @return static
+     */
+    public function filter(Closure $closure, bool $resetKeys = false)
     {
         $clone = clone $this;
 
@@ -409,7 +498,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         ));
     }
 
-    public function unique(?Closure $closure = null): static
+    /**
+     * @return static
+     */
+    public function unique(?Closure $closure = null)
     {
         $clone = clone $this;
 
@@ -421,7 +513,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    private static function checkTypes(mixed ...$values): void
+    /**
+     * @param mixed ...$values
+     */
+    private static function checkTypes(...$values): void
     {
         $type = static::itemType();
 
@@ -436,14 +531,19 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         }
     }
 
-    private static function toItem(mixed $item): mixed
+    /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    private static function toItem($item)
     {
         try {
             self::checkTypes($item);
-        } catch (ListException) {
+        } catch (ListException $exception) {
             try {
                 $item = static::fromScalarToItem($item);
-            } catch (ListException) {
+            } catch (ListException $exception) {
                 throw ListException::noValidItemType(
                     $item,
                     static::itemType(),
@@ -476,33 +576,36 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
-     * @param string|ValueObject|int $offset
+     * @inheritDoc
      */
-    public function offsetExists(mixed $offset): bool
+    public function offsetExists($offset): bool
     {
         return $this->has($offset);
     }
 
     /**
-     * @param string|ValueObject|int $offset
+     * @param mixed $offset
+     *
+     * @return mixed
      */
-    public function offsetGet(mixed $offset): mixed
+    #[ReturnTypeWillChange]
+    public function offsetGet($offset)
     {
-        return $this->value[(string) $offset];
+        return $this->value[strval($offset)];
     }
 
     /**
-     * @param string|ValueObject|int|null $offset
+     * @inheritDoc
      */
-    public function offsetSet(mixed $offset, mixed $value): void
+    public function offsetSet($offset, $value): void
     {
         $this->put($value, $offset);
     }
 
     /**
-     * @param string|ValueObject|int $offset
+     * @inheritDoc
      */
-    public function offsetUnset(mixed $offset): void
+    public function offsetUnset($offset): void
     {
         $this->forget($offset);
     }

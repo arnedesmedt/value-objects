@@ -13,7 +13,10 @@ use function strval;
 
 abstract class StringEnumValue extends EnumValue
 {
-    protected function __construct(mixed $value)
+    /**
+     * @param mixed $value
+     */
+    protected function __construct($value)
     {
         if (! is_string($value)) {
             throw EnumException::wrongType(
@@ -41,7 +44,10 @@ abstract class StringEnumValue extends EnumValue
         );
     }
 
-    public static function fromString(string $value): static
+    /**
+     * @return static
+     */
+    public static function fromString(string $value)
     {
         return static::fromValue($value);
     }

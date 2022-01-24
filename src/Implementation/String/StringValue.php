@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\StringValue as StringValueInterface;
-use Stringable;
 
 use function strval;
 
-abstract class StringValue implements StringValueInterface, Stringable
+abstract class StringValue implements StringValueInterface
 {
-    protected function __construct(protected string $value)
+    protected string $value;
+
+    protected function __construct(string $value)
     {
+        $this->value = $value;
     }
 
     /**

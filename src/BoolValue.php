@@ -6,7 +6,10 @@ namespace ADS\ValueObjects;
 
 interface BoolValue extends ValueObject
 {
-    public static function fromBool(bool $value): static;
+    /**
+     * @return static
+     */
+    public static function fromBool(bool $value);
 
     public function toBool(): bool;
 }

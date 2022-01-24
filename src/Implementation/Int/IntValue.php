@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Int;
 
 use ADS\ValueObjects\IntValue as IntValueInterface;
-use Stringable;
 
 use function intval;
 
-abstract class IntValue implements IntValueInterface, Stringable
+abstract class IntValue implements IntValueInterface
 {
-    protected function __construct(protected int $value)
+    protected int $value;
+
+    protected function __construct(int $value)
     {
+        $this->value = $value;
     }
 
     /**

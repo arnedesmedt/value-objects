@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Float;
 
 use ADS\ValueObjects\FloatValue as FloatValueInterface;
-use Stringable;
 
 use function floatval;
 
-abstract class FloatValue implements FloatValueInterface, Stringable
+abstract class FloatValue implements FloatValueInterface
 {
-    protected function __construct(protected float $value)
+    protected float $value;
+
+    protected function __construct(float $value)
     {
+        $this->value = $value;
     }
 
     /**

@@ -19,10 +19,7 @@ abstract class PatternValue extends StringValue implements PatternValueInterface
         $pattern = sprintf(self::BELL . '%s' . self::BELL . 'uD', static::pattern());
 
         if (
-            ! preg_match(
-                $pattern,
-                $value,
-            )
+            ! preg_match($pattern, $value)
         ) {
             throw PatternException::noMatch($value, $pattern, static::class);
         }

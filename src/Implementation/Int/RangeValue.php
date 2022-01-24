@@ -22,7 +22,7 @@ abstract class RangeValue extends IntValue
                 static::class,
                 static::minimum(),
                 static::maximum(),
-                static::included(),
+                static::included()
             );
         }
 
