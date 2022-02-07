@@ -73,8 +73,6 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     /**
      * @return class-string
-     *
-     * @phpstan
      */
     private static function __itemType(): string
     {
