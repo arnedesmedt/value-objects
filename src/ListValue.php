@@ -72,7 +72,7 @@ interface ListValue extends ValueObject, Countable
     public function push($item);
 
     /**
-     * @param ValueObject|string|null $key
+     * @param ValueObject|string|int|null $key
      * @param mixed $item
      *
      * @return static
@@ -97,7 +97,7 @@ interface ListValue extends ValueObject, Countable
     public function unshift($item);
 
     /**
-     * @param ValueObject|string $key
+     * @param ValueObject|string|int $key
      *
      * @return static
      */
@@ -109,7 +109,7 @@ interface ListValue extends ValueObject, Countable
     public function diffByKeys(ListValue $keys);
 
     /**
-     * @param ValueObject|string $key
+     * @param ValueObject|string|int $key
      * @param mixed $default
      *
      * @return mixed
@@ -122,7 +122,7 @@ interface ListValue extends ValueObject, Countable
     public function getByKeys(ListValue $keys);
 
     /**
-     * @param ValueObject|string $key
+     * @param ValueObject|string|int $key
      */
     public function has($key): bool;
 
@@ -132,6 +132,14 @@ interface ListValue extends ValueObject, Countable
     public function contains($item): bool;
 
     /**
+     * @param mixed $item
+     * @param string|int|null $default
+     *
+     * @return string|int|null
+     */
+    public function keyByItem($item, $default = null);
+
+    /**
      * @param mixed $default
      *
      * @return mixed
@@ -139,9 +147,9 @@ interface ListValue extends ValueObject, Countable
     public function first($default = null);
 
     /**
-     * @param int|string|null $default
+     * @param string|int|null $default
      *
-     * @return int|string|null
+     * @return string|int|null
      */
     public function firstKey($default = null);
 
@@ -153,9 +161,9 @@ interface ListValue extends ValueObject, Countable
     public function last($default = null);
 
     /**
-     * @param int|string|null $default
+     * @param string|int|null $default
      *
-     * @return int|string|null
+     * @return string|int|null
      */
     public function lastKey($default = null);
 
@@ -171,7 +179,7 @@ interface ListValue extends ValueObject, Countable
     /**
      * @return static
      */
-    public function unique(?Closure $closure = null);
+    public function unique();
 
     public static function containsType(): ?TypeSchema;
 
