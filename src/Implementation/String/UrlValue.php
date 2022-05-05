@@ -9,6 +9,7 @@ use ADS\ValueObjects\Exception\UrlException;
 use function filter_var;
 use function parse_url;
 use function preg_match;
+use function rtrim;
 use function strpos;
 
 use const FILTER_VALIDATE_URL;
@@ -28,5 +29,15 @@ abstract class UrlValue extends StringValue
         }
 
         parent::__construct($value);
+    }
+
+    public function toStringWithTrailingSlash(): string
+    {
+        return $this->toStringWithoutTrailingSlash() . '/';
+    }
+
+    public function toStringWithoutTrailingSlash(): string
+    {
+        return rtrim(parent::toString(), '/');
     }
 }
