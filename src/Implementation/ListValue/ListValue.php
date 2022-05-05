@@ -41,15 +41,17 @@ use function reset;
 use function strval;
 
 /**
- * @template-implements ArrayAccess<string|int, mixed>
+ * @template T
+ * @template-implements ArrayAccess<string|int, T>
+ * @implements \ADS\ValueObjects\ListValue<T>
  */
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess
 {
-    /** @var array<int|string, mixed> */
+    /** @var array<int|string, T> */
     protected array $value;
 
     /**
-     * @param array<int|string, mixed> $value
+     * @param array<int|string, T> $value
      */
     protected function __construct(array $value)
     {
@@ -98,11 +100,17 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             $relfectionClass = new ReflectionClass($itemType);
 
             if ($relfectionClass->implementsInterface(ImmutableRecord::class)) {
-                return $itemType::fromArray($value);
+                /** @var T $item */
+                $item = $itemType::fromArray($value);
+
+                return $item;
             }
 
             if ($relfectionClass->implementsInterface(ValueObject::class)) {
-                return $itemType::fromValue($value);
+                /** @var T $item */
+                $item = $itemType::fromValue($value);
+
+                return $item;
             }
 
             throw ListException::fromScalarToItemNotImplemented(static::class);
@@ -203,6 +211,8 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
+     * @return static<T>
+     *
      * @inheritDoc
      */
     public static function fromValue($value)
@@ -211,7 +221,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             throw new RuntimeException('No array given.');
         }
 
-        return static::fromArray($value);
+        /** @var static<T> $result */
+        $result = static::fromArray($value);
+
+        return $result;
     }
 
     /**
@@ -325,10 +338,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        /** @var array<int|string> $keys */
-        $keys = $keys->toArray();
+        /** @var array<int|string> $keyValues */
+        $keyValues = $keys->toArray();
 
-        $clone->value = array_diff_key($clone->value, array_flip($keys));
+        $clone->value = array_diff_key($clone->value, array_flip($keyValues));
 
         return $clone;
     }
@@ -350,10 +363,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        /** @var array<int|string> $keys */
-        $keys = $keys->toArray();
+        /** @var array<int|string> $keyValues */
+        $keyValues = $keys->toArray();
 
-        $clone->value = array_intersect_key($clone->value, array_flip($keys));
+        $clone->value = array_intersect_key($clone->value, array_flip($keyValues));
 
         return $clone;
     }
@@ -455,6 +468,21 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         $last = reset($reversed);
 
         return $last === false ? $default : $last;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function needLast(Throwable $exception)
+    {
+        $reversed = array_reverse($this->value);
+        $last = reset($reversed);
+
+        if ($last === false) {
+            throw $exception;
+        }
+
+        return $last;
     }
 
     /**
@@ -563,9 +591,9 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
-     * @param mixed $item
+     * @param T $item
      *
-     * @return mixed
+     * @return T
      */
     private static function toItem($item)
     {

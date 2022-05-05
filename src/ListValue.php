@@ -9,6 +9,9 @@ use Countable;
 use EventEngine\Schema\TypeSchema;
 use Throwable;
 
+/**
+ * @template T
+ */
 interface ListValue extends ValueObject, Countable
 {
     /**
@@ -25,12 +28,12 @@ interface ListValue extends ValueObject, Countable
     /**
      * @param mixed $value
      *
-     * @return mixed
+     * @return T
      */
     public static function fromScalarToItem($value);
 
     /**
-     * @param mixed $item
+     * @param T $item
      *
      * @return mixed
      */
@@ -39,19 +42,19 @@ interface ListValue extends ValueObject, Countable
     /**
      * @param array<mixed> $value
      *
-     * @return static
+     * @return static<T>
      */
     public static function fromArray(array $value);
 
     /**
-     * @param array<mixed> $values
+     * @param array<T> $values
      *
-     * @return static
+     * @return static<T>
      */
     public static function fromItems(array $values);
 
     /**
-     * @return static
+     * @return static<T>
      */
     public static function emptyList();
 
@@ -61,64 +64,68 @@ interface ListValue extends ValueObject, Countable
     public function toArray(): array;
 
     /**
-     * @return array<mixed>
+     * @return array<T>
      */
     public function toItems(): array;
 
     /**
-     * @param mixed $item
+     * @param T $item
      *
-     * @return static
+     * @return static<T>
      */
     public function push($item);
 
     /**
      * @param ValueObject|string|int|null $key
-     * @param mixed $item
+     * @param T $item
      *
-     * @return static
+     * @return static<T>
      */
     public function put($item, $key = null);
 
     /**
-     * @return static
+     * @return static<T>
      */
     public function pop();
 
     /**
-     * @return static
+     * @return static<T>
      */
     public function shift();
 
     /**
-     * @param mixed $item
+     * @param T $item
      *
-     * @return static
+     * @return static<T>
      */
     public function unshift($item);
 
     /**
      * @param ValueObject|string|int $key
      *
-     * @return static
+     * @return static<T>
      */
     public function forget($key);
 
     /**
-     * @return static
+     * @param ListValue<ValueObject|string|int> $keys
+     *
+     * @return static<T>
      */
     public function diffByKeys(ListValue $keys);
 
     /**
      * @param ValueObject|string|int $key
-     * @param mixed $default
+     * @param T $default
      *
-     * @return mixed
+     * @return T
      */
     public function get($key, $default = null);
 
     /**
-     * @return static
+     * @param ListValue<ValueObject|string|int> $keys
+     *
+     * @return static<T>
      */
     public function getByKeys(ListValue $keys);
 
@@ -128,12 +135,12 @@ interface ListValue extends ValueObject, Countable
     public function has($key): bool;
 
     /**
-     * @param mixed $item
+     * @param T $item
      */
     public function contains($item): bool;
 
     /**
-     * @param mixed $item
+     * @param T $item
      * @param string|int|null $default
      *
      * @return string|int|null
@@ -141,14 +148,14 @@ interface ListValue extends ValueObject, Countable
     public function keyByItem($item, $default = null);
 
     /**
-     * @param mixed $default
+     * @param T $default
      *
-     * @return mixed
+     * @return T
      */
     public function first($default = null);
 
     /**
-     * @return mixed
+     * @return T
      */
     public function needFirst(Throwable $exception);
 
@@ -160,11 +167,16 @@ interface ListValue extends ValueObject, Countable
     public function firstKey($default = null);
 
     /**
-     * @param mixed $default
+     * @param T $default
      *
-     * @return mixed
+     * @return T
      */
     public function last($default = null);
+
+    /**
+     * @return T
+     */
+    public function needLast(Throwable $exception);
 
     /**
      * @param string|int|null $default
@@ -174,7 +186,7 @@ interface ListValue extends ValueObject, Countable
     public function lastKey($default = null);
 
     /**
-     * @return static
+     * @return static<T>
      */
     public function filter(Closure $closure, bool $resetKeys = false);
 
@@ -183,7 +195,7 @@ interface ListValue extends ValueObject, Countable
     public function implode(string $glue): string;
 
     /**
-     * @return static
+     * @return static<T>
      */
     public function unique();
 
