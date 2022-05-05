@@ -14,6 +14,7 @@ use EventEngine\Schema\TypeSchema;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
+use Throwable;
 
 use function array_diff;
 use function array_diff_key;
@@ -421,6 +422,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         $first = reset($this->value);
 
         return $first === false ? $default : $first;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function needFirst(Throwable $exception)
+    {
+        $first = reset($this->value);
+
+        if ($first === false) {
+            throw $exception;
+        }
+
+        return $first;
     }
 
     /**

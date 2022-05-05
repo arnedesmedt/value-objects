@@ -7,6 +7,7 @@ namespace ADS\ValueObjects;
 use Closure;
 use Countable;
 use EventEngine\Schema\TypeSchema;
+use Throwable;
 
 interface ListValue extends ValueObject, Countable
 {
@@ -145,6 +146,11 @@ interface ListValue extends ValueObject, Countable
      * @return mixed
      */
     public function first($default = null);
+
+    /**
+     * @return mixed
+     */
+    public function needFirst(Throwable $exception);
 
     /**
      * @param string|int|null $default
