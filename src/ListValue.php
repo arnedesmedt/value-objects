@@ -15,7 +15,7 @@ use Throwable;
 interface ListValue extends ValueObject, Countable
 {
     /**
-     * @return class-string
+     * @return class-string<T>
      */
     public static function itemType(): string;
 

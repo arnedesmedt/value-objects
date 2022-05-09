@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
+use ArrayAccess;
 use Iterator;
 
 use function current;
@@ -12,12 +13,16 @@ use function next;
 use function reset;
 
 /**
- * @implements Iterator<int|string, mixed>
+ * @template T
+ * @implements Iterator<int|string, T>
+ * @extends ListValue<T>
+ * @implements ArrayAccess<string|int, T>
+ * @implements \ADS\ValueObjects\ListValue<T>
  */
 abstract class IterableListValue extends ListValue implements Iterator
 {
     /**
-     * @return mixed
+     * @return T|false
      */
     public function current()
     {
@@ -30,7 +35,7 @@ abstract class IterableListValue extends ListValue implements Iterator
     }
 
     /**
-     * @return mixed
+     * @return int|string|null
      */
     public function key()
     {
