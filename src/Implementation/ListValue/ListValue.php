@@ -38,11 +38,12 @@ use function is_array;
 use function is_object;
 use function print_r;
 use function reset;
+use function sprintf;
 use function strval;
 
 /**
  * @template T
- * @template-implements ArrayAccess<string|int, T>
+ * @implements ArrayAccess<string|int, T>
  * @implements \ADS\ValueObjects\ListValue<T>
  */
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess
@@ -440,12 +441,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function needFirst(Throwable $exception)
+    public function needFirst(?Throwable $exception = null)
     {
         $first = reset($this->value);
 
         if ($first === false) {
-            throw $exception;
+            throw $exception ?? new RuntimeException(
+                sprintf('No first value found for list \'%s\'.', static::class)
+            );
         }
 
         return $first;
@@ -473,13 +476,15 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
-    public function needLast(Throwable $exception)
+    public function needLast(?Throwable $exception = null)
     {
         $reversed = array_reverse($this->value);
         $last = reset($reversed);
 
         if ($last === false) {
-            throw $exception;
+            throw $exception ?? new RuntimeException(
+                sprintf('No last value found for list \'%s\'.', static::class)
+            );
         }
 
         return $last;
