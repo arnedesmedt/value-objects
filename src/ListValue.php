@@ -148,9 +148,9 @@ interface ListValue extends ValueObject, Countable
     public function keyByItem($item, $default = null);
 
     /**
-     * @param T $default
+     * @param T|null $default
      *
-     * @return T
+     * @return T|null
      */
     public function first($default = null);
 
@@ -167,9 +167,9 @@ interface ListValue extends ValueObject, Countable
     public function firstKey($default = null);
 
     /**
-     * @param T $default
+     * @param T|null $default
      *
-     * @return T
+     * @return T|null
      */
     public function last($default = null);
 
