@@ -116,9 +116,9 @@ interface ListValue extends ValueObject, Countable
 
     /**
      * @param ValueObject|string|int $key
-     * @param T $default
+     * @param T|null $default
      *
-     * @return T
+     * @return T|null
      */
     public function get($key, $default = null);
 
