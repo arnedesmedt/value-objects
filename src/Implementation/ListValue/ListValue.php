@@ -517,6 +517,21 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function map(Closure $closure)
+    {
+        $clone = clone $this;
+
+        $clone->value = array_map(
+            $closure,
+            $clone->value
+        );
+
+        return $clone;
+    }
+
     public function count(): int
     {
         return count($this->value);

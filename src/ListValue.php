@@ -190,6 +190,11 @@ interface ListValue extends ValueObject, Countable
      */
     public function filter(Closure $closure, bool $resetKeys = false);
 
+    /**
+     * @return static<T>
+     */
+    public function map(Closure $closure);
+
     public function isEmpty(): bool;
 
     public function implode(string $glue): string;
