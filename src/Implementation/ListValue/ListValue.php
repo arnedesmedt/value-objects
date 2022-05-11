@@ -46,13 +46,13 @@ use function strval;
  * @implements ArrayAccess<string|int, T>
  * @implements \ADS\ValueObjects\ListValue<T>
  */
-abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection, ArrayAccess
+abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
 {
-    /** @var array<int|string, T> */
+    /** @var array<string|int, T> */
     protected array $value;
 
     /**
-     * @param array<int|string, T> $value
+     * @param array<string|int, T> $value
      */
     protected function __construct(array $value)
     {
@@ -339,7 +339,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        /** @var array<int|string> $keyValues */
+        /** @var array<string|int> $keyValues */
         $keyValues = $keys->toArray();
 
         $clone->value = array_diff_key($clone->value, array_flip($keyValues));
@@ -364,7 +364,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        /** @var array<int|string> $keyValues */
+        /** @var array<string|int> $keyValues */
         $keyValues = $keys->toArray();
 
         $clone->value = array_intersect_key($clone->value, array_flip($keyValues));

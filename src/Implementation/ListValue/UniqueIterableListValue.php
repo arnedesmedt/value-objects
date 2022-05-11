@@ -6,7 +6,7 @@ namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\ListValue;
 use ArrayAccess;
-use Iterator;
+use IteratorAggregate;
 
 /**
  * @template T
@@ -14,7 +14,7 @@ use Iterator;
  * @extends ListValue<T>
  * @implements ArrayAccess<string|int, T>
  * @implements ListValue<T>
- * @implements Iterator<string|int, T>
+ * @implements IteratorAggregate<string|int, T>
  */
 abstract class UniqueIterableListValue extends IterableListValue
 {

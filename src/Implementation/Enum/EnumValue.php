@@ -19,7 +19,7 @@ abstract class EnumValue implements EnumValueInterface
     protected array $possibleValues;
 
     /**
-     * @param int|string $value
+     * @param string|int $value
      */
     protected function __construct($value)
     {

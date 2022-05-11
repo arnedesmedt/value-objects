@@ -11,8 +11,8 @@ use function strval;
 final class EnumException extends ValueObjectException
 {
     /**
-     * @param array<int|string> $possibleValues
-     * @param int|string $value
+     * @param array<string|int> $possibleValues
+     * @param string|int $value
      *
      * @return static
      */

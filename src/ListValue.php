@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
+use ArrayAccess;
 use Closure;
 use Countable;
 use EventEngine\Schema\TypeSchema;
@@ -11,8 +12,9 @@ use Throwable;
 
 /**
  * @template T
+ * @extends ArrayAccess<string|int, T>
  */
-interface ListValue extends ValueObject, Countable
+interface ListValue extends ValueObject, Countable, ArrayAccess
 {
     /**
      * @return class-string<T>
