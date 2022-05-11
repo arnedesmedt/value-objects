@@ -10,7 +10,7 @@ use IteratorAggregate;
 use Traversable;
 
 /**
- * @template T
+ * @template T of object
  * @extends ListValue<T>
  * @implements IteratorAggregate<string|int, T>
  * @implements ArrayAccess<string|int, T>

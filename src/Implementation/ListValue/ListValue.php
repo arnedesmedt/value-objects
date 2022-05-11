@@ -42,7 +42,7 @@ use function sprintf;
 use function strval;
 
 /**
- * @template T
+ * @template T of object
  * @implements ArrayAccess<string|int, T>
  * @implements \ADS\ValueObjects\ListValue<T>
  */
@@ -95,21 +95,26 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             throw ListException::valueIsNotScalar($value);
         }
 
+        /** @var class-string<ImmutableRecord|ValueObject> $itemType */
         $itemType = static::itemType();
 
         try {
             $relfectionClass = new ReflectionClass($itemType);
 
-            if ($relfectionClass->implementsInterface(ImmutableRecord::class)) {
+            if ($relfectionClass->implementsInterface(ImmutableRecord::class) && is_array($value)) {
+                /** @var class-string<ImmutableRecord> $type */
+                $type = $itemType;
                 /** @var T $item */
-                $item = $itemType::fromArray($value);
+                $item = $type::fromArray($value);
 
                 return $item;
             }
 
             if ($relfectionClass->implementsInterface(ValueObject::class)) {
+                /** @var class-string<ValueObject> $type */
+                $type = $itemType;
                 /** @var T $item */
-                $item = $itemType::fromValue($value);
+                $item = $type::fromValue($value);
 
                 return $item;
             }
@@ -212,7 +217,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
-     * @return static<T>
+     * @return static
      *
      * @inheritDoc
      */
@@ -222,10 +227,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             throw new RuntimeException('No array given.');
         }
 
-        /** @var static<T> $result */
-        $result = static::fromArray($value);
-
-        return $result;
+        return static::fromArray($value);
     }
 
     /**

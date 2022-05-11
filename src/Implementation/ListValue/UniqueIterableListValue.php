@@ -9,7 +9,7 @@ use ArrayAccess;
 use IteratorAggregate;
 
 /**
- * @template T
+ * @template T of object
  * @extends IterableListValue<T>
  * @extends ListValue<T>
  * @implements ArrayAccess<string|int, T>

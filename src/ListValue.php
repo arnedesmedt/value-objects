@@ -11,7 +11,7 @@ use EventEngine\Schema\TypeSchema;
 use Throwable;
 
 /**
- * @template T
+ * @template T of object
  * @extends ArrayAccess<string|int, T>
  */
 interface ListValue extends ValueObject, Countable, ArrayAccess
@@ -44,19 +44,19 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     /**
      * @param array<mixed> $value
      *
-     * @return static<T>
+     * @return static
      */
     public static function fromArray(array $value);
 
     /**
      * @param array<T> $values
      *
-     * @return static<T>
+     * @return static
      */
     public static function fromItems(array $values);
 
     /**
-     * @return static<T>
+     * @return static
      */
     public static function emptyList();
 
@@ -73,7 +73,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     /**
      * @param T $item
      *
-     * @return static<T>
+     * @return static
      */
     public function push($item);
 
@@ -81,38 +81,38 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
      * @param ValueObject|string|int|null $key
      * @param T $item
      *
-     * @return static<T>
+     * @return static
      */
     public function put($item, $key = null);
 
     /**
-     * @return static<T>
+     * @return static
      */
     public function pop();
 
     /**
-     * @return static<T>
+     * @return static
      */
     public function shift();
 
     /**
      * @param T $item
      *
-     * @return static<T>
+     * @return static
      */
     public function unshift($item);
 
     /**
      * @param ValueObject|string|int $key
      *
-     * @return static<T>
+     * @return static
      */
     public function forget($key);
 
     /**
-     * @param ListValue<ValueObject|string|int> $keys
+     * @param ListValue<ValueObject> $keys
      *
-     * @return static<T>
+     * @return static
      */
     public function diffByKeys(ListValue $keys);
 
@@ -125,9 +125,9 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function get($key, $default = null);
 
     /**
-     * @param ListValue<ValueObject|string|int> $keys
+     * @param ListValue<ValueObject> $keys
      *
-     * @return static<T>
+     * @return static
      */
     public function getByKeys(ListValue $keys);
 
@@ -188,12 +188,12 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function lastKey($default = null);
 
     /**
-     * @return static<T>
+     * @return static
      */
     public function filter(Closure $closure, bool $resetKeys = false);
 
     /**
-     * @return static<T>
+     * @return static
      */
     public function map(Closure $closure);
 
@@ -202,7 +202,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function implode(string $glue): string;
 
     /**
-     * @return static<T>
+     * @return static
      */
     public function unique();
 
