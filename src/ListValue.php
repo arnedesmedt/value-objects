@@ -135,7 +135,7 @@ interface ListValue extends ValueObject, Countable
     public function has($key): bool;
 
     /**
-     * @param T $item
+     * @param T|Closure $item
      */
     public function contains($item): bool;
 
