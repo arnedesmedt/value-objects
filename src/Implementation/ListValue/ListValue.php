@@ -25,6 +25,7 @@ use function array_key_exists;
 use function array_key_first;
 use function array_key_last;
 use function array_map;
+use function array_merge;
 use function array_pop;
 use function array_push;
 use function array_reverse;
@@ -524,14 +525,25 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
      */
     public function map(Closure $closure)
     {
-        $clone = clone $this;
-
-        $clone->value = array_map(
-            $closure,
-            $clone->value
+        return self::fromItems(
+            array_map(
+                $closure,
+                $this->value
+            )
         );
+    }
 
-        return $clone;
+    /**
+     * @inheritDoc
+     */
+    public function merge($list)
+    {
+        return self::fromItems(
+            array_merge(
+                $list->toItems(),
+                $this->value
+            )
+        );
     }
 
     public function count(): int

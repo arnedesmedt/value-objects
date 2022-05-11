@@ -197,6 +197,13 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
      */
     public function map(Closure $closure);
 
+    /**
+     * @param static $list
+     *
+     * @return static
+     */
+    public function merge($list);
+
     public function isEmpty(): bool;
 
     public function implode(string $glue): string;
