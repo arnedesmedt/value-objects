@@ -623,7 +623,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     }
 
     /**
-     * @param T $item
+     * @param mixed $item
      *
      * @return T
      */
@@ -643,7 +643,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             }
         }
 
-        return $item;
+        /** @var T $result */
+        $result = $item;
+
+        return $result;
     }
 
     /**

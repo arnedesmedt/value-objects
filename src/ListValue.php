@@ -71,7 +71,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function toItems(): array;
 
     /**
-     * @param T $item
+     * @param mixed $item
      *
      * @return static
      */
@@ -79,7 +79,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     /**
      * @param ValueObject|string|int|null $key
-     * @param T $item
+     * @param mixed $item
      *
      * @return static
      */
@@ -96,7 +96,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function shift();
 
     /**
-     * @param T $item
+     * @param mixed $item
      *
      * @return static
      */
@@ -137,12 +137,12 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function has($key): bool;
 
     /**
-     * @param T|Closure $item
+     * @param mixed $item
      */
     public function contains($item): bool;
 
     /**
-     * @param T $item
+     * @param mixed $item
      * @param string|int|null $default
      *
      * @return string|int|null
