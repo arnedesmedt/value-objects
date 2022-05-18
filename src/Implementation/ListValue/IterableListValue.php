@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
-use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
 
 /**
  * @template T of object
- * @extends ListValue<T>
- * @implements IteratorAggregate<string|int, T>
- * @implements ArrayAccess<string|int, T>
- * @implements \ADS\ValueObjects\ListValue<T>
+ * @template-extends ListValue<T>
+ * @template-implements IteratorAggregate<string|int, T>
  */
 abstract class IterableListValue extends ListValue implements IteratorAggregate
 {

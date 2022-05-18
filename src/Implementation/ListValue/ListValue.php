@@ -6,7 +6,6 @@ namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\Exception\ListException;
 use ADS\ValueObjects\ValueObject;
-use ArrayAccess;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -44,8 +43,7 @@ use function strval;
 
 /**
  * @template T of object
- * @implements ArrayAccess<string|int, T>
- * @implements \ADS\ValueObjects\ListValue<T>
+ * @template-implements \ADS\ValueObjects\ListValue<T>
  */
 abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
 {

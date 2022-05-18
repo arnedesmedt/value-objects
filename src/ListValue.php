@@ -12,7 +12,7 @@ use Throwable;
 
 /**
  * @template T of object
- * @extends ArrayAccess<string|int, T>
+ * @template-extends ArrayAccess<string|int, T>
  */
 interface ListValue extends ValueObject, Countable, ArrayAccess
 {
