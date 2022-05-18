@@ -4,6 +4,3 @@ parameters:
         - '#__allowNestedSchema\(\) is unused.$#'
         - '#Unsafe call to (.*) through static::.$#'
         - '#^Unsafe usage of new static\(\).#'
-        - '#The @implements tag of class (.*) describes (.*) but the class implements: (.*)#'
-        - '#The @extends tag of class (.*) describes (.*) but the class extends (.*)#'
-        - '#Class (.*) has @implements tag, but does not implement any interface.#'
