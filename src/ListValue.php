@@ -150,6 +150,13 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function keyByItem($item, $default = null);
 
     /**
+     * @param mixed $item
+     *
+     * @return string|int
+     */
+    public function needKey($item, ?Throwable $exception = null);
+
+    /**
      * @param T|null $default
      *
      * @return T|null

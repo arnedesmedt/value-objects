@@ -432,6 +432,26 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
+    public function needKey($item, ?Throwable $exception = null)
+    {
+        $key = $this->keyByItem($item);
+
+        if ($key === null) {
+            throw $exception ?? new RuntimeException(
+                sprintf(
+                    'No key found for item \'%s\' in list \'%s\'.',
+                    strval($item),
+                    static::class
+                )
+            );
+        }
+
+        return $key;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function first($default = null)
     {
         $first = reset($this->value);
