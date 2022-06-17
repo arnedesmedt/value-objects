@@ -125,6 +125,13 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function get($key, $default = null);
 
     /**
+     * @param ValueObject|string|int $key
+     *
+     * @return T
+     */
+    public function need($key, ?Throwable $exception = null);
+
+    /**
      * @param ListValue<ValueObject> $keys
      *
      * @return static
