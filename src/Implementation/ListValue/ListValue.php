@@ -614,6 +614,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     /**
      * @inheritDoc
      */
+    public function values()
+    {
+        return static::fromArray(array_values($this->toArray()));
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function unique()
     {
         return self::fromArray(array_unique($this->toArray()));

@@ -232,6 +232,11 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     /**
      * @return static
      */
+    public function values();
+
+    /**
+     * @return static
+     */
     public function unique();
 
     public static function containsType(): ?TypeSchema;
