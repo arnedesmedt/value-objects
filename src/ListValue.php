@@ -223,6 +223,13 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function implode(string $glue): string;
 
     /**
+     * @param static $list
+     *
+     * @return static
+     */
+    public function intersect(ListValue $list);
+
+    /**
      * @return static
      */
     public function unique();

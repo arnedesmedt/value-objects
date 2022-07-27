@@ -19,6 +19,7 @@ use function array_diff;
 use function array_diff_key;
 use function array_filter;
 use function array_flip;
+use function array_intersect;
 use function array_intersect_key;
 use function array_key_exists;
 use function array_key_first;
@@ -600,6 +601,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             static fn ($item) => strval($item),
             $this->toArray()
         ));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function intersect(\ADS\ValueObjects\ListValue $list)
+    {
+        return static::fromArray(array_intersect($this->toArray(), $list->toArray()));
     }
 
     /**
