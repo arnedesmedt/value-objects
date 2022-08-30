@@ -19,7 +19,7 @@ abstract class TransitionEnumValue extends EnumValue
 
     abstract public static function init(): self;
 
-    public function transitionTo(string $newValue): self
+    public function transitionTo(int|string $newValue): self
     {
         if (! array_key_exists($this->value, static::transitions())) {
             throw new RuntimeException(
