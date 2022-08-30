@@ -13,15 +13,12 @@ use function strval;
 
 abstract class EnumValue implements EnumValueInterface
 {
-    protected mixed $value;
+    protected int|string $value;
 
     /** @var int[]|string[] */
     protected array $possibleValues;
 
-    /**
-     * @param string|int $value
-     */
-    protected function __construct($value)
+    protected function __construct(string|int $value)
     {
         $possibleValues = static::possibleValues();
 
