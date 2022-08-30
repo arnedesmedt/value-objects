@@ -13,7 +13,6 @@ use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\Enum\StringEnumValue;
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
 use ADS\ValueObjects\IntValue;
-use ADS\ValueObjects\JsonSchema\ComplexType;
 use ADS\ValueObjects\StringValue;
 use ADS\ValueObjects\ValueObject;
 use DateTime;
@@ -34,8 +33,7 @@ final class TypeDetector
 {
     public static function getTypeFromClass(
         string $classOrType,
-        bool $allowNestedSchema = true,
-        bool $complexType = false
+        bool $allowNestedSchema = true
     ): Type {
         if (! class_exists($classOrType)) {
             return JsonSchema::typeRef($classOrType);
@@ -51,14 +49,8 @@ final class TypeDetector
             return new Type\TypeRef($classOrType::__type());
         }
 
-        $schemaType = self::determineScalarTypeOrListIfPossible($refObj)
+        return self::determineScalarTypeOrListIfPossible($refObj)
             ?? self::convertClassToType($classOrType);
-
-        if (! $complexType) {
-            return $schemaType;
-        }
-
-        return ComplexType::fromTypeAndClass($schemaType, $classOrType);
     }
 
     /**
