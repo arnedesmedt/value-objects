@@ -16,11 +16,9 @@ abstract class PatternValue extends StringValue implements PatternValueInterface
 
     protected function __construct(string $value)
     {
-        $pattern = sprintf(self::BELL . '%s' . self::BELL . 'uD', static::pattern());
+        $pattern = static::pregMatchPattern();
 
-        if (
-            ! preg_match($pattern, $value)
-        ) {
+        if (! preg_match($pattern, $value)) {
             throw PatternException::noMatch($value, $pattern, static::class);
         }
 
@@ -28,4 +26,9 @@ abstract class PatternValue extends StringValue implements PatternValueInterface
     }
 
     abstract public static function pattern(): string;
+
+    public static function pregMatchPattern(): string
+    {
+        return sprintf(self::BELL . '%s' . self::BELL . 'uD', static::pattern());
+    }
 }
