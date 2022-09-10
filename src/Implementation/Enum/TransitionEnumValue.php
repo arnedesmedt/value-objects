@@ -8,6 +8,7 @@ use RuntimeException;
 
 use function array_filter;
 use function array_key_exists;
+use function assert;
 use function in_array;
 use function sprintf;
 
@@ -20,8 +21,10 @@ abstract class TransitionEnumValue extends EnumValue
 
     abstract public static function init(): self;
 
-    public function next(self $newValue): self
+    public function next(self $newValue): static
     {
+        assert($newValue instanceof static);
+
         if (! array_key_exists($this->value, static::transitions())) {
             throw new RuntimeException(
                 sprintf('No transition found from value \'%s\'.', $this->value)
@@ -41,8 +44,10 @@ abstract class TransitionEnumValue extends EnumValue
         return $newValue;
     }
 
-    public function previous(self $newValue): self
+    public function previous(self $newValue): static
     {
+        assert($newValue instanceof static);
+
         $validTransitions = array_filter(
             static::transitions(),
             fn (array $to) => in_array($this->value, $to)
