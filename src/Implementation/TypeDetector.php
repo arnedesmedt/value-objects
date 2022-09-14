@@ -46,7 +46,7 @@ final class TypeDetector
                 return $classOrType::__schema();
             }
 
-            return new Type\TypeRef($classOrType::__type());
+            return JsonSchema::typeRef($classOrType);
         }
 
         return self::determineScalarTypeOrListIfPossible($refObj)
@@ -71,7 +71,7 @@ final class TypeDetector
         }
 
         if (! $schemaType) {
-            $schemaType = $scalarSchemaType = self::determineScalarTypeIfPossible($refObj);
+            $schemaType = self::determineScalarTypeIfPossible($refObj);
         }
 
         if (! $schemaType) {
