@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\EnumException;
+use ADS\ValueObjects\IntValue;
 
 use function array_filter;
 use function count;
 use function intval;
 use function is_int;
 
-abstract class IntEnumValue extends EnumValue
+abstract class IntEnumValue extends EnumValue implements IntValue
 {
     /**
      * @param mixed $value

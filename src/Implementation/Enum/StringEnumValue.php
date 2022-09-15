@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\EnumException;
+use ADS\ValueObjects\StringValue;
 
 use function array_filter;
 use function count;
 use function is_string;
 use function strval;
 
-abstract class StringEnumValue extends EnumValue
+abstract class StringEnumValue extends EnumValue implements StringValue
 {
     /**
      * @param mixed $value
