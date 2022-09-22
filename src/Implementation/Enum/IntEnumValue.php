@@ -14,10 +14,7 @@ use function is_int;
 
 abstract class IntEnumValue extends EnumValue implements IntValue
 {
-    /**
-     * @param mixed $value
-     */
-    protected function __construct($value)
+    protected function __construct(mixed $value)
     {
         if (! is_int($value)) {
             throw EnumException::wrongType(
@@ -45,10 +42,7 @@ abstract class IntEnumValue extends EnumValue implements IntValue
         );
     }
 
-    /**
-     * @return static
-     */
-    public static function fromInt(int $value)
+    public static function fromInt(int $value): static
     {
         return static::fromValue($value);
     }
