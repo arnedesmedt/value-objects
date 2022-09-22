@@ -8,9 +8,6 @@ use function sprintf;
 
 final class ExamplesException extends ValueObjectException
 {
-    /**
-     * @return static
-     */
     public static function noExamplesFound(string $class): static
     {
         return new static(
@@ -21,9 +18,6 @@ final class ExamplesException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function noItemExamplesFound(string $itemClass, string $class): static
     {
         return new static(

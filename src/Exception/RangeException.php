@@ -8,9 +8,6 @@ use function sprintf;
 
 final class RangeException extends ValueObjectException
 {
-    /**
-     * @return static
-     */
     public static function outsideRange(
         float|int $value,
         string $class,

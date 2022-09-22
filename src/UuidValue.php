@@ -6,8 +6,5 @@ namespace ADS\ValueObjects;
 
 interface UuidValue extends StringValue
 {
-    /**
-     * @return static
-     */
     public static function generate(): static;
 }

@@ -20,9 +20,6 @@ use function sprintf;
  */
 trait CalcValue
 {
-    /**
-     * @return static
-     */
     public function add(FloatValue|IntValue $value): static
     {
         $this->checkInstance($value);
@@ -30,9 +27,6 @@ trait CalcValue
         return new static($this->toValue() + $value->toValue());
     }
 
-    /**
-     * @return static
-     */
     public function substract(FloatValue|IntValue $value): static
     {
         $this->checkInstance($value);
@@ -40,17 +34,11 @@ trait CalcValue
         return new static($this->toValue() - $value->toValue());
     }
 
-    /**
-     * @return static
-     */
     public function multiply(FloatValue|IntValue|int|float $value): static
     {
         return new static($this->toValue() * $this->toScalar($value));
     }
 
-    /**
-     * @return static
-     */
     public function divide(FloatValue|IntValue $value): static
     {
         $toScalar = $this->toScalar($value);
@@ -64,9 +52,6 @@ trait CalcValue
         return new static($this->typeResult($result));
     }
 
-    /**
-     * @return static
-     */
     public function pow(FloatValue|IntValue $value): static
     {
         $result = pow($this->toScalar($this), $this->toScalar($value));
@@ -74,9 +59,6 @@ trait CalcValue
         return new static($this->typeResult($result));
     }
 
-    /**
-     * @return static
-     */
     public function square(FloatValue|IntValue $value): static
     {
         $result = pow($this->toScalar($this), 1 / $this->toScalar($value));

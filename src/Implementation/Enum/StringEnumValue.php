@@ -42,9 +42,6 @@ abstract class StringEnumValue extends EnumValue implements StringValue
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromString(string $value): static
     {
         return static::fromValue($value);

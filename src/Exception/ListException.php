@@ -12,9 +12,6 @@ use function sprintf;
 
 final class ListException extends ValueObjectException
 {
-    /**
-     * @return static
-     */
     public static function noValidItemType(mixed $item, string $validType, string $class): static
     {
         return new static(
@@ -27,9 +24,6 @@ final class ListException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromScalarToItemNotImplemented(string $class): static
     {
         return new static(
@@ -43,9 +37,6 @@ final class ListException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromItemToScalarNotImplemented(string $class): static
     {
         return new static(
@@ -59,9 +50,6 @@ final class ListException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function itemTypeNotFound(string $itemType, string $class): static
     {
         return new static(
@@ -73,9 +61,6 @@ final class ListException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function noItemIdentifierFound(string $class, string $itemType): static
     {
         return new static(
@@ -88,9 +73,6 @@ final class ListException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function valueIsNotScalar(object $value): static
     {
         return new static(

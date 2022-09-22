@@ -78,9 +78,6 @@ abstract class ByteValue extends FloatValue
         );
     }
 
-    /**
-     * @return static
-     */
     private static function from(int $unit, float $value): static
     {
         return self::fromFloat($value * pow(1024, $unit - self::B));

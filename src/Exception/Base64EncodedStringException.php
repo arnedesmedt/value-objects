@@ -8,9 +8,6 @@ use function sprintf;
 
 final class Base64EncodedStringException extends ValueObjectException
 {
-    /**
-     * @return static
-     */
     public static function couldNotDecode(string $string, string $class): static
     {
         return new static(

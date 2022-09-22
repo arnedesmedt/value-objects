@@ -27,9 +27,6 @@ final class EnumException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function noPossibleValues(string $class): static
     {
         return new static(
@@ -40,9 +37,6 @@ final class EnumException extends ValueObjectException
         );
     }
 
-    /**
-     * @return static
-     */
     public static function wrongType(mixed $value, string $type, string $class): static
     {
         return new static(

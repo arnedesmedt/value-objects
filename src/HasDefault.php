@@ -6,8 +6,5 @@ namespace ADS\ValueObjects;
 
 interface HasDefault
 {
-    /**
-     * @return static
-     */
     public static function defaultValue(): static;
 }

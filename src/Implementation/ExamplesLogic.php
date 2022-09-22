@@ -27,10 +27,7 @@ use ReflectionClass;
 
 trait ExamplesLogic
 {
-    /**
-     * @inheritDoc
-     */
-    public static function example()
+    public static function example(): static
     {
         $reflection = new ReflectionClass(static::class);
         $generator = Factory::create();

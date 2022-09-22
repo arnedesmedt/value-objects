@@ -41,9 +41,6 @@ abstract class StringTransitionEnumValue extends TransitionEnumValue
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromString(string $value): static
     {
         return static::fromValue($value);

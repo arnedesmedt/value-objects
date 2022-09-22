@@ -41,9 +41,6 @@ abstract class IntTransitionEnumValue extends TransitionEnumValue
         );
     }
 
-    /**
-     * @return static
-     */
     public static function fromInt(int $value): static
     {
         return static::fromValue($value);

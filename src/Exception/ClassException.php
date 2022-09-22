@@ -10,9 +10,6 @@ use function sprintf;
 
 final class ClassException extends Exception
 {
-    /**
-     * @return static
-     */
     public static function fullQualifiedClassNameWithoutBackslash(string $className): static
     {
         return new static(
