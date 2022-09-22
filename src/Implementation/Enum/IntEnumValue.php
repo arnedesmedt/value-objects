@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\Exception\EnumException;
+use ADS\ValueObjects\Implementation\CalcValue;
 use ADS\ValueObjects\IntValue;
 
 use function array_filter;
@@ -14,6 +15,8 @@ use function is_int;
 
 abstract class IntEnumValue extends EnumValue implements IntValue
 {
+    use CalcValue;
+
     protected function __construct(mixed $value)
     {
         if (! is_int($value)) {
