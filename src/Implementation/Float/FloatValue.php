@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Float;
 
 use ADS\ValueObjects\FloatValue as FloatValueInterface;
+use ADS\ValueObjects\Implementation\CalcValue;
 
 use function floatval;
 
 abstract class FloatValue implements FloatValueInterface
 {
+    use CalcValue;
+
     protected float $value;
 
     protected function __construct(float $value)
@@ -17,10 +20,7 @@ abstract class FloatValue implements FloatValueInterface
         $this->value = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromFloat(float $value)
+    public static function fromFloat(float $value): static
     {
         return new static($value);
     }

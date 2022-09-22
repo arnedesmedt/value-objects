@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
-interface IntValue extends ValueObject
+interface IntValue extends CalcValueObject
 {
-    /**
-     * @return static
-     */
-    public static function fromInt(int $value);
+    public static function fromInt(int $value): static;
 
     public function toInt(): int;
 }

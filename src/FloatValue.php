@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
-interface FloatValue extends ValueObject
+interface FloatValue extends CalcValueObject
 {
-    /**
-     * @return static
-     */
-    public static function fromFloat(float $value);
+    public static function fromFloat(float $value): static;
 
     public function toFloat(): float;
 }

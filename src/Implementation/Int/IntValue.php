@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Int;
 
+use ADS\ValueObjects\Implementation\CalcValue;
 use ADS\ValueObjects\IntValue as IntValueInterface;
 
 use function intval;
 
 abstract class IntValue implements IntValueInterface
 {
+    use CalcValue;
+
     protected int $value;
 
     protected function __construct(int $value)
@@ -17,10 +20,7 @@ abstract class IntValue implements IntValueInterface
         $this->value = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromInt(int $value)
+    public static function fromInt(int $value): static
     {
         return new static($value);
     }
