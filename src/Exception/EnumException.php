@@ -12,11 +12,10 @@ final class EnumException extends ValueObjectException
 {
     /**
      * @param array<string|int> $possibleValues
-     * @param string|int $value
      *
      * @return static
      */
-    public static function noValidValue($value, array $possibleValues, string $class)
+    public static function noValidValue(string|int $value, array $possibleValues, string $class): static
     {
         return new static(
             sprintf(
@@ -31,7 +30,7 @@ final class EnumException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noPossibleValues(string $class)
+    public static function noPossibleValues(string $class): static
     {
         return new static(
             sprintf(
@@ -42,11 +41,9 @@ final class EnumException extends ValueObjectException
     }
 
     /**
-     * @param mixed $value
-     *
      * @return static
      */
-    public static function wrongType($value, string $type, string $class)
+    public static function wrongType(mixed $value, string $type, string $class): static
     {
         return new static(
             sprintf(
@@ -63,7 +60,7 @@ final class EnumException extends ValueObjectException
      *
      * @return static
      */
-    public static function wrongPossibleValueTypes(array $possibleValues, string $type, string $class)
+    public static function wrongPossibleValueTypes(array $possibleValues, string $type, string $class): static
     {
         return new static(
             sprintf(

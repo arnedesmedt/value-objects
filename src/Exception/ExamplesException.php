@@ -11,7 +11,7 @@ final class ExamplesException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noExamplesFound(string $class)
+    public static function noExamplesFound(string $class): static
     {
         return new static(
             sprintf(
@@ -24,7 +24,7 @@ final class ExamplesException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noItemExamplesFound(string $itemClass, string $class)
+    public static function noItemExamplesFound(string $itemClass, string $class): static
     {
         return new static(
             sprintf(

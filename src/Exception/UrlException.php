@@ -11,7 +11,7 @@ final class UrlException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noAsciiFormat(string $value, string $class)
+    public static function noAsciiFormat(string $value, string $class): static
     {
         return new static(
             sprintf(
@@ -25,7 +25,7 @@ final class UrlException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noValidUrl(string $value, string $class)
+    public static function noValidUrl(string $value, string $class): static
     {
         return new static(
             sprintf(
@@ -39,7 +39,7 @@ final class UrlException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noTrailingSlash(string $value, string $class)
+    public static function noTrailingSlash(string $value, string $class): static
     {
         return new static(
             sprintf(

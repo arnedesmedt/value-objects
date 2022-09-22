@@ -20,10 +20,7 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         $this->value = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromString(string $value)
+    public static function fromString(string $value): static
     {
         return new static(new DateTime('@' . strtotime($value)));
     }
@@ -38,10 +35,7 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         return $this->toDateTime()->format($format);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromDateTime(DateTimeInterface $value)
+    public static function fromDateTime(DateTimeInterface $value): static
     {
         return new static($value);
     }
@@ -61,26 +55,17 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         return $this->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromValue($value)
+    public static function fromValue(mixed $value): static
     {
         return static::fromString(strval($value));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function now()
+    public static function now(): static
     {
         return static::fromString('now');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEqualTo($other): bool
+    public function isEqualTo(mixed $other): bool
     {
         if (! $other instanceof self) {
             return false;

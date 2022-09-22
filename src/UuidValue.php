@@ -9,5 +9,5 @@ interface UuidValue extends StringValue
     /**
      * @return static
      */
-    public static function generate();
+    public static function generate(): static;
 }

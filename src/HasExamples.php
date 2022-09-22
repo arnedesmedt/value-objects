@@ -9,7 +9,7 @@ interface HasExamples
     /**
      * @return static
      */
-    public static function example();
+    public static function example(): static;
 
     /**
      * @return array<static>

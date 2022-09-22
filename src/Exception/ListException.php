@@ -8,17 +8,14 @@ use ADS\Util\Util;
 use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
 
-use function get_class;
 use function sprintf;
 
 final class ListException extends ValueObjectException
 {
     /**
-     * @param mixed $item
-     *
      * @return static
      */
-    public static function noValidItemType($item, string $validType, string $class)
+    public static function noValidItemType(mixed $item, string $validType, string $class): static
     {
         return new static(
             sprintf(
@@ -33,7 +30,7 @@ final class ListException extends ValueObjectException
     /**
      * @return static
      */
-    public static function fromScalarToItemNotImplemented(string $class)
+    public static function fromScalarToItemNotImplemented(string $class): static
     {
         return new static(
             sprintf(
@@ -49,7 +46,7 @@ final class ListException extends ValueObjectException
     /**
      * @return static
      */
-    public static function fromItemToScalarNotImplemented(string $class)
+    public static function fromItemToScalarNotImplemented(string $class): static
     {
         return new static(
             sprintf(
@@ -65,7 +62,7 @@ final class ListException extends ValueObjectException
     /**
      * @return static
      */
-    public static function itemTypeNotFound(string $itemType, string $class)
+    public static function itemTypeNotFound(string $itemType, string $class): static
     {
         return new static(
             sprintf(
@@ -79,7 +76,7 @@ final class ListException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noItemIdentifierFound(string $class, string $itemType)
+    public static function noItemIdentifierFound(string $class, string $itemType): static
     {
         return new static(
             sprintf(
@@ -94,12 +91,12 @@ final class ListException extends ValueObjectException
     /**
      * @return static
      */
-    public static function valueIsNotScalar(object $value)
+    public static function valueIsNotScalar(object $value): static
     {
         return new static(
             sprintf(
                 'The given value is not a scalar: \'%s\'.',
-                get_class($value)
+                $value::class
             )
         );
     }

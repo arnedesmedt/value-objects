@@ -18,18 +18,12 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
         $this->value = $value;
     }
 
-    /**
-     * @return static
-     */
-    public static function generate()
+    public static function generate(): static
     {
         return new static(Uuid::uuid4());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromString(string $value)
+    public static function fromString(string $value): static
     {
         return new static(Uuid::fromString($value));
     }
@@ -44,26 +38,17 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
         return $this->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toValue()
+    public function toValue(): mixed
     {
         return $this->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromValue($value)
+    public static function fromValue(mixed $value): static
     {
         return static::fromString(strval($value));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEqualTo($other): bool
+    public function isEqualTo(mixed $other): bool
     {
         if (! $other instanceof self) {
             return false;

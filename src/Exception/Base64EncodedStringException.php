@@ -11,7 +11,7 @@ final class Base64EncodedStringException extends ValueObjectException
     /**
      * @return static
      */
-    public static function couldNotDecode(string $string, string $class)
+    public static function couldNotDecode(string $string, string $class): static
     {
         return new static(
             sprintf(

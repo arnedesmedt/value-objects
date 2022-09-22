@@ -8,20 +8,9 @@ interface ValueObject
 {
     public function __toString(): string;
 
-    /**
-     * @param mixed $other
-     */
-    public function isEqualTo($other): bool;
+    public function isEqualTo(mixed $other): bool;
 
-    /**
-     * @return mixed
-     */
-    public function toValue();
+    public function toValue(): mixed;
 
-    /**
-     * @param mixed $value
-     *
-     * @return static
-     */
-    public static function fromValue($value);
+    public static function fromValue(mixed $value): static;
 }

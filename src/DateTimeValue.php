@@ -9,17 +9,11 @@ use EventEngine\JsonSchema\ProvidesValidationRules;
 
 interface DateTimeValue extends StringValue, ProvidesValidationRules
 {
-    /**
-     * @return static
-     */
-    public static function fromDateTime(DateTimeInterface $value);
+    public static function fromDateTime(DateTimeInterface $value): static;
 
     public function toDateTime(): DateTimeInterface;
 
     public function toFormattedString(string $format): string;
 
-    /**
-     * @return static
-     */
-    public static function now();
+    public static function now(): static;
 }

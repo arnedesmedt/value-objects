@@ -97,10 +97,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return float|int|null
-     */
-    private static function inclusiveMinimum(ReflectionClass $reflection)
+    private static function inclusiveMinimum(ReflectionClass $reflection): float|int|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -122,10 +119,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return float|int|null
-     */
-    private static function inclusiveMaximum(ReflectionClass $reflection)
+    private static function inclusiveMaximum(ReflectionClass $reflection): float|int|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -147,10 +141,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return float|int|null
-     */
-    private static function exclusiveMinimum(ReflectionClass $reflection)
+    private static function exclusiveMinimum(ReflectionClass $reflection): float|int|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):
@@ -172,10 +163,7 @@ trait RulesLogic
         }
     }
 
-    /**
-     * @return float|int|null
-     */
-    private static function exclusiveMaximum(ReflectionClass $reflection)
+    private static function exclusiveMaximum(ReflectionClass $reflection): float|int|null
     {
         switch (true) {
             case $reflection->isSubclassOf(RangeValue::class):

@@ -34,18 +34,12 @@ abstract class EnumValue implements EnumValueInterface
         $this->possibleValues = $possibleValues;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromValue($value)
+    public static function fromValue(mixed $value): static
     {
         return new static($value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toValue()
+    public function toValue(): mixed
     {
         return $this->value;
     }
@@ -55,10 +49,7 @@ abstract class EnumValue implements EnumValueInterface
         return strval($this->toValue());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEqualTo($other): bool
+    public function isEqualTo(mixed $other): bool
     {
         if (! $other instanceof static) {
             return false;

@@ -13,7 +13,7 @@ final class ClassException extends Exception
     /**
      * @return static
      */
-    public static function fullQualifiedClassNameWithoutBackslash(string $className)
+    public static function fullQualifiedClassNameWithoutBackslash(string $className): static
     {
         return new static(
             sprintf(

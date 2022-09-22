@@ -11,7 +11,7 @@ final class EmailException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noAsciiFormat(string $value, string $class)
+    public static function noAsciiFormat(string $value, string $class): static
     {
         return new static(
             sprintf(
@@ -25,7 +25,7 @@ final class EmailException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noValidEmail(string $value, string $class)
+    public static function noValidEmail(string $value, string $class): static
     {
         return new static(
             sprintf(

@@ -6,10 +6,7 @@ namespace ADS\ValueObjects;
 
 interface StringValue extends ValueObject
 {
-    /**
-     * @return static
-     */
-    public static function fromString(string $value);
+    public static function fromString(string $value): static;
 
     public function toString(): string;
 }

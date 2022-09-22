@@ -14,7 +14,7 @@ abstract class Base64EncodedStringValue extends StringValue
     /**
      * @return static
      */
-    public static function fromPlainString(string $plainString)
+    public static function fromPlainString(string $plainString): static
     {
         return static::fromString(base64_encode($plainString));
     }

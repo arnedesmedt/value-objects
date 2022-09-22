@@ -15,10 +15,7 @@ abstract class BoolValue implements BoolValueInterface
         $this->value = $value;
     }
 
-    /**
-     * @return static
-     */
-    public static function fromBool(bool $value)
+    public static function fromBool(bool $value): static
     {
         return new static($value);
     }
@@ -33,26 +30,17 @@ abstract class BoolValue implements BoolValueInterface
         return $this->toBool() ? 'true' : 'false';
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toValue()
+    public function toValue(): mixed
     {
         return $this->toBool();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromValue($value)
+    public static function fromValue(mixed $value): static
     {
         return static::fromBool((bool) $value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEqualTo($other): bool
+    public function isEqualTo(mixed $other): bool
     {
         if (! $other instanceof self) {
             return false;

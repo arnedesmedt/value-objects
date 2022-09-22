@@ -9,5 +9,5 @@ interface HasDefault
     /**
      * @return static
      */
-    public static function defaultValue();
+    public static function defaultValue(): static;
 }

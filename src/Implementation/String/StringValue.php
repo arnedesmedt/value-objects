@@ -17,10 +17,7 @@ abstract class StringValue implements StringValueInterface
         $this->value = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromString(string $value)
+    public static function fromString(string $value): static
     {
         return new static($value);
     }
@@ -35,26 +32,17 @@ abstract class StringValue implements StringValueInterface
         return $this->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toValue()
+    public function toValue(): mixed
     {
         return $this->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function fromValue($value)
+    public static function fromValue(mixed $value): static
     {
         return static::fromString(strval($value));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEqualTo($other): bool
+    public function isEqualTo(mixed $other): bool
     {
         if (! $other instanceof self) {
             return false;

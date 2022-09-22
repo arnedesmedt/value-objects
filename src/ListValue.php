@@ -28,37 +28,26 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public static function itemIdentifier(): Closure;
 
     /**
-     * @param mixed $value
-     *
      * @return T
      */
-    public static function fromScalarToItem($value);
+    public static function fromScalarToItem(mixed $value);
 
     /**
      * @param T $item
-     *
-     * @return mixed
      */
-    public static function fromItemToScalar($item);
+    public static function fromItemToScalar($item): mixed;
 
     /**
      * @param array<mixed> $value
-     *
-     * @return static
      */
-    public static function fromArray(array $value);
+    public static function fromArray(array $value): static;
 
     /**
      * @param array<T> $values
-     *
-     * @return static
      */
-    public static function fromItems(array $values);
+    public static function fromItems(array $values): static;
 
-    /**
-     * @return static
-     */
-    public static function emptyList();
+    public static function emptyList(): static;
 
     /**
      * @return array<mixed>
@@ -70,98 +59,47 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
      */
     public function toItems(): array;
 
-    /**
-     * @param mixed $item
-     *
-     * @return static
-     */
-    public function push($item);
+    public function push(mixed $item): static;
 
-    /**
-     * @param ValueObject|string|int|null $key
-     * @param mixed $item
-     *
-     * @return static
-     */
-    public function put($item, $key = null);
+    public function put(mixed $item, ValueObject|string|int|null $key = null): static;
 
-    /**
-     * @return static
-     */
-    public function pop();
+    public function pop(): static;
 
-    /**
-     * @return static
-     */
-    public function shift();
+    public function shift(): static;
 
-    /**
-     * @param mixed $item
-     *
-     * @return static
-     */
-    public function unshift($item);
+    public function unshift(mixed $item): static;
 
-    /**
-     * @param ValueObject|string|int $key
-     *
-     * @return static
-     */
-    public function forget($key);
+    public function forget(ValueObject|string|int $key): static;
 
     /**
      * @param ListValue<ValueObject> $keys
-     *
-     * @return static
      */
-    public function diffByKeys(ListValue $keys);
+    public function diffByKeys(ListValue $keys): static;
 
     /**
-     * @param ValueObject|string|int $key
      * @param T|null $default
      *
      * @return T|null
      */
-    public function get($key, $default = null);
+    public function get(ValueObject|string|int $key, $default = null);
 
     /**
-     * @param ValueObject|string|int $key
-     *
      * @return T
      */
-    public function need($key, ?Throwable $exception = null);
+    public function need(ValueObject|string|int $key, ?Throwable $exception = null);
 
     /**
      * @param ListValue<ValueObject> $keys
-     *
-     * @return static
      */
-    public function getByKeys(ListValue $keys);
+    public function getByKeys(ListValue $keys): static;
 
-    /**
-     * @param ValueObject|string|int $key
-     */
-    public function has($key): bool;
+    public function has(ValueObject|string|int $key): bool;
 
-    /**
-     * @param mixed $item
-     */
-    public function contains($item): bool;
+    public function contains(mixed $item): bool;
 
-    /**
-     * @param mixed $item
-     * @param string|int|null $default
-     *
-     * @return string|int|null
-     */
-    public function keyByItem($item, $default = null);
+    public function keyByItem(mixed $item, string|int|null $default = null): string|int|null;
 
-    /**
-     * @param mixed $item
-     *
-     * @return string|int
-     */
-    public function needKey($item, ?Throwable $exception = null);
+    public function needKey(mixed $item, ?Throwable $exception = null): string|int;
 
     /**
      * @param T|null $default
@@ -175,12 +113,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
      */
     public function needFirst(Throwable $exception);
 
-    /**
-     * @param string|int|null $default
-     *
-     * @return string|int|null
-     */
-    public function firstKey($default = null);
+    public function firstKey(string|int|null $default = null): string|int|null;
 
     /**
      * @param T|null $default
@@ -194,29 +127,16 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
      */
     public function needLast(Throwable $exception);
 
-    /**
-     * @param string|int|null $default
-     *
-     * @return string|int|null
-     */
-    public function lastKey($default = null);
+    public function lastKey(string|int|null $default = null): string|int|null;
 
-    /**
-     * @return static
-     */
-    public function filter(Closure $closure, bool $resetKeys = false);
+    public function filter(Closure $closure, bool $resetKeys = false): static;
 
-    /**
-     * @return static
-     */
-    public function map(Closure $closure);
+    public function map(Closure $closure): static;
 
     /**
      * @param static $list
-     *
-     * @return static
      */
-    public function merge($list);
+    public function merge($list): static;
 
     public function isEmpty(): bool;
 
@@ -224,20 +144,12 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     /**
      * @param static $list
-     *
-     * @return static
      */
-    public function intersect(ListValue $list);
+    public function intersect(ListValue $list): static;
 
-    /**
-     * @return static
-     */
-    public function values();
+    public function values(): static;
 
-    /**
-     * @return static
-     */
-    public function unique();
+    public function unique(): static;
 
     public static function containsType(): ?TypeSchema;
 

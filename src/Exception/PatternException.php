@@ -11,7 +11,7 @@ final class PatternException extends ValueObjectException
     /**
      * @return static
      */
-    public static function noMatch(string $value, string $pattern, string $class)
+    public static function noMatch(string $value, string $pattern, string $class): static
     {
         return new static(
             sprintf(
