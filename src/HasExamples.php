@@ -6,6 +6,9 @@ namespace ADS\ValueObjects;
 
 interface HasExamples
 {
+    /**
+     * @return static
+     */
     public static function example(): static;
 
     /**
