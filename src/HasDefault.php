@@ -8,6 +8,8 @@ interface HasDefault
 {
     /**
      * @return static
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
-    public static function defaultValue(): static;
+    public static function defaultValue();
 }

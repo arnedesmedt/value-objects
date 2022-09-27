@@ -8,8 +8,10 @@ interface HasExamples
 {
     /**
      * @return static
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */
-    public static function example(): static;
+    public static function example();
 
     /**
      * @return array<static>
