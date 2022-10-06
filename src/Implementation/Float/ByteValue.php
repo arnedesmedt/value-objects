@@ -43,6 +43,27 @@ abstract class ByteValue extends FloatValue
         self::TB,
     ];
 
+    public static function fromString(string $value): void
+    {
+        if (! preg_match('/^(?P<value>[0-9]+)(?P<modifier>K|k|M|m|G|g|T|t)?(b|B)?$/', $value, $matches)) {
+            throw new RuntimeException(
+                sprintf(
+                    'Invalid byte pattern given \'%s\'.',
+                    $value
+                )
+            );
+        }
+
+        if (! isset($matches['modifier'])) {
+            $matches['modifier'] = '';
+        }
+
+        /** @var int $unit */
+        $unit = constant('self::' . strtoupper($matches['modifier']) . 'B');
+
+        self::from($unit, (float) $matches['value']);
+    }
+
     /**
      * @param float[] $arguments
      *
