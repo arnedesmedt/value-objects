@@ -17,4 +17,12 @@ interface CalcValueObject extends ValueObject
     public function pow(FloatValue|IntValue $value): static;
 
     public function square(FloatValue|IntValue $value): static;
+
+    public function isLowerThan(FloatValue|IntValue $value): bool;
+
+    public function isGreaterThan(FloatValue|IntValue $value): bool;
+
+    public function isLowerOrEqualThan(FloatValue|IntValue $value): bool;
+
+    public function isGreaterOrEqualThan(FloatValue|IntValue $value): bool;
 }

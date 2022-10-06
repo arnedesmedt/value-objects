@@ -66,6 +66,26 @@ trait CalcValue
         return new static($this->typeResult($result));
     }
 
+    public function isLowerThan(FloatValue|IntValue $value): bool
+    {
+        return $this->toValue() < $value->toValue();
+    }
+
+    public function isGreaterThan(FloatValue|IntValue $value): bool
+    {
+        return $this->toValue() > $value->toValue();
+    }
+
+    public function isLowerOrEqualThan(FloatValue|IntValue $value): bool
+    {
+        return $this->toValue() <= $value->toValue();
+    }
+
+    public function isGreaterOrEqualThan(FloatValue|IntValue $value): bool
+    {
+        return $this->toValue() >= $value->toValue();
+    }
+
     private function checkInstance(FloatValue|IntValue $value): void
     {
         if ($value instanceof static) {
