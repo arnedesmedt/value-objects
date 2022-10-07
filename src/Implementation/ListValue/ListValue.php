@@ -576,34 +576,22 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->value[strval($offset)];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->put($value, $offset);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         $this->forget($offset);
     }
