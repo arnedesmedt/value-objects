@@ -171,7 +171,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
      */
     public static function fromItems(array $values): static
     {
-        self::checkTypes(...$values);
+        self::checkTypes($values);
 
         return new static($values);
     }
@@ -602,7 +602,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     private static function toItem(mixed $item)
     {
         try {
-            self::checkTypes($item);
+            self::checkTypes([$item]);
         } catch (ListException $exception) {
             try {
                 $item = static::fromScalarToItem($item);
@@ -621,7 +621,8 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $result;
     }
 
-    private static function checkTypes(mixed ...$values): void
+    /** @param array<mixed> $values */
+    private static function checkTypes(array $values): void
     {
         $type = static::itemType();
 
