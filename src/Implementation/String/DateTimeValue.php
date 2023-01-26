@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
+use ADS\ValueObjects\Exception\DateTimeException;
+use ADS\ValueObjects\Implementation\RulesLogic;
 use DateTime;
 use DateTimeInterface;
-use EventEngine\JsonSchema\Type\StringType;
 
 use function strtotime;
 use function strval;
 
 class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 {
+    use RulesLogic;
+
     protected DateTimeInterface $value;
 
     final protected function __construct(DateTimeInterface $value)
@@ -22,7 +25,13 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
 
     public static function fromString(string $value): static
     {
-        return new static(new DateTime('@' . strtotime($value)));
+        $time = strtotime($value);
+
+        if ($time === false) {
+            throw DateTimeException::noValidDateTime($value, static::class);
+        }
+
+        return new static(new DateTime('@' . $time));
     }
 
     public function toString(): string
@@ -72,15 +81,5 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         }
 
         return $this->toDateTime()->getTimestamp() === $other->toDateTime()->getTimestamp();
-    }
-
-    /**
-     * @return array<mixed>
-     *
-     * @inheritDoc
-     */
-    public static function validationRules(): array
-    {
-        return [StringType::FORMAT => 'date-time'];
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
-use ADS\Util\Util;
 use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
 
+use function get_debug_type;
 use function sprintf;
 
 final class ListException extends ValueObjectException
@@ -17,7 +17,7 @@ final class ListException extends ValueObjectException
         return new static(
             sprintf(
                 'The type \'%s\' for list \'%s\' is not a valid list item type. Only \'%s\' is allowed.',
-                Util::type($item),
+                get_debug_type($item),
                 $class,
                 $validType
             )

@@ -6,10 +6,11 @@ grumphp:
         succeeded: ~
         failed: ~
     tasks:
-        phpcs:
-            standard: ~
-        phpstan:
-            autoload_file: ~
-            configuration: phpstan.neon
-            level: max
-            triggered_by: ['php']
+        phpcs: null
+        phpstan: null
+        git_commit_message: null
+        git_branch_name:
+            whitelist:
+                - "/^(feature|hotfix)\\/([A-Z]+-[0-9]+-)?.+$/"
+                - "/^(main)$/"
+

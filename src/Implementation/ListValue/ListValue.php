@@ -448,7 +448,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public function firstKey(string|int|null $default = null): string|int|null
     {
-        return array_key_first($this->value);
+        return array_key_first($this->value) ?? $default;
     }
 
     /**
@@ -481,7 +481,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public function lastKey(string|int|null $default = null): string|int|null
     {
-        return array_key_last($this->value);
+        return array_key_last($this->value) ?? $default;
     }
 
     public function filter(Closure $closure, bool $resetKeys = false): static
@@ -517,9 +517,9 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         return self::fromItems(
             array_merge(
+                $this->value,
                 $list->toItems(),
-                $this->value
-            )
+            ),
         );
     }
 

@@ -1,6 +1,5 @@
 parameters:
-    ignoreErrors:
-        - '#__itemType\(\) is unused.$#'
-        - '#__allowNestedSchema\(\) is unused.$#'
-        - '#Unsafe call to (.*) through static::.$#'
-        - '#^Unsafe usage of new static\(\).#'
+    level: max
+    paths:
+        - src
+        - tests
