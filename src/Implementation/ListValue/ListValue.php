@@ -13,6 +13,7 @@ use EventEngine\Schema\TypeSchema;
 use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
+use Stringable;
 use Throwable;
 
 use function array_diff;
@@ -553,6 +554,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public function unique(): static
     {
+        if ($this->first() instanceof Stringable) {
+            return static::fromItems(array_unique($this->toItems()));
+        }
+
         return self::fromArray(array_unique($this->toArray()));
     }
 

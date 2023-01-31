@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects;
 
-interface StringValue extends ValueObject
+use Stringable;
+
+interface StringValue extends ValueObject, Stringable
 {
     public static function fromString(string $value): static;
 
