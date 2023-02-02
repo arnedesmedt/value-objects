@@ -43,7 +43,7 @@ abstract class ByteValue extends IntValue
         self::TB,
     ];
 
-    public static function fromString(string $value): void
+    public static function fromString(string $value): static
     {
         if (! preg_match('/^(?P<value>[0-9]+([\.,][0-9]+)?)(?P<modifier>K|k|M|m|G|g|T|t)?(b|B)?$/', $value, $matches)) {
             throw new RuntimeException(
@@ -61,7 +61,7 @@ abstract class ByteValue extends IntValue
         /** @var int $unit */
         $unit = constant('self::' . strtoupper($matches['modifier']) . 'B');
 
-        self::from($unit, (float) $matches['value']);
+        return self::from($unit, (float) $matches['value']);
     }
 
     /**
