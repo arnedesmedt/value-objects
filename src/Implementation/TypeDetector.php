@@ -29,6 +29,7 @@ use function class_exists;
 use function class_implements;
 use function class_parents;
 use function in_array;
+use function is_array;
 use function strrchr;
 use function substr;
 
@@ -65,7 +66,7 @@ final class TypeDetector
 
         $implementations = class_implements($classOrType);
 
-        if (! $implementations || in_array(JsonSchemaAwareRecord::class, $implementations)) {
+        if (is_array($implementations) && in_array(JsonSchemaAwareRecord::class, $implementations)) {
             return null;
         }
 
