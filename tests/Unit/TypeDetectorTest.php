@@ -17,28 +17,28 @@ class TypeDetectorTest extends TestCase
 {
     public function testTypeOfString(): void
     {
-        $type = TypeDetector::getTypeFromClass('test');
+        $type = TypeDetector::typeFromClass('test');
 
         $this->assertInstanceOf(TypeRef::class, $type);
     }
 
     public function testTypeOfClass(): void
     {
-        $type = TypeDetector::getTypeFromClass(TestImmutable::class);
+        $type = TypeDetector::typeFromClass(TestImmutable::class);
 
         $this->assertInstanceOf(ObjectType::class, $type);
     }
 
     public function testTypeOfList(): void
     {
-        $type = TypeDetector::getTypeFromClass(TestList::class);
+        $type = TypeDetector::typeFromClass(TestList::class);
 
         $this->assertInstanceOf(ArrayType::class, $type);
     }
 
     public function testTypeOfListWithImmutableTypes(): void
     {
-        $type = TypeDetector::getTypeFromClass(TestListImmutable::class);
+        $type = TypeDetector::typeFromClass(TestListImmutable::class);
 
         $this->assertInstanceOf(ArrayType::class, $type);
     }

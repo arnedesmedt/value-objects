@@ -34,8 +34,8 @@ trait JsonSchemaAwareCollectionLogic
             }
 
             self::$__itemSchema = self::__allowNestedSchema()
-                ? TypeDetector::getTypeFromClass($itemType)
-                : TypeDetector::getTypeFromClassWithoutNestedSchema($itemType);
+                ? TypeDetector::typeFromClass($itemType)
+                : TypeDetector::typeFromClassAsReference($itemType);
         }
 
         return self::$__itemSchema;
