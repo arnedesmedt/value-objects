@@ -11,35 +11,31 @@ use RuntimeException;
 use function is_float;
 use function is_int;
 use function is_scalar;
-use function pow;
 use function sprintf;
 
-/**
- * @method int|float toValue()
- * @method __construct(mixed $value)
- */
+/** @phpstan-consistent-constructor */
 trait CalcValue
 {
-    public function add(FloatValue|IntValue $value): static
+    public function add(FloatValue|IntValue|int|float $value): static
     {
         $this->checkInstance($value);
 
-        return new static($this->toValue() + $value->toValue());
+        return new static($this->changeType($this->toValue() + $this->toScalar($value)));
     }
 
-    public function substract(FloatValue|IntValue $value): static
+    public function substract(FloatValue|IntValue|int|float $value): static
     {
         $this->checkInstance($value);
 
-        return new static($this->toValue() - $value->toValue());
+        return new static($this->changeType($this->toValue() - $this->toScalar($value)));
     }
 
     public function multiply(FloatValue|IntValue|int|float $value): static
     {
-        return new static($this->toValue() * $this->toScalar($value));
+        return new static($this->changeType($this->toValue() * $this->toScalar($value)));
     }
 
-    public function divide(FloatValue|IntValue $value): static
+    public function divide(FloatValue|IntValue|int|float $value): static
     {
         $toScalar = $this->toScalar($value);
 
@@ -49,21 +45,21 @@ trait CalcValue
 
         $result = $this->toValue() / $toScalar;
 
-        return new static($this->typeResult($result));
+        return new static($this->changeType($result));
     }
 
     public function pow(FloatValue|IntValue $value): static
     {
-        $result = pow($this->toScalar($this), $this->toScalar($value));
+        $result = $this->toScalar($this) ** $this->toScalar($value);
 
-        return new static($this->typeResult($result));
+        return new static($this->changeType($result));
     }
 
     public function square(FloatValue|IntValue $value): static
     {
-        $result = pow($this->toScalar($this), 1 / $this->toScalar($value));
+        $result = $this->toScalar($this) ** (1 / $this->toScalar($value));
 
-        return new static($this->typeResult($result));
+        return new static($this->changeType($result));
     }
 
     public function isLowerThan(FloatValue|IntValue $value): bool
@@ -86,8 +82,12 @@ trait CalcValue
         return $this->toValue() >= $value->toValue();
     }
 
-    private function checkInstance(FloatValue|IntValue $value): void
+    private function checkInstance(FloatValue|IntValue|int|float &$value): void
     {
+        if (is_scalar($value)) {
+            $value = static::fromValue($this->changeType($value));
+        }
+
         if ($value instanceof static) {
             return;
         }
@@ -108,12 +108,16 @@ trait CalcValue
             );
     }
 
-    private function typeResult(float|int $result): int|float
+    private function changeType(float|int $result): int|float
     {
         if (is_float($result) && $this instanceof IntValue) {
-            throw new RuntimeException(
-                sprintf('Result of divide can\'t be a float for value object \'%s\'.', static::class)
-            );
+            if ((float) (int) $result !== $result) {
+                throw new RuntimeException(
+                    sprintf('Result can\'t be a float for value object \'%s\'.', static::class)
+                );
+            }
+
+            $result = (int) $result;
         }
 
         if (is_int($result) && $this instanceof FloatValue) {

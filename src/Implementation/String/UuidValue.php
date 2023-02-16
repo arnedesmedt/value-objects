@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
+use ADS\ValueObjects\HasExamples;
+use EventEngine\JsonSchema\ProvidesValidationRules;
+use EventEngine\JsonSchema\Type\StringType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 use function strval;
 
-abstract class UuidValue implements \ADS\ValueObjects\UuidValue
+/** @phpstan-consistent-constructor */
+abstract class UuidValue implements \ADS\ValueObjects\UuidValue, HasExamples, ProvidesValidationRules
 {
-    protected UuidInterface $value;
-
-    protected function __construct(UuidInterface $value)
+    protected function __construct(protected UuidInterface $value)
     {
-        $this->value = $value;
     }
 
     public static function generate(): static
@@ -55,5 +56,19 @@ abstract class UuidValue implements \ADS\ValueObjects\UuidValue
         }
 
         return $this->value->equals($other->value);
+    }
+
+    public static function example(): static
+    {
+        return static::generate();
+    }
+
+    /** @return array<string, string> */
+    public static function validationRules(): array
+    {
+        return [
+            StringType::FORMAT => 'uuid',
+            StringType::PATTERN => Uuid::VALID_PATTERN,
+        ];
     }
 }

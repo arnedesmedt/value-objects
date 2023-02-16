@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Bool;
 
 use ADS\ValueObjects\BoolValue as BoolValueInterface;
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
+use Faker\Factory;
+use Stringable;
 
-abstract class BoolValue implements BoolValueInterface
+/** @phpstan-consistent-constructor */
+abstract class BoolValue implements BoolValueInterface, HasExamples, Stringable
 {
-    protected bool $value;
+    use ExamplesLogic;
 
-    protected function __construct(bool $value)
+    protected function __construct(protected bool $value)
     {
-        $this->value = $value;
     }
 
     public static function fromBool(bool $value): static
@@ -47,5 +51,12 @@ abstract class BoolValue implements BoolValueInterface
         }
 
         return $this->toBool() === $other->toBool();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromBool($generator->boolean());
     }
 }

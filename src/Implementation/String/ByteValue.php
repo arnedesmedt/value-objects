@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Int;
+namespace ADS\ValueObjects\Implementation\String;
 
 use RuntimeException;
 
@@ -10,7 +10,6 @@ use function constant;
 use function count;
 use function defined;
 use function in_array;
-use function pow;
 use function preg_match;
 use function sprintf;
 use function strtoupper;
@@ -27,7 +26,7 @@ use function strtoupper;
  * @method float toGB()
  * @method float toTB()
  */
-abstract class ByteValue extends IntValue
+abstract class ByteValue extends StringValue
 {
     private const B = 0;
     private const KB = 1;
@@ -43,9 +42,23 @@ abstract class ByteValue extends IntValue
         self::TB,
     ];
 
+    private const POSSIBLE_MODIFIERS = [
+        '',
+        'K',
+        'M',
+        'G',
+        'T',
+    ];
+
     public static function fromString(string $value): static
     {
-        if (! preg_match('/^(?P<value>[0-9]+([\.,][0-9]+)?)(?P<modifier>K|k|M|m|G|g|T|t)?(b|B)?$/', $value, $matches)) {
+        if (
+            ! preg_match(
+                '/^(?P<value>[0-9]+([\.,][0-9]+)?)\s*(?P<modifier>K|k|M|m|G|g|T|t)?(b|B)?$/',
+                $value,
+                $matches,
+            )
+        ) {
             throw new RuntimeException(
                 sprintf(
                     'Invalid byte pattern given \'%s\'.',
@@ -55,17 +68,17 @@ abstract class ByteValue extends IntValue
         }
 
         if (! isset($matches['modifier'])) {
-            $matches['modifier'] = '';
+            $matches['modifier'] = self::POSSIBLE_MODIFIERS[self::inputUnit()];
         }
 
         /** @var int $unit */
         $unit = constant('self::' . strtoupper($matches['modifier']) . 'B');
 
-        return self::from($unit, (float) $matches['value']);
+        return self::fromUnit($unit, $matches['value']);
     }
 
     /**
-     * @param float[] $arguments
+     * @param string[] $arguments
      *
      * @return static
      */
@@ -79,7 +92,7 @@ abstract class ByteValue extends IntValue
             /** @var int $unit */
             $unit = constant('self::' . strtoupper($matches[1]));
 
-            return self::from($unit, ...$arguments);
+            return self::fromUnit($unit, ...$arguments);
         }
 
         throw new RuntimeException(
@@ -90,7 +103,7 @@ abstract class ByteValue extends IntValue
     /**
      * @param array<mixed> $arguments
      */
-    public function __call(string $name, array $arguments): float
+    public function __call(string $name, array $arguments): string
     {
         if (
             preg_match('#^to([A-Z]*B)#i', $name, $matches)
@@ -100,7 +113,7 @@ abstract class ByteValue extends IntValue
             /** @var int $unit */
             $unit = constant('self::' . strtoupper($matches[1]));
 
-            return $this->to($unit);
+            return $this->toUnit($unit);
         }
 
         throw new RuntimeException(
@@ -108,24 +121,23 @@ abstract class ByteValue extends IntValue
         );
     }
 
-    private static function from(int $unit, float $value): static
+    private static function fromUnit(int $unit, string $value): static
     {
-        return parent::fromInt((int) $value * pow(1024, $unit - self::B));
+        return parent::fromString((string) ((float) $value * 1024 ** ($unit - self::B)));
     }
 
-    private function to(int $unit): float
+    private function toUnit(int $unit): string
     {
-        return parent::toInt() * pow(1024, self::B - $unit);
+        return sprintf(
+            '%s%sb',
+            (string) ((int) parent::toString() * 1024 ** (self::B - $unit)),
+            self::POSSIBLE_MODIFIERS[$unit]
+        );
     }
 
-    public static function fromFloat(float $value): static
+    public function toString(): string
     {
-        return self::from(self::checkUnit(self::inputUnit()), $value);
-    }
-
-    public function toFloat(): float
-    {
-        return $this->to(self::checkUnit(self::outputUnit()));
+        return $this->toUnit(self::checkUnit(self::outputUnit()));
     }
 
     protected static function inputUnit(): int

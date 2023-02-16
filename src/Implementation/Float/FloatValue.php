@@ -5,19 +5,22 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Float;
 
 use ADS\ValueObjects\FloatValue as FloatValueInterface;
+use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\CalcValue;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
+use Faker\Factory;
+use Stringable;
 
 use function floatval;
 
-abstract class FloatValue implements FloatValueInterface
+/** @phpstan-consistent-constructor */
+abstract class FloatValue implements FloatValueInterface, HasExamples, Stringable
 {
+    use ExamplesLogic;
     use CalcValue;
 
-    protected float $value;
-
-    protected function __construct(float $value)
+    protected function __construct(protected float $value)
     {
-        $this->value = $value;
     }
 
     public static function fromFloat(float $value): static
@@ -52,5 +55,12 @@ abstract class FloatValue implements FloatValueInterface
         }
 
         return $this->toFloat() === $other->toFloat();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromFloat($generator->randomFloat());
     }
 }

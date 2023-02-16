@@ -25,22 +25,17 @@ trait JsonSchemaAwareCollectionLogic
 
     public static function __itemSchema(): TypeSchema
     {
-        // phpcs:disable Squiz.NamingConventions.ValidVariableName.NotCamelCaps
+        // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
         if (self::$__itemSchema === null) {
             $itemType = self::__itemType();
-
-            if ($itemType === null) {
-                return JsonSchema::any();
-            }
 
             if (self::isScalarType($itemType)) {
                 return JsonSchema::schemaFromScalarPhpType($itemType, false);
             }
 
-            self::$__itemSchema = TypeDetector::getTypeFromClass(
-                $itemType,
-                self::__allowNestedSchema(),
-            );
+            self::$__itemSchema = self::__allowNestedSchema()
+                ? TypeDetector::getTypeFromClass($itemType)
+                : TypeDetector::getTypeFromClassWithoutNestedSchema($itemType);
         }
 
         return self::$__itemSchema;

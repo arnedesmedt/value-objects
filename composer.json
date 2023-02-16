@@ -14,12 +14,14 @@
     "require": {
         "php": "^8",
         "ext-intl": "*",
+        "ext-json": "*",
         "ramsey/uuid": "~4.0",
         "event-engine/php-json-schema": "~2.0",
         "fakerphp/faker": "~1.0",
         "arnedesmedt/php-util": "~0.1"
     },
     "require-dev": {
+        "phpmd/phpmd": "^2.13",
         "phpunit/phpunit" : "~9.0",
         "phpro/grumphp": "~1.0",
         "phpstan/phpstan": "~1.0",

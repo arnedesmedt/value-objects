@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\ListValue;
 
 use ADS\ValueObjects\Exception\ListException;
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
 use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
+use EventEngine\JsonSchema\ProvidesValidationRules;
+use EventEngine\JsonSchema\Type\ArrayType;
 use EventEngine\Schema\TypeSchema;
 use ReflectionClass;
 use ReflectionException;
@@ -25,6 +29,7 @@ use function array_intersect_key;
 use function array_key_exists;
 use function array_key_first;
 use function array_key_last;
+use function array_keys;
 use function array_map;
 use function array_merge;
 use function array_pop;
@@ -38,26 +43,36 @@ use function count;
 use function implode;
 use function is_array;
 use function is_object;
-use function print_r;
+use function json_encode;
 use function reset;
 use function sprintf;
 use function strval;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * @template T of object
  * @template-implements \ADS\ValueObjects\ListValue<T>
+ * @phpstan-consistent-constructor
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAwareCollection
+abstract class ListValue implements
+    \ADS\ValueObjects\ListValue,
+    JsonSchemaAwareCollection,
+    HasExamples,
+    ProvidesValidationRules,
+    Stringable
 {
-    /** @var array<string|int, T> */
-    protected array $value;
+    use ExamplesLogic;
 
     /**
      * @param array<string|int, T> $value
      */
-    protected function __construct(array $value)
+    protected function __construct(protected array $value)
     {
-        $this->value = $value;
     }
 
     public static function itemIdentifier(): Closure
@@ -121,7 +136,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             }
 
             throw ListException::fromScalarToItemNotImplemented(static::class);
-        } catch (ReflectionException $exception) {
+        } catch (ReflectionException) {
             throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
@@ -151,7 +166,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             }
 
             throw ListException::fromItemToScalarNotImplemented(static::class);
-        } catch (ReflectionException $exception) {
+        } catch (ReflectionException) {
             throw ListException::itemTypeNotFound($itemType, static::class);
         }
     }
@@ -203,7 +218,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public function __toString(): string
     {
-        return print_r($this->toArray(), true);
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR, 512);
     }
 
     public function toValue(): mixed
@@ -244,7 +259,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        array_push($clone->value, static::toItem($item));
+        array_push($clone->value, self::toItem($item));
 
         return $clone;
     }
@@ -252,7 +267,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     public function put(mixed $item, ValueObject|string|int|null $key = null): static
     {
         $clone = clone $this;
-        $item = static::toItem($item);
+        $item = self::toItem($item);
 
         if ($key === null) {
             $key = (static::itemIdentifier())($item);
@@ -287,7 +302,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         $clone = clone $this;
 
-        array_unshift($clone->value, static::toItem($item));
+        array_unshift($clone->value, self::toItem($item));
 
         return $clone;
     }
@@ -303,12 +318,20 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $clone;
     }
 
-    public function diffByKeys(\ADS\ValueObjects\ListValue $keys): static
+    /** @inheritDoc */
+    public function keys(): array
+    {
+        return array_keys($this->value);
+    }
+
+    public function diffByKeys(\ADS\ValueObjects\ListValue|array $keys): static
     {
         $clone = clone $this;
 
         /** @var array<string|int> $keyValues */
-        $keyValues = $keys->toArray();
+        $keyValues = $keys instanceof ListValue
+            ? $keys->toArray()
+            : $keys;
 
         $clone->value = array_diff_key($clone->value, array_flip($keyValues));
 
@@ -345,12 +368,14 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return $item;
     }
 
-    public function getByKeys(\ADS\ValueObjects\ListValue $keys): static
+    public function getByKeys(\ADS\ValueObjects\ListValue|array $keys): static
     {
         $clone = clone $this;
 
         /** @var array<string|int> $keyValues */
-        $keyValues = $keys->toArray();
+        $keyValues = $keys instanceof ListValue
+            ? $keys->toArray()
+            : $keys;
 
         $clone->value = array_intersect_key($clone->value, array_flip($keyValues));
 
@@ -370,7 +395,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             return ! $this->filter($item)->isEmpty();
         }
 
-        $item = static::toItem($item);
+        $item = self::toItem($item);
         $identifierClosure = static::itemIdentifier();
 
         foreach ($this->toItems() as $existingItem) {
@@ -388,7 +413,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
 
     public function keyByItem(mixed $item, string|int|null $default = null): string|int|null
     {
-        $item = static::toItem($item);
+        $item = self::toItem($item);
         $identifierClosure = static::itemIdentifier();
 
         foreach ($this->toItems() as $key => $existingItem) {
@@ -485,7 +510,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
         return array_key_last($this->value) ?? $default;
     }
 
-    public function filter(Closure $closure, bool $resetKeys = false): static
+    public function filter(Closure $closure): static
     {
         $clone = clone $this;
 
@@ -494,10 +519,6 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
             $closure
         );
 
-        if ($resetKeys) {
-            $clone->value = array_values($clone->value);
-        }
-
         return $clone;
     }
 
@@ -505,7 +526,7 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         return self::fromItems(
             array_map(
-                $closure,
+                static fn ($value) => self::toItem($closure($value)),
                 $this->value
             )
         );
@@ -608,10 +629,10 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
     {
         try {
             self::checkTypes([$item]);
-        } catch (ListException $exception) {
+        } catch (ListException) {
             try {
                 $item = static::fromScalarToItem($item);
-            } catch (ListException $exception) {
+            } catch (ListException) {
                 throw ListException::noValidItemType(
                     $item,
                     static::itemType(),
@@ -640,5 +661,36 @@ abstract class ListValue implements \ADS\ValueObjects\ListValue, JsonSchemaAware
                 );
             }
         }
+    }
+
+    public static function example(): static|null
+    {
+        /** @var class-string<HasExamples> $itemType */
+        $itemType = static::itemType();
+        $reflectionItem = new ReflectionClass($itemType);
+
+        if (! $reflectionItem->implementsInterface(HasExamples::class)) {
+            return null;
+        }
+
+        /** @var array<T> $items */
+        $items = [
+            $itemType::example(),
+            $itemType::example(),
+        ];
+
+        return static::fromItems($items);
+    }
+
+    /** @return array<string, mixed>  */
+    public static function validationRules(): array
+    {
+        $rules = [
+            ArrayType::MIN_ITEMS => static::minItems(),
+            ArrayType::MAX_ITEMS => static::maxItems(),
+            ArrayType::UNIQUE_ITEMS => static::uniqueItems(),
+        ];
+
+        return array_filter($rules, static fn ($rule) => $rule !== null);
     }
 }

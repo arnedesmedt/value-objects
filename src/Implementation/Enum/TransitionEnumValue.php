@@ -15,11 +15,11 @@ use function sprintf;
 abstract class TransitionEnumValue extends EnumValue
 {
     /**
-     * @return array<string,array<string>>
+     * @return array<string|int,array<string|int>>
      */
     abstract public static function transitions(): array;
 
-    abstract public static function init(): self;
+    abstract public static function init(): static;
 
     public function next(self $newValue): static
     {
@@ -50,7 +50,7 @@ abstract class TransitionEnumValue extends EnumValue
 
         $validTransitions = array_filter(
             static::transitions(),
-            fn (array $to) => in_array($this->value, $to)
+            fn (array $toValues) => in_array($this->value, $toValues)
         );
 
         if (empty($validTransitions)) {

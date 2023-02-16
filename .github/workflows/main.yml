@@ -1,0 +1,42 @@
+name: CI Check
+on:
+    pull_request:
+
+jobs:
+    symfony:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+            - name: Setup PHP
+              uses: shivammathur/setup-php@2.23.0
+              with:
+                  php-version: '8.1'
+                  extensions: intl, json
+                  tools: composer
+            - name: Cache composer dependencies
+              uses: actions/cache@v3
+              with:
+                  path: /tmp/composer-cache
+                  key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+            - uses: php-actions/composer@v6
+              with:
+                  php_version: '8.1'
+                  php_extensions: intl json
+                  args: --prefer-dist --optimize-autoloader
+            - name: Run PhpCs
+              run: vendor/bin/phpcs
+            - name: Run PhpStan
+              run: vendor/bin/phpstan analyze --no-progress --no-interaction --error-format=github
+            - name: Run PhpMd
+              run: vendor/bin/phpmd src text phpmd.xml
+            - name: Run Rector
+              run: vendor/bin/rector --dry-run --no-progress-bar
+            - uses: php-actions/phpunit@v3
+              with:
+                  bootstrap: tests/bootstrap.php
+                  configuration: phpunit.xml.dist
+                  php_extensions: xdebug intl json
+                  args: --coverage-clover ./coverage.xml
+              env:
+                  XDEBUG_MODE: coverage

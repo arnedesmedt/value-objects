@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit\ValueObject\List;
 
-use EventEngine\Data\ImmutableRecord;
-use EventEngine\Data\ImmutableRecordLogic;
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
+use EventEngine\JsonSchema\JsonSchemaAwareRecord;
+use EventEngine\JsonSchema\JsonSchemaAwareRecordLogic;
 
-class TestImmutable implements ImmutableRecord
+class TestImmutable implements JsonSchemaAwareRecord, HasExamples
 {
-    use ImmutableRecordLogic;
+    use JsonSchemaAwareRecordLogic;
+    use ExamplesLogic;
 
-    private string $test;
+    private readonly string $test; // @phpstan-ignore-line
+
+    public static function __type(): string
+    {
+        return 'myType';
+    }
+
+    public static function example(): self
+    {
+        return self::fromArray(['test' => 'test']);
+    }
 }

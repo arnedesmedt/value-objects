@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\DateTimeException;
-use ADS\ValueObjects\Implementation\RulesLogic;
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
 use DateTime;
 use DateTimeInterface;
+use EventEngine\JsonSchema\Type\StringType;
+use Faker\Factory;
 
 use function strtotime;
 use function strval;
 
-class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
+class DateTimeValue implements \ADS\ValueObjects\DateTimeValue, HasExamples
 {
-    use RulesLogic;
+    use ExamplesLogic;
 
-    protected DateTimeInterface $value;
-
-    final protected function __construct(DateTimeInterface $value)
+    final protected function __construct(protected DateTimeInterface $value)
     {
-        $this->value = $value;
     }
 
     public static function fromString(string $value): static
@@ -81,5 +81,18 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue
         }
 
         return $this->toDateTime()->getTimestamp() === $other->toDateTime()->getTimestamp();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromDateTime($generator->dateTime());
+    }
+
+    /** @return array<string, string> */
+    public static function validationRules(): array
+    {
+        return [StringType::FORMAT => 'date-time'];
     }
 }
