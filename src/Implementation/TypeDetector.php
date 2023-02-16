@@ -29,6 +29,7 @@ use function class_exists;
 use function class_implements;
 use function class_parents;
 use function in_array;
+use function is_array;
 use function strrchr;
 use function substr;
 
@@ -38,7 +39,7 @@ use function substr;
 final class TypeDetector
 {
     /** @param string|class-string<JsonSchemaAwareRecord|mixed> $classOrType */
-    public static function getTypeFromClass(
+    public static function typeFromClass(
         string $classOrType
     ): Type {
         $type = self::typeForNonJsonSchemaAwareRecord($classOrType);
@@ -51,7 +52,7 @@ final class TypeDetector
     }
 
     /** @param string|class-string<JsonSchemaAwareRecord|mixed> $classOrType */
-    public static function getTypeFromClassWithoutNestedSchema(string $classOrType): Type
+    public static function typeFromClassAsReference(string $classOrType): Type
     {
         return self::typeForNonJsonSchemaAwareRecord($classOrType) ?? JsonSchema::typeRef($classOrType);
     }
@@ -65,14 +66,15 @@ final class TypeDetector
 
         $implementations = class_implements($classOrType);
 
-        if (! $implementations || in_array(JsonSchemaAwareRecord::class, $implementations)) {
+        if (is_array($implementations) && in_array(JsonSchemaAwareRecord::class, $implementations)) {
             return null;
         }
 
         $type = self::typeFromList($classOrType)
             ?? self::typeFromEnum($classOrType)
             ?? self::typeFromValueObject($classOrType)
-            ?? self::typeFromClass($classOrType);
+            ?? self::typeFromDateTime($classOrType)
+            ?? self::typeFromUnknownClass($classOrType);
 
         if (! $type instanceof AnnotatedType) {
             return $type;
@@ -160,15 +162,21 @@ final class TypeDetector
         return $class::validationRules();
     }
 
-    private static function typeFromClass(string $class): Type
+    private static function typeFromDateTime(string $class): ?Type
+    {
+        $lastPart = strrchr($class, '\\');
+
+        return $lastPart === false && $class === DateTime::class
+            ? new Type\StringType(DateTimeValue::validationRules())
+            : null;
+    }
+
+    private static function typeFromUnknownClass(string $class): Type
     {
         $lastPart = strrchr($class, '\\');
 
         if ($lastPart === false) {
-            return match (true) {
-                $class === DateTime::class => new Type\StringType(DateTimeValue::validationRules()),
-                default => throw ClassException::fullQualifiedClassNameWithoutBackslash($class),
-            };
+            throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
         }
 
         $ref = substr($lastPart, 1);
