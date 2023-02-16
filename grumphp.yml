@@ -11,6 +11,11 @@ grumphp:
         phpmd:
             ruleset:
                 - phpmd.xml
+        phpmd-tests:
+            metadata:
+                task: phpmd
+            ruleset:
+                - phpmd-tests.xml
         git_commit_message: null
         git_branch_name:
             whitelist:
