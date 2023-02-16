@@ -6,13 +6,22 @@ namespace ADS\ValueObjects\Implementation\Enum;
 
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
 use ADS\ValueObjects\Exception\EnumException;
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
+use EventEngine\JsonSchema\ProvidesValidationRules;
+use EventEngine\JsonSchema\Type\StringType;
+use Faker\Factory;
+use Stringable;
 
 use function count;
 use function in_array;
 use function strval;
 
-abstract class EnumValue implements EnumValueInterface
+/** @phpstan-consistent-constructor */
+abstract class EnumValue implements EnumValueInterface, HasExamples, ProvidesValidationRules, Stringable
 {
+    use ExamplesLogic;
+
     protected int|string $value;
 
     /** @var int[]|string[] */
@@ -56,5 +65,22 @@ abstract class EnumValue implements EnumValueInterface
         }
 
         return $this->toValue() === $other->toValue();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromValue(
+            $generator->randomElement(static::possibleValues()),
+        );
+    }
+
+    /** @return array<string, array<mixed>> */
+    public static function validationRules(): array
+    {
+        return [
+            StringType::ENUM => static::possibleValues(),
+        ];
     }
 }

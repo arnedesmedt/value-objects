@@ -7,7 +7,7 @@ namespace ADS\ValueObjects;
 interface HasExamples
 {
     /**
-     * @return static
+     * @return static|null
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint
      */

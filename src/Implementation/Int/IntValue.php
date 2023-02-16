@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Int;
 
+use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\CalcValue;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
 use ADS\ValueObjects\IntValue as IntValueInterface;
+use Faker\Factory;
+use Stringable;
 
 use function intval;
 
-abstract class IntValue implements IntValueInterface
+/** @phpstan-consistent-constructor */
+abstract class IntValue implements IntValueInterface, HasExamples, Stringable
 {
+    use ExamplesLogic;
     use CalcValue;
 
-    protected int $value;
-
-    protected function __construct(int $value)
+    protected function __construct(protected int $value)
     {
-        $this->value = $value;
     }
 
     public static function fromInt(int $value): static
@@ -52,5 +55,12 @@ abstract class IntValue implements IntValueInterface
         }
 
         return $this->toInt() === $other->toInt();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromInt($generator->randomNumber());
     }
 }

@@ -13,6 +13,7 @@ use function count;
 use function intval;
 use function is_int;
 
+/** @phpstan-consistent-constructor */
 abstract class IntTransitionEnumValue extends TransitionEnumValue implements IntValue
 {
     use CalcValue;

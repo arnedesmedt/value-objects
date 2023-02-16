@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
+use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
 use ADS\ValueObjects\StringValue as StringValueInterface;
+use Faker\Factory;
 
 use function strval;
 
-abstract class StringValue implements StringValueInterface
+/** @phpstan-consistent-constructor */
+abstract class StringValue implements StringValueInterface, HasExamples
 {
-    protected string $value;
+    use ExamplesLogic;
 
-    protected function __construct(string $value)
+    protected function __construct(protected string $value)
     {
-        $this->value = $value;
     }
 
     public static function fromString(string $value): static
@@ -49,5 +52,12 @@ abstract class StringValue implements StringValueInterface
         }
 
         return $this->toString() === $other->toString();
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromString($generator->word());
     }
 }

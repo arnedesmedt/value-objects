@@ -7,6 +7,7 @@ namespace ADS\ValueObjects\Tests\Unit\ValueObject\List;
 use ADS\ValueObjects\Implementation\ListValue\JsonSchemaAwareCollectionLogic;
 use ADS\ValueObjects\Implementation\ListValue\ListValue;
 
+/** @extends ListValue<TestImmutable> */
 class TestListImmutable extends ListValue
 {
     use JsonSchemaAwareCollectionLogic;

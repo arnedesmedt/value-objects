@@ -71,10 +71,13 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     public function forget(ValueObject|string|int $key): static;
 
+    /** @return array<string|int> */
+    public function keys(): array;
+
     /**
-     * @param ListValue<ValueObject> $keys
+     * @param ListValue<ValueObject>|array<string|int> $keys
      */
-    public function diffByKeys(ListValue $keys): static;
+    public function diffByKeys(ListValue|array $keys): static;
 
     /**
      * @param T|null $default
@@ -89,9 +92,9 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public function need(ValueObject|string|int $key, ?Throwable $exception = null);
 
     /**
-     * @param ListValue<ValueObject> $keys
+     * @param ListValue<ValueObject>|array<string|int> $keys
      */
-    public function getByKeys(ListValue $keys): static;
+    public function getByKeys(ListValue|array $keys): static;
 
     public function has(ValueObject|string|int $key): bool;
 
@@ -129,7 +132,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     public function lastKey(string|int|null $default = null): string|int|null;
 
-    public function filter(Closure $closure, bool $resetKeys = false): static;
+    public function filter(Closure $closure): static;
 
     public function map(Closure $closure): static;
 
@@ -142,9 +145,7 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     public function implode(string $glue): string;
 
-    /**
-     * @param static $list
-     */
+    /** @param ListValue<T> $list */
     public function intersect(ListValue $list): static;
 
     public function values(): static;

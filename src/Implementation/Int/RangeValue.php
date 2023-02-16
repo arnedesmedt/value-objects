@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\Int;
 
 use ADS\ValueObjects\Exception\RangeException;
+use ADS\ValueObjects\HasExamples;
+use EventEngine\JsonSchema\ProvidesValidationRules;
+use EventEngine\JsonSchema\Type\IntType;
+use Faker\Factory;
+
+use function array_filter;
 
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
-abstract class RangeValue extends IntValue
+abstract class RangeValue extends IntValue implements HasExamples, ProvidesValidationRules
 {
     protected function __construct(int $value)
     {
@@ -42,5 +48,41 @@ abstract class RangeValue extends IntValue
     public static function included(): bool
     {
         return true;
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return static::fromInt(
+            $generator->numberBetween(static::minimum(), static::maximum()),
+        );
+    }
+
+    /** @return array<string, int> */
+    public static function validationRules(): array
+    {
+        $minimum = static::minimum();
+        $maximum = static::maximum();
+
+        if ($minimum === PHP_INT_MIN) {
+            $minimum = null;
+        }
+
+        if ($maximum === PHP_INT_MAX) {
+            $maximum = null;
+        }
+
+        $result = static::included()
+            ? [
+                IntType::MINIMUM => $minimum,
+                IntType::MAXIMUM => $maximum,
+            ]
+            : [
+                IntType::EXCLUSIVE_MINIMUM => $minimum,
+                IntType::EXCLUSIVE_MAXIMUM => $maximum,
+            ];
+
+        return array_filter($result, static fn ($value) => $value !== null);
     }
 }

@@ -6,11 +6,13 @@ namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\PatternException;
 use ADS\ValueObjects\PatternValue as PatternValueInterface;
+use EventEngine\JsonSchema\ProvidesValidationRules;
+use EventEngine\JsonSchema\Type\StringType;
 
 use function preg_match;
 use function sprintf;
 
-abstract class PatternValue extends StringValue implements PatternValueInterface
+abstract class PatternValue extends StringValue implements PatternValueInterface, ProvidesValidationRules
 {
     public const BELL = "\x07";
 
@@ -30,5 +32,11 @@ abstract class PatternValue extends StringValue implements PatternValueInterface
     public static function pregMatchPattern(): string
     {
         return sprintf(self::BELL . '%s' . self::BELL . 'uD', static::pattern());
+    }
+
+    /** @return array<string, string> */
+    public static function validationRules(): array
+    {
+        return [StringType::PATTERN => static::pattern()];
     }
 }

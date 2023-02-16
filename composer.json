@@ -20,6 +20,7 @@
         "arnedesmedt/php-util": "~0.1"
     },
     "require-dev": {
+        "phpmd/phpmd": "^2.13",
         "phpunit/phpunit" : "~9.0",
         "phpro/grumphp": "~1.0",
         "phpstan/phpstan": "~1.0",

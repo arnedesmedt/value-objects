@@ -16,142 +16,211 @@ use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\StringValue;
 use ADS\ValueObjects\ValueObject;
 use DateTime;
+use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\AnnotatedType;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
 use EventEngine\JsonSchema\JsonSchemaAwareRecord;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type;
-use ReflectionClass;
 
 use function array_map;
 use function class_exists;
+use function class_implements;
+use function class_parents;
+use function in_array;
 use function strrchr;
 use function substr;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 final class TypeDetector
 {
+    /** @param string|class-string<JsonSchemaAwareRecord|mixed> $classOrType */
     public static function getTypeFromClass(
-        string $classOrType,
-        bool $allowNestedSchema = true
+        string $classOrType
     ): Type {
+        $type = self::typeForNonJsonSchemaAwareRecord($classOrType);
+
+        if ($type !== null) {
+            return $type;
+        }
+
+        return $classOrType::__schema();
+    }
+
+    /** @param string|class-string<JsonSchemaAwareRecord|mixed> $classOrType */
+    public static function getTypeFromClassWithoutNestedSchema(string $classOrType): Type
+    {
+        return self::typeForNonJsonSchemaAwareRecord($classOrType) ?? JsonSchema::typeRef($classOrType);
+    }
+
+    /** @param string|class-string<JsonSchemaAwareRecord|mixed> $classOrType */
+    private static function typeForNonJsonSchemaAwareRecord(string $classOrType): ?Type
+    {
         if (! class_exists($classOrType)) {
             return JsonSchema::typeRef($classOrType);
         }
 
-        $refObj = new ReflectionClass($classOrType);
+        $implementations = class_implements($classOrType);
 
-        if ($refObj->implementsInterface(JsonSchemaAwareRecord::class)) {
-            if ($allowNestedSchema) {
-                return $classOrType::__schema();
-            }
-
-            return JsonSchema::typeRef($classOrType);
-        }
-
-        return self::determineScalarTypeOrListIfPossible($refObj)
-            ?? self::convertClassToType($classOrType);
-    }
-
-    /**
-     * @param ReflectionClass<object> $refObj
-     */
-    private static function determineScalarTypeOrListIfPossible(ReflectionClass $refObj): ?Type
-    {
-        $schemaType = null;
-        /** @var class-string $class */
-        $class = $refObj->getName();
-
-        if ($refObj->implementsInterface(JsonSchemaAwareCollection::class)) {
-            $validation = $refObj->implementsInterface(ProvidesValidationRules::class)
-                ? $class::validationRules()
-                : null;
-
-            $schemaType = JsonSchema::array($class::__itemSchema(), $validation);
-        }
-
-        if (! $schemaType) {
-            $schemaType = self::determineScalarTypeIfPossible($refObj);
-        }
-
-        if (! $schemaType) {
+        if (! $implementations || in_array(JsonSchemaAwareRecord::class, $implementations)) {
             return null;
         }
 
-        if ($refObj->implementsInterface(HasDefault::class) && $schemaType instanceof AnnotatedType) {
-            $schemaType = $schemaType->withDefault($class::defaultValue()->toValue());
+        $type = self::typeFromList($classOrType)
+            ?? self::typeFromEnum($classOrType)
+            ?? self::typeFromValueObject($classOrType)
+            ?? self::typeFromClass($classOrType);
+
+        if (! $type instanceof AnnotatedType) {
+            return $type;
         }
 
-        if (
-            ! $refObj->implementsInterface(HasExamples::class)
-            || ! ($schemaType instanceof AnnotatedType)
-        ) {
-            return $schemaType;
-        }
+        $type = self::addDefault($classOrType, $type);
+        $type = self::addExamples($classOrType, $type);
 
-        return $schemaType->withExamples(
-            ...array_map(
-                static fn (ValueObject $valueObject) => $valueObject->toValue(),
-                $class::examples()
-            )
-        );
+        return $type;
     }
 
-    /**
-     * @param ReflectionClass<object> $refObj
-     */
-    private static function determineScalarTypeIfPossible(ReflectionClass $refObj): ?Type
+    /** @param class-string<JsonSchemaAwareCollection|mixed> $class */
+    private static function typeFromList(string $class): ?Type
     {
-        /** @var class-string $class */
-        $class = $refObj->getName();
-        $validation = $refObj->implementsInterface(ProvidesValidationRules::class)
-            ? $class::validationRules()
-            : null;
+        $implementations = class_implements($class);
 
-        if ($refObj->implementsInterface(EnumValue::class)) {
-            $possibleValues = $class::possibleValues();
-            $type = $refObj->isSubclassOf(StringEnumValue::class)
-                ? JsonSchema::TYPE_STRING
-                : JsonSchema::TYPE_INT;
-
-            return JsonSchema::enum($possibleValues, $type);
+        if (! $implementations || ! in_array(JsonSchemaAwareCollection::class, $implementations)) {
+            return null;
         }
 
-        if ($refObj->implementsInterface(StringValue::class)) {
-            return JsonSchema::string($validation);
+        return JsonSchema::array($class::__itemSchema(), self::validationRulesFromClass($class));
+    }
+
+    /** @param class-string<EnumValue|mixed> $class */
+    private static function typeFromEnum(string $class): ?Type
+    {
+        $implementations = class_implements($class);
+        $parentClasses = class_parents($class);
+
+        if (! $implementations || ! in_array(EnumValue::class, $implementations)) {
+            return null;
         }
 
-        if ($refObj->implementsInterface(IntValue::class)) {
-            return JsonSchema::integer($validation);
+        $possibleValues = $class::possibleValues();
+        $type = $parentClasses && in_array(StringEnumValue::class, $parentClasses)
+            ? JsonSchema::TYPE_STRING
+            : JsonSchema::TYPE_INT;
+
+        return JsonSchema::enum($possibleValues, $type);
+    }
+
+    /** @param class-string<JsonSchemaAwareCollection|ProvidesValidationRules|mixed> $class */
+    private static function typeFromValueObject(string $class): ?Type
+    {
+        $implementations = class_implements($class);
+
+        if (! $implementations) {
+            return null;
         }
 
-        if ($refObj->implementsInterface(FloatValue::class)) {
-            return JsonSchema::float($validation);
-        }
-
-        if ($refObj->implementsInterface(BoolValue::class)) {
+        if (in_array(BoolValue::class, $implementations)) {
             return JsonSchema::boolean();
+        }
+
+        $validationRules = self::validationRulesFromClass($class);
+
+        if (in_array(StringValue::class, $implementations)) {
+            return JsonSchema::string($validationRules);
+        }
+
+        if (in_array(IntValue::class, $implementations)) {
+            return JsonSchema::integer($validationRules);
+        }
+
+        if (in_array(FloatValue::class, $implementations)) {
+            return JsonSchema::float($validationRules);
         }
 
         return null;
     }
 
-    private static function convertClassToType(string $class): Type
+    /**
+     * @param class-string<ProvidesValidationRules|mixed> $class
+     *
+     * @return array<string, mixed>|null
+     */
+    private static function validationRulesFromClass(string $class): ?array
     {
-        $position = strrchr($class, '\\');
+        $implementations = class_implements($class);
 
-        if ($position === false) {
-            switch (true) {
-                case $class === DateTime::class:
-                    return new Type\StringType(DateTimeValue::validationRules());
-
-                default:
-                    throw ClassException::fullQualifiedClassNameWithoutBackslash($class);
-            }
+        if (! $implementations || ! in_array(ProvidesValidationRules::class, $implementations)) {
+            return null;
         }
 
-        $ref = substr($position, 1);
+        return $class::validationRules();
+    }
+
+    private static function typeFromClass(string $class): Type
+    {
+        $lastPart = strrchr($class, '\\');
+
+        if ($lastPart === false) {
+            return match (true) {
+                $class === DateTime::class => new Type\StringType(DateTimeValue::validationRules()),
+                default => throw ClassException::fullQualifiedClassNameWithoutBackslash($class),
+            };
+        }
+
+        $ref = substr($lastPart, 1);
 
         return new Type\TypeRef($ref);
+    }
+
+    /** @param class-string<HasDefault|mixed> $class */
+    private static function addDefault(string $class, AnnotatedType $type): AnnotatedType
+    {
+        $implementations = class_implements($class);
+
+        if (! $implementations || ! in_array(HasDefault::class, $implementations)) {
+            return $type;
+        }
+
+        return $type->withDefault(self::dataToScalar($class::defaultValue()));
+    }
+
+    /** @param class-string<HasExamples|mixed> $class */
+    private static function addExamples(string $class, AnnotatedType $type): AnnotatedType
+    {
+        $implementations = class_implements($class);
+
+        if (! $implementations || ! in_array(HasExamples::class, $implementations)) {
+            return $type;
+        }
+
+        $examples = $class::examples();
+
+        if (empty($examples)) {
+            return $type;
+        }
+
+        return $type->withExamples(
+            ...array_map(
+                static fn (mixed $example) => self::dataToScalar($example),
+                $examples
+            )
+        );
+    }
+
+    public static function dataToScalar(mixed $data): mixed
+    {
+        if ($data instanceof ValueObject) {
+            return $data->toValue();
+        }
+
+        if ($data instanceof ImmutableRecord) {
+            return $data->toArray();
+        }
+
+        return $data;
     }
 }

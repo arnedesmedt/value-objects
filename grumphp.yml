@@ -8,9 +8,11 @@ grumphp:
     tasks:
         phpcs: null
         phpstan: null
+        phpmd:
+            ruleset:
+                - phpmd.xml
         git_commit_message: null
         git_branch_name:
             whitelist:
                 - "/^(feature|hotfix)\\/([A-Z]+-[0-9]+-)?.+$/"
                 - "/^(main)$/"
-

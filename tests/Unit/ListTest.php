@@ -12,6 +12,9 @@ use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestString;
 use EventEngine\Schema\TypeSchema;
 use PHPUnit\Framework\TestCase;
 
+use function str_replace;
+use function str_starts_with;
+
 class ListTest extends TestCase
 {
     public function testList(): void
@@ -24,7 +27,7 @@ class ListTest extends TestCase
         $this->assertEquals(['test', 'test2'], $list->toValue());
         $this->assertInstanceOf(TestString::class, $list->first());
         $this->assertInstanceOf(TestString::class, $list->last());
-        $this->assertInstanceOf(TestString::class, $list->get(0));
+        $this->assertInstanceOf(TestString::class, $list->need(0));
         $this->assertInstanceOf(TestString::class, $list->toItems()[0]);
         $this->assertTrue($list->isEqualTo($list2));
         $this->assertFalse($list->isEqualTo($list3));
@@ -43,8 +46,63 @@ class ListTest extends TestCase
         $this->assertEquals('test3', $list->put('test3')->last());
         $this->assertEquals('test3', $list->put('test3', 0)->first());
         $this->assertEquals('test2', $list->forget(0)->first());
+        $this->assertTrue($list->contains('test2'));
+        $this->assertFalse($list->contains('test3'));
+        $this->assertTrue($list->contains(static fn (string $test) => str_starts_with($test, 'tes')));
+        $this->assertEquals([1 => 'test2'], $list->filter(static fn (string $test) => $test === 'test2')->toArray());
+        $this->assertEquals(
+            ['', '2'],
+            $list->map(static fn (TestString $test) => str_replace('test', '', $test->toString()))->toArray(),
+        );
+        $this->assertEquals(
+            [1 => 'test2'],
+            $list->intersect(TestList::fromArray(['test0', 'test2']))->toArray(),
+        );
+
+        $this->assertEquals(
+            ['test', 2 => 'test2'],
+            TestList::fromArray(['test', 'test', 'test2'])->unique()->toArray()
+        );
 
         $this->assertInstanceOf(TypeSchema::class, TestList::__itemSchema());
+    }
+
+    public function testExampleList(): void
+    {
+        $this->assertInstanceOf(TestList::class, TestList::example());
+    }
+
+    public function testRulesList(): void
+    {
+        $this->assertEquals(
+            [
+                'minItems' => 1,
+                'maxItems' => 5,
+                'uniqueItems' => true,
+            ],
+            TestList::validationRules(),
+        );
+    }
+
+    public function testNeedByKey(): void
+    {
+        $this->expectExceptionMessageMatches('/No item found for key/');
+        $list = TestList::fromArray(['test', 'test2']);
+        $list->need(3);
+    }
+
+    public function testNeedFirst(): void
+    {
+        $this->expectExceptionMessageMatches('/No first value found for list/');
+        $list = TestList::emptyList();
+        $list->needFirst();
+    }
+
+    public function testNeedLast(): void
+    {
+        $this->expectExceptionMessageMatches('/No last value found for list/');
+        $list = TestList::emptyList();
+        $list->needLast();
     }
 
     public function testListImmutable(): void
@@ -56,21 +114,38 @@ class ListTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(TestImmutable::class, $list->first());
+        $this->assertInstanceOf(TestImmutable::class, $list->needFirst());
     }
 
     public function testListWithKeys(): void
     {
         $list = TestList::fromArray(['test' => 'test', 'test2' => 'test2']);
-        $this->assertEquals('test', $list->keyByItem(TestString::fromString('test')));
+        $keysList = TestList::fromArray(['test']);
+        $this->assertEquals('test', $list->needKey(TestString::fromString('test')));
         $this->assertNull($list->keyByItem('test3'));
+        $this->assertEquals(['test', 'test2'], $list->keys());
+        $this->assertEquals(['test2' => 'test2'], $list->diffByKeys($keysList)->toArray()); // @phpstan-ignore-line
+        $this->assertEquals(['test' => 'test'], $list->getByKeys($keysList)->toArray()); // @phpstan-ignore-line
+        $this->assertEquals(['test2' => 'test2'], $list->diffByKeys(['test'])->toArray());
+        $this->assertEquals(['test' => 'test'], $list->getByKeys(['test'])->toArray());
+        $this->assertTrue($list->has('test'));
+        $this->assertFalse($list->has('test3'));
+        $this->assertTrue($list->has(TestString::fromString('test')));
+        $this->assertEquals(['test', 'test2'], $list->values()->toArray());
+    }
+
+    public function testNeedKeyThrowsAnException(): void
+    {
+        $this->expectExceptionMessageMatches('/No key found for item/');
+        $list = TestList::fromArray(['test' => 'test', 'test2' => 'test2']);
+        $list->needKey('test3');
     }
 
     public function testListWithDifferentTypes(): void
     {
         $this->expectExceptionMessageMatches('/is not a valid list item type/');
-        $list = TestList::fromItems(
-            [
+        TestList::fromItems(
+            [  // @phpstan-ignore-line
                 TestString::fromString('test'),
                 TestString::fromString('test2'),
                 TestEmail::fromString('arne@arne.be'),
@@ -81,12 +156,13 @@ class ListTest extends TestCase
     public function testEmptyList(): void
     {
         $emptyList = TestList::emptyList();
+        $testString = TestString::fromString('test');
 
         $this->assertEmpty($emptyList->toArray());
         $this->assertTrue($emptyList->isEmpty());
-        $this->assertEquals("Array\n(\n)\n", (string) $emptyList);
-        $this->assertEquals(2, $emptyList->first(2));
-        $this->assertEquals(2, $emptyList->last(2));
+        $this->assertEquals('[]', (string) $emptyList);
+        $this->assertEquals('test', $emptyList->first($testString)?->toString());
+        $this->assertEquals('test', $emptyList->last($testString)?->toString());
         $this->assertEquals(2, $emptyList->lastKey(2));
         $this->assertEquals(2, $emptyList->firstKey(2));
     }

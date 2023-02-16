@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Exception;
 
-use function print_r;
+use function json_encode;
 use function sprintf;
 use function strval;
+
+use const JSON_THROW_ON_ERROR;
 
 final class EnumException extends ValueObjectException
 {
     /**
      * @param array<string|int> $possibleValues
-     *
-     * @return static
      */
     public static function noValidValue(string|int $value, array $possibleValues, string $class): static
     {
@@ -22,7 +22,7 @@ final class EnumException extends ValueObjectException
                 'The value \'%s\' of enum object \'%s\' is not valid. Allowed values: %s.',
                 (string) $value,
                 $class,
-                print_r($possibleValues, true)
+                json_encode($possibleValues, JSON_THROW_ON_ERROR, 512),
             )
         );
     }
@@ -51,8 +51,6 @@ final class EnumException extends ValueObjectException
 
     /**
      * @param int[]|string[] $possibleValues
-     *
-     * @return static
      */
     public static function wrongPossibleValueTypes(array $possibleValues, string $type, string $class): static
     {
@@ -62,7 +60,7 @@ final class EnumException extends ValueObjectException
                 'Invalid possible values \'%s\' detected.',
                 $class,
                 $type,
-                print_r($possibleValues, true)
+                json_encode($possibleValues, JSON_THROW_ON_ERROR, 512),
             )
         );
     }
