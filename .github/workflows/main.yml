@@ -31,7 +31,7 @@ jobs:
             - name: Run PhpMd
               run: vendor/bin/phpmd src text phpmd.xml
             - name: Run PhpMd Tests (phpmd-tests.xml)
-              run: vendor/bin/phpmd tests text phpmd-tests.xml
+              run: vendor/bin/phpmd tests text phpmd.xml
             - name: Run Rector
               run: vendor/bin/rector --dry-run --no-progress-bar
             - uses: php-actions/phpunit@v3
