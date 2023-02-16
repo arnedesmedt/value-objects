@@ -21,3 +21,4 @@ grumphp:
             whitelist:
                 - "/^(feature|hotfix)\\/([A-Z]+-[0-9]+-)?.+$/"
                 - "/^(main)$/"
+

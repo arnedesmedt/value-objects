@@ -14,16 +14,7 @@
         <exclude name="StaticAccess"/>
     </rule>
 
-    <rule ref="rulesets/codesize.xml">
-        <exclude name="TooManyPublicMethods"/>
-        <exclude name="TooManyMethods"/>
-    </rule>
-
-    <rule ref="rulesets/codesize.xml/TooManyMethods">
-        <properties>
-            <property name="ignorepattern" value="(^(test))i"/>
-        </properties>
-    </rule>
+    <rule ref="rulesets/codesize.xml" />
 
     <rule ref="rulesets/design.xml">
         <exclude name="EmptyCatchBlock"/>
@@ -36,4 +27,6 @@
     <rule ref="rulesets/controversial.xml">
         <exclude name="CamelCaseMethodName"/>
     </rule>
+
+    <exclude-pattern>tests/*</exclude-pattern>
 </ruleset>
