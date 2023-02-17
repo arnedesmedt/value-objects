@@ -15,6 +15,7 @@ use Faker\Factory;
 use function strtotime;
 use function strval;
 
+/** @SuppressWarnings(PHPMD.TooManyPublicMethods) */
 class DateTimeValue implements \ADS\ValueObjects\DateTimeValue, HasExamples
 {
     use ExamplesLogic;
