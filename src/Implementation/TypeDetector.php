@@ -14,9 +14,8 @@ use ADS\ValueObjects\Implementation\Enum\StringEnumValue;
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
 use ADS\ValueObjects\IntValue;
 use ADS\ValueObjects\StringValue;
-use ADS\ValueObjects\ValueObject;
+use ADS\ValueObjects\Util;
 use DateTime;
-use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\AnnotatedType;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -193,7 +192,7 @@ final class TypeDetector
             return $type;
         }
 
-        return $type->withDefault(self::dataToScalar($class::defaultValue()));
+        return $type->withDefault(Util::toScalar($class::defaultValue()));
     }
 
     /** @param class-string<HasExamples|mixed> $class */
@@ -213,22 +212,9 @@ final class TypeDetector
 
         return $type->withExamples(
             ...array_map(
-                static fn (mixed $example) => self::dataToScalar($example),
+                static fn (mixed $example) => Util::toScalar($example),
                 $examples
             )
         );
-    }
-
-    public static function dataToScalar(mixed $data): mixed
-    {
-        if ($data instanceof ValueObject) {
-            return $data->toValue();
-        }
-
-        if ($data instanceof ImmutableRecord) {
-            return $data->toArray();
-        }
-
-        return $data;
     }
 }
