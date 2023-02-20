@@ -21,4 +21,29 @@ class UtilTest extends TestCase
         $this->assertEquals('string', Util::toScalar($valueObject));
         $this->assertTrue(Util::toScalar($scalar));
     }
+
+    public function testRecursiveToScalar(): void
+    {
+        $immutable = TestImmutable::fromArray(['test' => 'test']);
+        $valueObject = TestString::fromString('string');
+
+        $array = [
+            'test' => 'test',
+            'immutable' => $immutable,
+            'nested' => ['valueObject' => $valueObject],
+            'nestedImmutable' => ['immutable' => $immutable],
+        ];
+
+        $this->assertEquals(
+            [
+                'test' => 'test',
+                'immutable' => ['test' => 'test'],
+                'nested' => ['valueObject' => 'string'],
+                'nestedImmutable' => [
+                    'immutable' => ['test' => 'test'],
+                ],
+            ],
+            Util::toScalar($array)
+        );
+    }
 }
