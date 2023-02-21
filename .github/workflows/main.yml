@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
             - name: Setup PHP
               uses: shivammathur/setup-php@2.23.0
               with:
@@ -38,7 +38,4 @@ jobs:
               with:
                   bootstrap: tests/bootstrap.php
                   configuration: phpunit.xml.dist
-                  php_extensions: xdebug intl json
-                  args: --coverage-clover ./coverage.xml
-              env:
-                  XDEBUG_MODE: coverage
+                  php_extensions: intl json
