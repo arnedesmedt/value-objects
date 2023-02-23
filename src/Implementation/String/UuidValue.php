@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
 use Ramsey\Uuid\Uuid;
@@ -15,6 +16,8 @@ use function strval;
 /** @phpstan-consistent-constructor */
 abstract class UuidValue implements \ADS\ValueObjects\UuidValue, HasExamples, ProvidesValidationRules
 {
+    use ExamplesLogic;
+
     protected function __construct(protected UuidInterface $value)
     {
     }
