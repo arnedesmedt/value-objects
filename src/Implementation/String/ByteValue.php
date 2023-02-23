@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\String;
 
+use Faker\Factory;
 use RuntimeException;
 
 use function constant;
@@ -159,5 +160,21 @@ abstract class ByteValue extends StringValue
         }
 
         return $unit;
+    }
+
+    public static function example(): static
+    {
+        $generator = Factory::create();
+
+        return self::fromString(
+            sprintf(
+                '%dMb',
+                $generator->randomFloat(
+                    $generator->numberBetween(0, 1),
+                    1,
+                    500
+                )
+            )
+        );
     }
 }
