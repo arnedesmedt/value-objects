@@ -31,7 +31,11 @@
     },
     "autoload": {
         "psr-4": {
-            "ADS\\ValueObjects\\": "src/",
+            "ADS\\ValueObjects\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "ADS\\ValueObjects\\Tests\\": "tests/"
         }
     },
@@ -41,6 +45,20 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpro/grumphp": true
-        }
+        },
+        "sort-packages": true
+    },
+    "scripts-descriptions": {
+        "tests": "Run all tests"
+    },
+    "scripts": {
+        "tests": [
+            "vendor/bin/phpcs",
+            "vendor/bin/phpstan analyze --no-progress",
+            "vendor/bin/phpmd src text phpmd.xml",
+            "vendor/bin/phpmd tests text phpmd-tests.xml",
+            "vendor/bin/rector --dry-run --no-progress-bar",
+            "vendor/bin/phpunit"
+        ]
     }
 }
