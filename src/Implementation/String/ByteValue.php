@@ -52,7 +52,7 @@ abstract class ByteValue extends StringValue
         'T',
     ];
 
-    final protected function __construct(string $value, private bool $byteUsedAsInput = true)
+    final protected function __construct(string $value, private readonly bool $byteUsedAsInput = true)
     {
         parent::__construct($value);
     }
