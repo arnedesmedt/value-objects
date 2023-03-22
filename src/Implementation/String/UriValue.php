@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\UriException;
-use EventEngine\JsonSchema\ProvidesValidationRules;
-use EventEngine\JsonSchema\Type\StringType;
 use Faker\Factory;
 
 use function preg_match;
 use function rtrim;
 use function str_contains;
 
-abstract class UriValue extends StringValue implements ProvidesValidationRules
+abstract class UriValue extends StringValue
 {
     protected function __construct(string $value)
     {
@@ -43,11 +41,5 @@ abstract class UriValue extends StringValue implements ProvidesValidationRules
         $generator = Factory::create();
 
         return static::fromString($generator->url());
-    }
-
-    /** @return array<string, string> */
-    public static function validationRules(): array
-    {
-        return [StringType::FORMAT => 'uri'];
     }
 }
