@@ -270,7 +270,7 @@ class StringTest extends TestCase
             ],
             'test-mega-bytes-empty' => [
                 'input' => '1',
-                'expected' => '1Mb',
+                'expected' => '1M',
             ],
             'test-bytes-with-method' => [
                 'input' => '156B',

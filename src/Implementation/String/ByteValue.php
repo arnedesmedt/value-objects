@@ -26,6 +26,7 @@ use function strtoupper;
  * @method float toMB()
  * @method float toGB()
  * @method float toTB()
+ * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 abstract class ByteValue extends StringValue
 {
@@ -51,11 +52,16 @@ abstract class ByteValue extends StringValue
         'T',
     ];
 
+    final protected function __construct(string $value, private bool $byteUsedAsInput = true)
+    {
+        parent::__construct($value);
+    }
+
     public static function fromString(string $value): static
     {
         if (
             ! preg_match(
-                '/^(?P<value>[0-9]+([\.,][0-9]+)?)\s*(?P<modifier>K|k|M|m|G|g|T|t)?(b|B)?$/',
+                '/^(?P<value>[0-9]+([\.,][0-9]+)?)\s*(?P<modifier>K|k|M|m|G|g|T|t)?(?P<byteIsSet>b|B)?$/',
                 $value,
                 $matches,
             )
@@ -75,7 +81,7 @@ abstract class ByteValue extends StringValue
         /** @var int $unit */
         $unit = constant('self::' . strtoupper($matches['modifier']) . 'B');
 
-        return self::fromUnit($unit, $matches['value']);
+        return self::fromUnit($unit, $matches['value'], isset($matches['byteIsSet']));
     }
 
     /**
@@ -122,17 +128,18 @@ abstract class ByteValue extends StringValue
         );
     }
 
-    private static function fromUnit(int $unit, string $value): static
+    private static function fromUnit(int $unit, string $value, bool $byteUsedAsInput = true): static
     {
-        return parent::fromString((string) ((float) $value * 1024 ** ($unit - self::B)));
+        return new static((string) ((float) $value * 1024 ** ($unit - self::B)), $byteUsedAsInput);
     }
 
     private function toUnit(int $unit): string
     {
         return sprintf(
-            '%s%sb',
+            '%s%s%s',
             (string) ((int) parent::toString() * 1024 ** (self::B - $unit)),
-            self::POSSIBLE_MODIFIERS[$unit]
+            self::POSSIBLE_MODIFIERS[$unit],
+            $this->byteUsedAsInput ? 'b' : '',
         );
     }
 
