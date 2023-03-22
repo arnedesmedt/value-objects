@@ -13,6 +13,7 @@ use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestIpv4;
 use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestIpv6;
 use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestPattern;
 use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestString;
+use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUri;
 use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUrl;
 use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUuid;
 use PHPUnit\Framework\TestCase;
@@ -65,6 +66,12 @@ class StringTest extends TestCase
         $this->assertEquals('https://www.google.com/', $urlWithoutSlash->toStringWithTrailingSlash());
     }
 
+    public function testUriValue(): void
+    {
+        $uri = TestUri::fromString('git@github.com:BlackIkeEagle/sample-nodejs.git');
+        $this->assertEquals('git@github.com:BlackIkeEagle/sample-nodejs.git', $uri->toString());
+    }
+
     public function testExampleUrl(): void
     {
         $this->assertInstanceOf(TestUrl::class, TestUrl::example());
@@ -78,10 +85,16 @@ class StringTest extends TestCase
         );
     }
 
+    public function testInvalidUriValue(): void
+    {
+        $this->expectExceptionMessageMatches('/is not a valid uri for value object/');
+        TestUrl::fromString('https://www.google.com?$IFS');
+    }
+
     public function testInvalidUrlValue(): void
     {
         $this->expectExceptionMessageMatches('/is not a valid url for value object/');
-        TestUrl::fromString('https://www.google.com?$IFS');
+        TestUrl::fromString('git@github.com:BlackIkeEagle/sample-nodejs.git');
     }
 
     public function testIpv4Value(): void

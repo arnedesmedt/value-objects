@@ -6,7 +6,7 @@ namespace ADS\ValueObjects\Exception;
 
 use function sprintf;
 
-final class UrlException extends ValueObjectException
+final class UriException extends ValueObjectException
 {
     public static function noAsciiFormat(string $value, string $class): static
     {
@@ -24,6 +24,17 @@ final class UrlException extends ValueObjectException
         return new static(
             sprintf(
                 '\'%s\' is not a valid url for value object \'%s\'.',
+                $value,
+                $class
+            )
+        );
+    }
+
+    public static function noValidUri(string $value, string $class): static
+    {
+        return new static(
+            sprintf(
+                '\'%s\' is not a valid uri for value object \'%s\'.',
                 $value,
                 $class
             )

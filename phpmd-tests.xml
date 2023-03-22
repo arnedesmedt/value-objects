@@ -14,6 +14,7 @@
     <rule ref="./phpmd.xml">
         <exclude name="TooManyPublicMethods"/>
         <exclude name="TooManyMethods"/>
+        <exclude name="CouplingBetweenObjects"/>
     </rule>
 
     <rule ref="rulesets/codesize.xml/TooManyPublicMethods">
