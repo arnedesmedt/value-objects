@@ -10,6 +10,7 @@ use EventEngine\JsonSchema\Type\StringType;
 
 use function filter_var;
 use function parse_url;
+use function rtrim;
 
 use const FILTER_VALIDATE_URL;
 
@@ -25,6 +26,16 @@ abstract class UrlValue extends UriValue implements ProvidesValidationRules
         }
 
         parent::__construct($value);
+    }
+
+    public function toStringWithTrailingSlash(): string
+    {
+        return $this->toStringWithoutTrailingSlash() . '/';
+    }
+
+    public function toStringWithoutTrailingSlash(): string
+    {
+        return rtrim(parent::toString(), '/');
     }
 
     /** @return array<string, string> */

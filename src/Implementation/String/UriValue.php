@@ -8,7 +8,6 @@ use ADS\ValueObjects\Exception\UriException;
 use Faker\Factory;
 
 use function preg_match;
-use function rtrim;
 use function str_contains;
 
 abstract class UriValue extends StringValue
@@ -24,16 +23,6 @@ abstract class UriValue extends StringValue
         }
 
         parent::__construct($value);
-    }
-
-    public function toStringWithTrailingSlash(): string
-    {
-        return $this->toStringWithoutTrailingSlash() . '/';
-    }
-
-    public function toStringWithoutTrailingSlash(): string
-    {
-        return rtrim(parent::toString(), '/');
     }
 
     public static function example(): static
