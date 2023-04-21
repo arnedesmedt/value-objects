@@ -6,11 +6,11 @@ namespace ADS\ValueObjects\Implementation\Int;
 
 use function intval;
 
-/** @method static self fromInt(int $integer) */
+/** @method static static fromInt(int $integer) */
 trait FromString
 {
-    public static function fromString(string $string): self
+    public static function fromString(string $string): static
     {
-        return self::fromInt(intval($string));
+        return static::fromInt(intval($string));
     }
 }
