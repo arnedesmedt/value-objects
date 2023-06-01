@@ -7,7 +7,6 @@ namespace ADS\ValueObjects\Implementation\String;
 use ADS\ValueObjects\Exception\IpException;
 use ADS\ValueObjects\Exception\PatternException;
 use EventEngine\JsonSchema\Type\StringType;
-use Faker\Factory;
 
 abstract class IpV4Value extends PatternValue
 {
@@ -27,9 +26,7 @@ abstract class IpV4Value extends PatternValue
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromString($generator->ipv4());
+        return static::fromString('1.2.3.4');
     }
 
     /** @return array<string, string> */

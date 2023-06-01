@@ -10,11 +10,11 @@ use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
-use Faker\Factory;
 use Stringable;
 
 use function count;
 use function in_array;
+use function reset;
 use function strval;
 
 /** @phpstan-consistent-constructor */
@@ -69,11 +69,14 @@ abstract class EnumValue implements EnumValueInterface, HasExamples, ProvidesVal
 
     public static function example(): static
     {
-        $generator = Factory::create();
+        $possibleValues = static::possibleValues();
+        $possibleValue = reset($possibleValues);
 
-        return static::fromValue(
-            $generator->randomElement(static::possibleValues()),
-        );
+        if ($possibleValue === false) {
+            throw EnumException::noPossibleValues(static::class);
+        }
+
+        return static::fromValue($possibleValue);
     }
 
     /** @return array<string, array<mixed>> */

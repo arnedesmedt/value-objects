@@ -10,7 +10,6 @@ use ADS\ValueObjects\Implementation\ExamplesLogic;
 use DateTime;
 use DateTimeInterface;
 use EventEngine\JsonSchema\Type\StringType;
-use Faker\Factory;
 
 use function strtotime;
 use function strval;
@@ -86,9 +85,7 @@ class DateTimeValue implements \ADS\ValueObjects\DateTimeValue, HasExamples
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromDateTime($generator->dateTime());
+        return static::fromDateTime(new DateTime('now'));
     }
 
     /** @return array<string, string> */

@@ -7,7 +7,6 @@ namespace ADS\ValueObjects\Implementation\String;
 use ADS\ValueObjects\Exception\EmailException;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
-use Faker\Factory;
 
 use function filter_var;
 use function idn_to_ascii;
@@ -35,9 +34,7 @@ abstract class EmailValue extends StringValue implements ProvidesValidationRules
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromString($generator->email());
+        return static::fromString('test@test.be');
     }
 
     /** @return array<string, string> */

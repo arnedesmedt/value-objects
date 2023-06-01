@@ -8,7 +8,6 @@ use ADS\ValueObjects\FloatValue as FloatValueInterface;
 use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\CalcValue;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
-use Faker\Factory;
 use Stringable;
 
 use function floatval;
@@ -59,8 +58,6 @@ abstract class FloatValue implements FloatValueInterface, HasExamples, Stringabl
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromFloat($generator->randomFloat());
+        return static::fromFloat(10.12);
     }
 }

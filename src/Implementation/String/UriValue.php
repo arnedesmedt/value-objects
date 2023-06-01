@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Implementation\String;
 
 use ADS\ValueObjects\Exception\UriException;
-use Faker\Factory;
 
 use function preg_match;
 use function str_contains;
@@ -27,8 +26,6 @@ abstract class UriValue extends StringValue
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromString($generator->url());
+        return static::fromString('http://test.be');
     }
 }

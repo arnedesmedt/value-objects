@@ -7,7 +7,6 @@ namespace ADS\ValueObjects\Implementation\String;
 use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
 use ADS\ValueObjects\StringValue as StringValueInterface;
-use Faker\Factory;
 
 use function strval;
 
@@ -56,8 +55,6 @@ abstract class StringValue implements StringValueInterface, HasExamples
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromString($generator->word());
+        return static::fromString('test');
     }
 }

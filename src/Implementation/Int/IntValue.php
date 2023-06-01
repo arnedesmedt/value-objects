@@ -8,7 +8,6 @@ use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\CalcValue;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
 use ADS\ValueObjects\IntValue as IntValueInterface;
-use Faker\Factory;
 use Stringable;
 
 use function intval;
@@ -59,8 +58,6 @@ abstract class IntValue implements IntValueInterface, HasExamples, Stringable
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromInt($generator->randomNumber());
+        return static::fromInt(32);
     }
 }

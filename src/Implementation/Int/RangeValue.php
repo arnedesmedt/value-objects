@@ -8,7 +8,6 @@ use ADS\ValueObjects\Exception\RangeException;
 use ADS\ValueObjects\HasExamples;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\IntType;
-use Faker\Factory;
 
 use function array_filter;
 
@@ -52,11 +51,7 @@ abstract class RangeValue extends IntValue implements HasExamples, ProvidesValid
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromInt(
-            $generator->numberBetween(static::minimum(), static::maximum()),
-        );
+        return static::fromInt(14);
     }
 
     /** @return array<string, int> */

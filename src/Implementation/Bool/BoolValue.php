@@ -7,7 +7,6 @@ namespace ADS\ValueObjects\Implementation\Bool;
 use ADS\ValueObjects\BoolValue as BoolValueInterface;
 use ADS\ValueObjects\HasExamples;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
-use Faker\Factory;
 use Stringable;
 
 /** @phpstan-consistent-constructor */
@@ -55,8 +54,6 @@ abstract class BoolValue implements BoolValueInterface, HasExamples, Stringable
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromBool($generator->boolean());
+        return static::fromBool(true);
     }
 }

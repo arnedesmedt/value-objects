@@ -8,7 +8,6 @@ use ADS\ValueObjects\Exception\RangeException;
 use ADS\ValueObjects\HasExamples;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\IntType;
-use Faker\Factory;
 
 use function array_filter;
 
@@ -52,13 +51,7 @@ abstract class FloatRangeValue extends FloatValue implements HasExamples, Provid
 
     public static function example(): static
     {
-        $generator = Factory::create();
-
-        return static::fromFloat($generator->randomFloat(
-            $generator->numberBetween(0, 1),
-            static::minimum(),
-            static::maximum()
-        ));
+        return static::fromFloat(10.12);
     }
 
     /** @return array<string, float> */
