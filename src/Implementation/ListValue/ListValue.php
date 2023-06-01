@@ -677,7 +677,6 @@ abstract class ListValue implements
         /** @var array<T> $items */
         $items = [
             $itemType::example(),
-            $itemType::example(),
         ];
 
         return static::fromItems($items);
