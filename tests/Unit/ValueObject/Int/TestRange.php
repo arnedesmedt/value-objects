@@ -15,6 +15,6 @@ class TestRange extends RangeValue
 
     public static function maximum(): int
     {
-        return 10;
+        return 15;
     }
 }

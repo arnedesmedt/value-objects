@@ -16,51 +16,46 @@ use function strtoupper;
 
 /**
  * @method static static fromB(float $bytes)
- * @method static static fromKB(float $kiloBytes)
- * @method static static fromMB(float $megaBytes)
- * @method static static fromGB(float $gigaBytes)
- * @method static static fromTB(float $terraBytes)
+ * @method static static fromK(float $kiloBytes)
+ * @method static static fromM(float $megaBytes)
+ * @method static static fromG(float $gigaBytes)
+ * @method static static fromT(float $terraBytes)
  * @method float toB()
- * @method float toKB()
- * @method float toMB()
- * @method float toGB()
- * @method float toTB()
+ * @method float toK()
+ * @method float toM()
+ * @method float toG()
+ * @method float toT()
  * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
  */
 abstract class ByteValue extends StringValue
 {
     private const B = 0;
-    private const KB = 1;
-    private const MB = 2;
-    private const GB = 3;
-    private const TB = 4;
+    private const K = 1;
+    private const M = 2;
+    private const G = 3;
+    private const T = 4;
 
     private const POSSIBLE_UNITS = [
         self::B,
-        self::KB,
-        self::MB,
-        self::GB,
-        self::TB,
+        self::K,
+        self::M,
+        self::G,
+        self::T,
     ];
 
     private const POSSIBLE_MODIFIERS = [
-        '',
+        'B',
         'K',
         'M',
         'G',
         'T',
     ];
 
-    final protected function __construct(string $value, private readonly bool $byteUsedAsInput = true)
-    {
-        parent::__construct($value);
-    }
-
     public static function fromString(string $value): static
     {
         if (
             ! preg_match(
-                '/^(?P<value>[0-9]+([\.,][0-9]+)?)\s*(?P<modifier>K|k|M|m|G|g|T|t)?(?P<byteIsSet>b|B)?$/',
+                '/^(?P<value>[0-9]+([\.,][0-9]+)?)\s*(?P<modifier>B|b|K|k|M|m|G|g|T|t)?$/',
                 $value,
                 $matches,
             )
@@ -78,9 +73,9 @@ abstract class ByteValue extends StringValue
         }
 
         /** @var int $unit */
-        $unit = constant('self::' . strtoupper($matches['modifier']) . 'B');
+        $unit = constant('self::' . strtoupper($matches['modifier']));
 
-        return self::fromUnit($unit, $matches['value'], isset($matches['byteIsSet']));
+        return self::fromUnit($unit, $matches['value']);
     }
 
     /**
@@ -127,18 +122,17 @@ abstract class ByteValue extends StringValue
         );
     }
 
-    private static function fromUnit(int $unit, string $value, bool $byteUsedAsInput = true): static
+    private static function fromUnit(int $unit, string $value): static
     {
-        return new static((string) ((float) $value * 1024 ** ($unit - self::B)), $byteUsedAsInput);
+        return new static((string) ((float) $value * 1024 ** ($unit - self::B)));
     }
 
     private function toUnit(int $unit): string
     {
         return sprintf(
-            '%s%s%s',
+            '%s%s',
             (string) ((int) parent::toString() * 1024 ** (self::B - $unit)),
-            self::POSSIBLE_MODIFIERS[$unit],
-            $this->byteUsedAsInput ? 'b' : '',
+            self::POSSIBLE_MODIFIERS[$unit]
         );
     }
 
@@ -149,12 +143,12 @@ abstract class ByteValue extends StringValue
 
     protected static function inputUnit(): int
     {
-        return self::MB;
+        return self::M;
     }
 
     protected static function outputUnit(): int
     {
-        return self::MB;
+        return self::M;
     }
 
     private static function checkUnit(int $unit): int
@@ -170,6 +164,6 @@ abstract class ByteValue extends StringValue
 
     public static function example(): static
     {
-        return self::fromString('12Mb');
+        return self::fromString('12M');
     }
 }

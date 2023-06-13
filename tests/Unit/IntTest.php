@@ -31,9 +31,9 @@ class IntTest extends TestCase
 
     public function testRange(): void
     {
-        $this->expectExceptionMessageMatches('/has to be lower or equal than 10/');
-        $this->assertEquals(10, TestRange::fromInt(10)->toValue());
-        TestRange::fromInt(11);
+        $this->expectExceptionMessageMatches('/has to be lower or equal than 15/');
+        $this->assertEquals(15, TestRange::fromInt(15)->toValue());
+        TestRange::fromInt(16);
     }
 
     public function testExampleRange(): void
@@ -44,7 +44,7 @@ class IntTest extends TestCase
     public function testRulesRange(): void
     {
         $this->assertEquals(
-            ['minimum' => 0, 'maximum' => 10],
+            ['minimum' => 0, 'maximum' => 15],
             TestRange::validationRules(),
         );
     }

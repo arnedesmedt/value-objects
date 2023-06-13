@@ -271,15 +271,15 @@ class StringTest extends TestCase
         return [
             'test-bytes' => [
                 'input' => '156B',
-                'expected' => '0.00014877319335938Mb',
+                'expected' => '0.00014877319335938M',
             ],
             'test-kilo-bytes' => [
-                'input' => '1kb',
-                'expected' => '0.0009765625Mb',
+                'input' => '1k',
+                'expected' => '0.0009765625M',
             ],
             'test-mega-bytes' => [
-                'input' => '1Mb',
-                'expected' => '1Mb',
+                'input' => '1M',
+                'expected' => '1M',
             ],
             'test-mega-bytes-empty' => [
                 'input' => '1',
@@ -287,7 +287,7 @@ class StringTest extends TestCase
             ],
             'test-bytes-with-method' => [
                 'input' => '156B',
-                'expected' => '156b',
+                'expected' => '156B',
                 'inputMethod' => 'fromB',
                 'outputMethod' => 'toB',
             ],
