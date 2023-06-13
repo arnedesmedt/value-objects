@@ -9,10 +9,10 @@ use function sprintf;
 final class RangeException extends ValueObjectException
 {
     public static function outsideRange(
-        float|int $value,
+        string $value,
         string $class,
-        float|int $minimum,
-        float|int $maximum,
+        string $minimum,
+        string $maximum,
         bool $included
     ): static {
         $orEqual = $included ? ' or equal' : '';
@@ -20,13 +20,29 @@ final class RangeException extends ValueObjectException
         return new static(
             sprintf(
                 'The value \'%s\' for value object \'%s\', has to be lower%s than %s and greater%s than %s.',
-                (string) $value,
+                $value,
                 $class,
                 $orEqual,
-                (string) $maximum,
+                $maximum,
                 $orEqual,
-                (string) $minimum
+                $minimum
             )
+        );
+    }
+
+    public static function outsideRangeFromNumber(
+        float|int $value,
+        string $class,
+        float|int $minimum,
+        float|int $maximum,
+        bool $included
+    ): static {
+        return self::outsideRange(
+            (string) $value,
+            $class,
+            (string) $minimum,
+            (string) $maximum,
+            $included
         );
     }
 }

@@ -20,10 +20,10 @@ abstract class RangeByteValue extends ByteValue
             || (! static::included() && ($floatValue >= static::maximum() || $floatValue <= static::minimum()))
         ) {
             throw RangeException::outsideRange(
-                $floatValue,
+                static::fromString($value)->toString(),
                 static::class,
-                static::minimum(),
-                static::maximum(),
+                static::fromString((string) static::minimum())->toString(),
+                static::fromString((string) static::maximum())->toString(),
                 static::included()
             );
         }

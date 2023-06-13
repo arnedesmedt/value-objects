@@ -22,7 +22,7 @@ abstract class RangeValue extends IntValue implements HasExamples, ProvidesValid
             (static::included() && ($value > static::maximum() || $value < static::minimum()))
             || (! static::included() && ($value >= static::maximum() || $value <= static::minimum()))
         ) {
-            throw RangeException::outsideRange(
+            throw RangeException::outsideRangeFromNumber(
                 $value,
                 static::class,
                 static::minimum(),
