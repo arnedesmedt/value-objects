@@ -78,6 +78,26 @@ abstract class ByteValue extends StringValue
         return self::fromUnit($unit, $matches['value']);
     }
 
+    public static function fromInt(int $intValue): static
+    {
+        $modifier = self::POSSIBLE_MODIFIERS[self::inputUnit()];
+
+        /** @var int $unit */
+        $unit = constant('self::' . strtoupper($modifier));
+
+        return self::fromUnit($unit, (string) $intValue);
+    }
+
+    public static function fromFloat(float $floatValue): static
+    {
+        $modifier = self::POSSIBLE_MODIFIERS[self::inputUnit()];
+
+        /** @var int $unit */
+        $unit = constant('self::' . strtoupper($modifier));
+
+        return self::fromUnit($unit, (string) $floatValue);
+    }
+
     /**
      * @param string[] $arguments
      *
