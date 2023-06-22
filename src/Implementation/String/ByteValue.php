@@ -124,7 +124,7 @@ abstract class ByteValue extends StringValue
     /**
      * @param array<mixed> $arguments
      */
-    public function __call(string $name, array $arguments): string
+    public function __call(string $name, array $arguments): float
     {
         if (
             preg_match('#^to([A-Z]*)#i', $name, $matches)
@@ -147,18 +147,20 @@ abstract class ByteValue extends StringValue
         return new static((string) ((float) $value * 1024 ** ($unit - self::B)));
     }
 
-    private function toUnit(int $unit): string
+    private function toUnit(int $unit): float
     {
-        return sprintf(
-            '%s%s',
-            (string) ((int) parent::toString() * 1024 ** (self::B - $unit)),
-            self::POSSIBLE_MODIFIERS[$unit]
-        );
+        return (float) ((int) parent::toString() * 1024 ** (self::B - $unit));
     }
 
     public function toString(): string
     {
-        return $this->toUnit(self::checkUnit(self::outputUnit()));
+        $unit = self::checkUnit(self::outputUnit());
+
+        return sprintf(
+            '%s%s',
+            (string) $this->toUnit($unit),
+            self::POSSIBLE_MODIFIERS[$unit],
+        );
     }
 
     protected static function inputUnit(): int
