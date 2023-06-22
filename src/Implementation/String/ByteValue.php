@@ -106,7 +106,7 @@ abstract class ByteValue extends StringValue
     public static function __callStatic(string $name, array $arguments): static
     {
         if (
-            preg_match('#^from([A-Z]*B)#i', $name, $matches)
+            preg_match('#^from([A-Z]*)#i', $name, $matches)
             && defined('self::' . strtoupper($matches[1]))
             && count($arguments) === 1
         ) {
@@ -127,7 +127,7 @@ abstract class ByteValue extends StringValue
     public function __call(string $name, array $arguments): string
     {
         if (
-            preg_match('#^to([A-Z]*B)#i', $name, $matches)
+            preg_match('#^to([A-Z]*)#i', $name, $matches)
             && defined('self::' . strtoupper($matches[1]))
             && count($arguments) === 0
         ) {
