@@ -9,6 +9,7 @@ use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
 
 use function filter_var;
+use function idn_to_ascii;
 use function parse_url;
 use function rtrim;
 
@@ -18,14 +19,20 @@ abstract class UrlValue extends UriValue implements ProvidesValidationRules
 {
     protected function __construct(string $value)
     {
-        if (
-            ! filter_var($value, FILTER_VALIDATE_URL)
-            || parse_url($value) === false
-        ) {
-            throw UriException::noValidUrl($value, static::class);
+        $url = idn_to_ascii($value);
+
+        if ($url === false) {
+            throw UriException::noAsciiFormat($value, static::class);
         }
 
-        parent::__construct($value);
+        if (
+            ! filter_var($url, FILTER_VALIDATE_URL)
+            || parse_url($url) === false
+        ) {
+            throw UriException::noValidUrl($url, static::class);
+        }
+
+        parent::__construct($url);
     }
 
     public function toStringWithTrailingSlash(): string
