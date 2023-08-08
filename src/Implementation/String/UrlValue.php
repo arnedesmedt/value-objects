@@ -12,6 +12,7 @@ use function filter_var;
 use function idn_to_ascii;
 use function parse_url;
 use function rtrim;
+use function str_replace;
 
 use const FILTER_VALIDATE_URL;
 
@@ -19,17 +20,23 @@ abstract class UrlValue extends UriValue implements ProvidesValidationRules
 {
     protected function __construct(string $value)
     {
-        $url = idn_to_ascii($value);
+        /** @var array{scheme: string, host: string, path: string}|false $parsedUrl */
+        $parsedUrl = parse_url($value);
 
-        if ($url === false) {
+        if ($parsedUrl === false) {
+            throw UriException::noValidUrl($value, static::class);
+        }
+
+        $host = idn_to_ascii($parsedUrl['host']);
+
+        if ($host === false) {
             throw UriException::noAsciiFormat($value, static::class);
         }
 
-        if (
-            ! filter_var($url, FILTER_VALIDATE_URL)
-            || parse_url($url) === false
-        ) {
-            throw UriException::noValidUrl($url, static::class);
+        $url = str_replace($parsedUrl['host'], $host, $value);
+
+        if (! filter_var($url, FILTER_VALIDATE_URL)) {
+            throw UriException::noValidUrl($value, static::class);
         }
 
         parent::__construct($url);
