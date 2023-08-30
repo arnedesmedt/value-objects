@@ -69,7 +69,7 @@ abstract class ByteValue extends StringValue
         }
 
         if (! isset($matches['modifier'])) {
-            $matches['modifier'] = self::POSSIBLE_MODIFIERS[self::inputUnit()];
+            $matches['modifier'] = self::POSSIBLE_MODIFIERS[static::inputUnit()];
         }
 
         /** @var int $unit */
@@ -80,7 +80,7 @@ abstract class ByteValue extends StringValue
 
     public static function fromInt(int $intValue): static
     {
-        $modifier = self::POSSIBLE_MODIFIERS[self::inputUnit()];
+        $modifier = self::POSSIBLE_MODIFIERS[static::inputUnit()];
 
         /** @var int $unit */
         $unit = constant('self::' . strtoupper($modifier));
@@ -90,7 +90,7 @@ abstract class ByteValue extends StringValue
 
     public static function fromFloat(float $floatValue): static
     {
-        $modifier = self::POSSIBLE_MODIFIERS[self::inputUnit()];
+        $modifier = self::POSSIBLE_MODIFIERS[static::inputUnit()];
 
         /** @var int $unit */
         $unit = constant('self::' . strtoupper($modifier));
@@ -154,7 +154,7 @@ abstract class ByteValue extends StringValue
 
     public function toString(): string
     {
-        $unit = self::checkUnit(self::outputUnit());
+        $unit = self::checkUnit(static::outputUnit());
 
         return sprintf(
             '%s%s',
