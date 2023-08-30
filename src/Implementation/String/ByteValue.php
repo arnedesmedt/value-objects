@@ -29,11 +29,11 @@ use function strtoupper;
  */
 abstract class ByteValue extends StringValue
 {
-    private const B = 0;
-    private const K = 1;
-    private const M = 2;
-    private const G = 3;
-    private const T = 4;
+    public const B = 0;
+    public const K = 1;
+    public const M = 2;
+    public const G = 3;
+    public const T = 4;
 
     private const POSSIBLE_UNITS = [
         self::B,
