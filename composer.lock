@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d73099ef8c3d44a82fcdfd7824bbfc0",
+    "content-hash": "5772b627d054606a079ca7ccda4c9d84",
     "packages": [
         {
             "name": "arnedesmedt/php-util",
@@ -227,30 +227,30 @@
         },
         {
             "name": "event-engine/php-json-schema",
-            "version": "v2.3.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/event-engine/php-json-schema.git",
-                "reference": "2c44d85cd1d0daaa3afe24d55ec01c0120b77640"
+                "reference": "9f7af1e49960934550012ea4816f97aef0926871"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/event-engine/php-json-schema/zipball/2c44d85cd1d0daaa3afe24d55ec01c0120b77640",
-                "reference": "2c44d85cd1d0daaa3afe24d55ec01c0120b77640",
+                "url": "https://api.github.com/repos/event-engine/php-json-schema/zipball/9f7af1e49960934550012ea4816f97aef0926871",
+                "reference": "9f7af1e49960934550012ea4816f97aef0926871",
                 "shasum": ""
             },
             "require": {
                 "event-engine/php-data": "^2.0.1",
-                "event-engine/php-engine-utils": "^0.2.1",
+                "event-engine/php-engine-utils": "^0.2.1 || ^1.0",
                 "event-engine/php-schema": "^0.2 || ^0.3",
                 "ext-json": "*",
-                "php": "^7.4 || ^8.0",
+                "php": "^8.1",
                 "ramsey/uuid": "^3.6 || ^4.0"
             },
             "require-dev": {
                 "justinrainbow/json-schema": "^5.2",
                 "malukenho/docheader": "^0.1.4",
-                "opis/json-schema": "^1.0",
+                "opis/json-schema": "^2.3.0",
                 "php-coveralls/php-coveralls": "^2.0",
                 "phpunit/phpunit": "^8.0 || ^9.0",
                 "prooph/php-cs-fixer-config": "^v0.4.0",
@@ -282,9 +282,9 @@
             "homepage": "https://event-engine.io/",
             "support": {
                 "issues": "https://github.com/event-engine/php-json-schema/issues",
-                "source": "https://github.com/event-engine/php-json-schema/tree/v2.3.0"
+                "source": "https://github.com/event-engine/php-json-schema/tree/v3.0.1"
             },
-            "time": "2021-11-19T10:24:42+00:00"
+            "time": "2023-06-23T17:38:30+00:00"
         },
         {
             "name": "event-engine/php-schema",
