@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
-use ADS\ValueObjects\Exception\EnumException;
+use ADS\ValueObjects\Implementation\Enum\Exception\WrongPossibleValueTypes;
 
 use function array_filter;
 use function count;
 use function is_string;
 use function strval;
 
+/** @phpstan-consistent-constructor */
 abstract class StringTransitionEnumValue extends TransitionEnumValue
 {
-    protected function __construct(mixed $value)
+    protected function __construct(string $value)
     {
-        if (! is_string($value)) {
-            throw EnumException::wrongType(
-                $value,
-                'string',
-                static::class
-            );
-        }
-
-        parent::__construct($value);
-
         $noneStringValues = array_filter(
             $this->possibleValues,
             static fn ($possibleValue) => ! is_string($possibleValue)
         );
 
-        if (count($noneStringValues) <= 0) {
-            return;
+        if (count($noneStringValues) > 0) {
+            throw WrongPossibleValueTypes::fromClassAndCorrectType(
+                static::class,
+                'string',
+            );
         }
 
-        throw EnumException::wrongPossibleValueTypes(
-            $noneStringValues,
-            'string',
-            static::class
-        );
+        parent::__construct($value);
     }
 
     public static function fromString(string $value): static
@@ -46,8 +36,18 @@ abstract class StringTransitionEnumValue extends TransitionEnumValue
         return static::fromValue($value);
     }
 
+    public static function fromValue(mixed $value): static
+    {
+        return new static(strval($value));
+    }
+
     public function toString(): string
     {
-        return strval($this->toValue());
+        return $this->toValue();
+    }
+
+    public function toValue(): string
+    {
+        return strval($this->value);
     }
 }

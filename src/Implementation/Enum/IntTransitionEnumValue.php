@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
-use ADS\ValueObjects\Exception\EnumException;
 use ADS\ValueObjects\Implementation\CalcValue;
+use ADS\ValueObjects\Implementation\Enum\Exception\WrongPossibleValueTypes;
 use ADS\ValueObjects\IntValue;
 
 use function array_filter;
@@ -18,32 +18,21 @@ abstract class IntTransitionEnumValue extends TransitionEnumValue implements Int
 {
     use CalcValue;
 
-    protected function __construct(mixed $value)
+    protected function __construct(int $value)
     {
-        if (! is_int($value)) {
-            throw EnumException::wrongType(
-                $value,
-                'int',
-                static::class
-            );
-        }
-
-        parent::__construct($value);
-
         $noneIntegerValues = array_filter(
             $this->possibleValues,
             static fn ($possibleValue) => ! is_int($possibleValue)
         );
 
-        if (count($noneIntegerValues) <= 0) {
-            return;
+        if (count($noneIntegerValues) > 0) {
+            throw WrongPossibleValueTypes::fromClassAndCorrectType(
+                static::class,
+                'int',
+            );
         }
 
-        throw EnumException::wrongPossibleValueTypes(
-            $noneIntegerValues,
-            'int',
-            static::class
-        );
+        parent::__construct($value);
     }
 
     public static function fromInt(int $value): static
@@ -51,8 +40,18 @@ abstract class IntTransitionEnumValue extends TransitionEnumValue implements Int
         return static::fromValue($value);
     }
 
+    public static function fromValue(mixed $value): static
+    {
+        return new static(intval($value));
+    }
+
     public function toInt(): int
     {
-        return intval($this->toValue());
+        return $this->toValue();
+    }
+
+    public function toValue(): int
+    {
+        return intval($this->value);
     }
 }

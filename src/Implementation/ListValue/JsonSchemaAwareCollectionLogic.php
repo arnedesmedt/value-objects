@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\ListValue;
 
-use ADS\ValueObjects\Implementation\TypeDetector;
+use ADS\JsonImmutableObjects\TypeDetector;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\Schema\TypeSchema;
 
 /**
- * @method static string itemType()
+ * @method static class-string itemType()
  */
 trait JsonSchemaAwareCollectionLogic
 {

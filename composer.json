@@ -15,9 +15,9 @@
         "php": "^8",
         "ext-intl": "*",
         "ext-json": "*",
-        "ramsey/uuid": "~4.0",
-        "event-engine/php-json-schema": "~3.0",
-        "arnedesmedt/php-util": "~0.1"
+        "arnedesmedt/php-exception": "~0.1",
+        "arnedesmedt/php-util": "~0.1",
+        "ramsey/uuid": "~4.0"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.13",

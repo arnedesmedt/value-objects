@@ -3,3 +3,12 @@ parameters:
     paths:
         - src
         - tests
+    ignoreErrors:
+        - '#^Static method (.*)::__itemType\(\) is unused.$#'
+        - '#^Static method (.*)::__allowNestedSchema\(\) is unused.$#'
+        - '#of function (int|str|float)val expects #'
+services:
+    -
+        class: ADS\JsonImmutableObjects\PhpStan\PropertiesExtension
+        tags:
+            - phpstan.properties.readWriteExtension

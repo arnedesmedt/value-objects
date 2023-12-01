@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
-use RuntimeException;
+use LogicException;
 
 use function array_filter;
 use function array_key_exists;
@@ -26,13 +26,13 @@ abstract class TransitionEnumValue extends EnumValue
         assert($newValue instanceof static);
 
         if (! array_key_exists($this->value, static::transitions())) {
-            throw new RuntimeException(
+            throw new LogicException(
                 sprintf('No transition found from value \'%s\'.', $this->value)
             );
         }
 
         if (! in_array($newValue->toValue(), static::transitions()[$this->value])) {
-            throw new RuntimeException(
+            throw new LogicException(
                 sprintf(
                     'No transition found from value \'%s\' to value \'%s\'.',
                     $this->value,
@@ -54,13 +54,13 @@ abstract class TransitionEnumValue extends EnumValue
         );
 
         if (empty($validTransitions)) {
-            throw new RuntimeException(
+            throw new LogicException(
                 sprintf('No reverse transition found from value \'%s\'.', (string) $this->value)
             );
         }
 
         if (! array_key_exists((string) $newValue, $validTransitions)) {
-            throw new RuntimeException(
+            throw new LogicException(
                 sprintf(
                     'No reverse transition found from value \'%s\' to value \'%s\'.',
                     (string) $this->value,

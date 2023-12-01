@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum;
 
+use ADS\Exception\Attribute\Throws;
 use ADS\ValueObjects\EnumValue as EnumValueInterface;
-use ADS\ValueObjects\Exception\EnumException;
 use ADS\ValueObjects\HasExamples;
+use ADS\ValueObjects\Implementation\Enum\Exception\NoPossibleValues;
+use ADS\ValueObjects\Implementation\Enum\Exception\NoValidValue;
 use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
@@ -18,6 +20,7 @@ use function reset;
 use function strval;
 
 /** @phpstan-consistent-constructor */
+#[Throws([NoPossibleValues::class, NoValidValue::class])]
 abstract class EnumValue implements EnumValueInterface, HasExamples, ProvidesValidationRules, Stringable
 {
     use ExamplesLogic;
@@ -32,25 +35,15 @@ abstract class EnumValue implements EnumValueInterface, HasExamples, ProvidesVal
         $possibleValues = static::possibleValues();
 
         if (count($possibleValues) <= 0) {
-            throw EnumException::noPossibleValues(static::class);
+            throw NoPossibleValues::fromClass(static::class);
         }
 
         if (! in_array($value, $possibleValues)) {
-            throw EnumException::noValidValue($value, $possibleValues, static::class);
+            throw NoValidValue::fromInvalidValueAndClass($value, static::class);
         }
 
         $this->value = $value;
         $this->possibleValues = $possibleValues;
-    }
-
-    public static function fromValue(mixed $value): static
-    {
-        return new static($value);
-    }
-
-    public function toValue(): mixed
-    {
-        return $this->value;
     }
 
     public function __toString(): string
@@ -73,7 +66,7 @@ abstract class EnumValue implements EnumValueInterface, HasExamples, ProvidesVal
         $possibleValue = reset($possibleValues);
 
         if ($possibleValue === false) {
-            throw EnumException::noPossibleValues(static::class);
+            throw NoPossibleValues::fromClass(static::class);
         }
 
         return static::fromValue($possibleValue);
