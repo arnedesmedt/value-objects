@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\IntEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\IntTransitionEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\NoValidEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\NoValidIntEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\NoValidIntTransitionEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\NoValidStringEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\NoValidStringTransitionEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\StringEnum;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Enum\StringTransitionEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntTransitionEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntTransitionEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringTransitionEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\StringEnum;
+use ADS\ValueObjects\Tests\Object\ValueObject\Enum\StringTransitionEnum;
 use PHPUnit\Framework\TestCase;
 
 class EnumTest extends TestCase

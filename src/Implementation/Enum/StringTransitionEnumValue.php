@@ -16,6 +16,8 @@ abstract class StringTransitionEnumValue extends TransitionEnumValue
 {
     protected function __construct(string $value)
     {
+        parent::__construct($value);
+
         $noneStringValues = array_filter(
             $this->possibleValues,
             static fn ($possibleValue) => ! is_string($possibleValue)
@@ -27,8 +29,6 @@ abstract class StringTransitionEnumValue extends TransitionEnumValue
                 'string',
             );
         }
-
-        parent::__construct($value);
     }
 
     public static function fromString(string $value): static

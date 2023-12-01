@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Unit\ValueObject\Float\TestFloat;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestId;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestInt;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestRange;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestRangeExcluded;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestTimestamp;
+use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestId;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestRange;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestRangeExcluded;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestTimestamp;
 use PHPUnit\Framework\TestCase;
 
 class IntTest extends TestCase

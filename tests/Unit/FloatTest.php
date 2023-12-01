@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Unit\ValueObject\Float\TestFloat;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Float\TestRange;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Float\TestRangeExcluded;
+use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
+use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestRange;
+use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestRangeExcluded;
 use PHPUnit\Framework\TestCase;
 
 class FloatTest extends TestCase

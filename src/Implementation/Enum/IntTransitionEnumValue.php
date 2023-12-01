@@ -20,6 +20,8 @@ abstract class IntTransitionEnumValue extends TransitionEnumValue implements Int
 
     protected function __construct(int $value)
     {
+        parent::__construct($value);
+
         $noneIntegerValues = array_filter(
             $this->possibleValues,
             static fn ($possibleValue) => ! is_int($possibleValue)
@@ -31,8 +33,6 @@ abstract class IntTransitionEnumValue extends TransitionEnumValue implements Int
                 'int',
             );
         }
-
-        parent::__construct($value);
     }
 
     public static function fromInt(int $value): static

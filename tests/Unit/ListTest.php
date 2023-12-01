@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Unit\ValueObject\List\TestImmutable;
-use ADS\ValueObjects\Tests\Unit\ValueObject\List\TestList;
-use ADS\ValueObjects\Tests\Unit\ValueObject\List\TestListImmutable;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestEmail;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestString;
+use ADS\ValueObjects\Tests\Object\Immutable\TestImmutable;
+use ADS\ValueObjects\Tests\Object\ValueObject\List\TestList;
+use ADS\ValueObjects\Tests\Object\ValueObject\List\TestListImmutable;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
 use EventEngine\Schema\TypeSchema;
 use PHPUnit\Framework\TestCase;
 

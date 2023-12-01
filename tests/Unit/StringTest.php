@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Tests\Unit;
 
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestBase64Encoded;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestByte;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestEmail;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestHostname;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestIpv4;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestIpv6;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestPattern;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestString;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUri;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUrl;
-use ADS\ValueObjects\Tests\Unit\ValueObject\String\TestUuid;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestBase64Encoded;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestByte;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestHostname;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv4;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv6;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestPattern;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUri;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUrl;
+use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUuid;
 use PHPUnit\Framework\TestCase;
 
 class StringTest extends TestCase

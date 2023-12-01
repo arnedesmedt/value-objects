@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestInt;
-use ADS\ValueObjects\Tests\Unit\ValueObject\Int\TestIntWithCalcValue;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
+use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestIntWithCalcValue;
 use PHPUnit\Framework\TestCase;
 
 class CalcTest extends TestCase
