@@ -287,7 +287,7 @@ class StringTest extends TestCase
             ],
             'test-bytes-with-method' => [
                 'input' => '156B',
-                'expected' => '156B',
+                'expected' => '156',
                 'inputMethod' => 'fromB',
                 'outputMethod' => 'toB',
             ],

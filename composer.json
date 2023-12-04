@@ -12,12 +12,13 @@
         }
     ],
     "require": {
-        "php": "^8",
+        "php": "^8.2",
         "ext-intl": "*",
         "ext-json": "*",
         "arnedesmedt/php-exception": "~0.1",
         "arnedesmedt/php-util": "~0.1",
-        "ramsey/uuid": "~4.0"
+        "ramsey/uuid": "~4.0",
+        "symfony/http-kernel": "^7.0"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.13",

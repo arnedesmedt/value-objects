@@ -7,14 +7,14 @@ namespace ADS\ValueObjects\Implementation\Enum\Exception;
 use ADS\Exception\DefaultJsonSchemaException;
 use ADS\ValueObjects\EnumValue;
 use EventEngine\JsonSchema\JsonSchemaAwareRecord;
-use RuntimeException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use function json_encode;
 use function sprintf;
 
 use const JSON_THROW_ON_ERROR;
 
-class NoValidValue extends RuntimeException implements JsonSchemaAwareRecord
+class NoValidValue extends BadRequestHttpException implements JsonSchemaAwareRecord
 {
     use DefaultJsonSchemaException;
 

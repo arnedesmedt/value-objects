@@ -20,10 +20,10 @@ abstract class UrlValue extends UriValue implements ProvidesValidationRules
 {
     protected function __construct(string $value)
     {
-        /** @var array{scheme: string, host: string, path: string}|false $parsedUrl */
+        /** @var array{scheme: string, host?: string, path: string}|false $parsedUrl */
         $parsedUrl = parse_url($value);
 
-        if ($parsedUrl === false) {
+        if ($parsedUrl === false || ! isset($parsedUrl['host'])) {
             throw UriException::noValidUrl($value, static::class);
         }
 

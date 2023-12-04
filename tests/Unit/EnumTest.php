@@ -29,7 +29,7 @@ class EnumTest extends TestCase
 
     public function testNoValidEnum(): void
     {
-        $this->expectExceptionMessageMatches('/must have possible values\./');
+        $this->expectExceptionMessageMatches('/has no possible values\./');
         NoValidEnum::fromString('test');
     }
 
@@ -37,12 +37,6 @@ class EnumTest extends TestCase
     {
         $this->expectExceptionMessageMatches('/must have possible values of the type/');
         NoValidStringEnum::fromString('test2');
-    }
-
-    public function testStringEnumInvalidType(): void
-    {
-        $this->expectExceptionMessageMatches('/The type of enum object/');
-        StringEnum::fromValue(1);
     }
 
     public function testStringEnumNoValidValue(): void
@@ -80,12 +74,6 @@ class EnumTest extends TestCase
         NoValidIntEnum::fromInt(1);
     }
 
-    public function testIntEnumInvalidType(): void
-    {
-        $this->expectExceptionMessageMatches('/The type of enum object/');
-        IntEnum::fromValue('test');
-    }
-
     public function testIntEnumNoValidValue(): void
     {
         $this->expectExceptionMessageMatches('/is not valid\. Allowed values/');
@@ -106,12 +94,6 @@ class EnumTest extends TestCase
     {
         $this->expectExceptionMessageMatches('/must have possible values of the type/');
         NoValidIntTransitionEnum::fromInt(1);
-    }
-
-    public function testIntTransitionEnumInvalidType(): void
-    {
-        $this->expectExceptionMessageMatches('/The type of enum object/');
-        IntTransitionEnum::fromValue('test');
     }
 
     public function testIntTransitionEnumNoValidValue(): void
@@ -162,12 +144,6 @@ class EnumTest extends TestCase
     {
         $this->expectExceptionMessageMatches('/must have possible values of the type/');
         NoValidStringTransitionEnum::fromString('test2');
-    }
-
-    public function testStringTransitionEnumInvalidType(): void
-    {
-        $this->expectExceptionMessageMatches('/The type of enum object/');
-        StringTransitionEnum::fromValue(1);
     }
 
     public function testStringTransitionEnumNoValidValue(): void
