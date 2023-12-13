@@ -13,7 +13,7 @@ final class RangeException extends ValueObjectException
         string $class,
         string $minimum,
         string $maximum,
-        bool $included
+        bool $included,
     ): static {
         $orEqual = $included ? ' or equal' : '';
 
@@ -25,8 +25,8 @@ final class RangeException extends ValueObjectException
                 $orEqual,
                 $maximum,
                 $orEqual,
-                $minimum
-            )
+                $minimum,
+            ),
         );
     }
 
@@ -35,14 +35,14 @@ final class RangeException extends ValueObjectException
         string $class,
         float|int $minimum,
         float|int $maximum,
-        bool $included
+        bool $included,
     ): static {
         return self::outsideRange(
             (string) $value,
             $class,
             (string) $minimum,
             (string) $maximum,
-            $included
+            $included,
         );
     }
 }

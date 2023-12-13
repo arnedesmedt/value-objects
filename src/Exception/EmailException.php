@@ -14,8 +14,8 @@ final class EmailException extends ValueObjectException
             sprintf(
                 'Could not convert e-mail \'%s\' to IDNA ASCII form for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -25,8 +25,8 @@ final class EmailException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid e-mail for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

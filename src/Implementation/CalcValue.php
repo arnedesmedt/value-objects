@@ -93,7 +93,7 @@ trait CalcValue
         }
 
         throw new RuntimeException(
-            sprintf('Given value \'%s\' should be an instance of \'%s\'.', (string) $value, static::class)
+            sprintf('Given value \'%s\' should be an instance of \'%s\'.', (string) $value, static::class),
         );
     }
 
@@ -113,7 +113,7 @@ trait CalcValue
         if (is_float($result) && $this instanceof IntValue) {
             if ((float) (int) $result !== $result) {
                 throw new RuntimeException(
-                    sprintf('Result can\'t be a float for value object \'%s\'.', static::class)
+                    sprintf('Result can\'t be a float for value object \'%s\'.', static::class),
                 );
             }
 

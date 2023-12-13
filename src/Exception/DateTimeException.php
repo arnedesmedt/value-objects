@@ -14,8 +14,8 @@ final class DateTimeException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid date time for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

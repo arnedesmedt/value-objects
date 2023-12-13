@@ -20,12 +20,12 @@ class TestList extends ListValue
         return TestString::class;
     }
 
-    public static function minItems(): ?int
+    public static function minItems(): int|null
     {
         return 1;
     }
 
-    public static function maxItems(): ?int
+    public static function maxItems(): int|null
     {
         return 5;
     }

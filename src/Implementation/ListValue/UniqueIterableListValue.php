@@ -10,7 +10,7 @@ namespace ADS\ValueObjects\Implementation\ListValue;
  */
 abstract class UniqueIterableListValue extends IterableListValue
 {
-    public static function uniqueItems(): ?bool
+    public static function uniqueItems(): bool|null
     {
         return true;
     }

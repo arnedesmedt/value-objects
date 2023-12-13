@@ -27,7 +27,7 @@ abstract class FloatRangeValue extends FloatValue implements HasExamples, Provid
                 static::class,
                 static::minimum(),
                 static::maximum(),
-                static::included()
+                static::included(),
             );
         }
 

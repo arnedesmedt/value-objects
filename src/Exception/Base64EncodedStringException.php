@@ -14,8 +14,8 @@ final class Base64EncodedStringException extends ValueObjectException
             sprintf(
                 'Could not base64 decode string \'%s\' for value object \'%s\'.',
                 $string,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

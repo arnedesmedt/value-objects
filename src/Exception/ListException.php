@@ -19,8 +19,8 @@ final class ListException extends ValueObjectException
                 'The type \'%s\' for list \'%s\' is not a valid list item type. Only \'%s\' is allowed.',
                 get_debug_type($item),
                 $class,
-                $validType
-            )
+                $validType,
+            ),
         );
     }
 
@@ -32,8 +32,8 @@ final class ListException extends ValueObjectException
                 'because it\'s not an instance of \'%s\' or \'%s\'.',
                 $class,
                 ImmutableRecord::class,
-                ValueObject::class
-            )
+                ValueObject::class,
+            ),
         );
     }
 
@@ -45,8 +45,8 @@ final class ListException extends ValueObjectException
                 'because it\'s not an instance of \'%s\' or \'%s\'.',
                 $class,
                 ImmutableRecord::class,
-                ValueObject::class
-            )
+                ValueObject::class,
+            ),
         );
     }
 
@@ -56,8 +56,8 @@ final class ListException extends ValueObjectException
             sprintf(
                 'Could not found item type \'%s\' for list \'%s\'.',
                 $itemType,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -68,8 +68,8 @@ final class ListException extends ValueObjectException
                 'The class \'%s\' must override \'itemIdentifier\' ' .
                 'because the item types \'%s\' are no value objects.',
                 $class,
-                $itemType
-            )
+                $itemType,
+            ),
         );
     }
 
@@ -78,8 +78,8 @@ final class ListException extends ValueObjectException
         return new static(
             sprintf(
                 'The given value is not a scalar: \'%s\'.',
-                $value::class
-            )
+                $value::class,
+            ),
         );
     }
 }

@@ -14,8 +14,8 @@ final class UriException extends ValueObjectException
             sprintf(
                 'Could not convert url \'%s\' to IDNA ASCII form for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -25,8 +25,8 @@ final class UriException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid url for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -36,8 +36,8 @@ final class UriException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid uri for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -47,8 +47,8 @@ final class UriException extends ValueObjectException
             sprintf(
                 '\'%s\' needs a trailing slash for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

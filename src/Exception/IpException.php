@@ -14,8 +14,8 @@ final class IpException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid ipv4 for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 
@@ -25,8 +25,8 @@ final class IpException extends ValueObjectException
             sprintf(
                 '\'%s\' is not a valid ipv6 for value object \'%s\'.',
                 $value,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

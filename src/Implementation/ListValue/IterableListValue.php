@@ -15,9 +15,7 @@ use Traversable;
  */
 abstract class IterableListValue extends ListValue implements IteratorAggregate
 {
-    /**
-     * @return Traversable<string|int, T>
-     */
+    /** @return Traversable<string|int, T> */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->value);

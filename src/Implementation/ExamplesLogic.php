@@ -6,9 +6,7 @@ namespace ADS\ValueObjects\Implementation;
 
 trait ExamplesLogic
 {
-    /**
-     * @return array<static>
-     */
+    /** @return array<static> */
     public static function examples(): array
     {
         /** @var static|null $example */

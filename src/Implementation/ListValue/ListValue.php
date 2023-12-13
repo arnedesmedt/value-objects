@@ -69,9 +69,7 @@ abstract class ListValue implements
 {
     use ExamplesLogic;
 
-    /**
-     * @param array<string|int, T> $value
-     */
+    /** @param array<string|int, T> $value */
     protected function __construct(protected array $value)
     {
     }
@@ -85,14 +83,12 @@ abstract class ListValue implements
 
             throw ListException::noItemIdentifierFound(
                 static::class,
-                static::itemType()
+                static::itemType(),
             );
         };
     }
 
-    /**
-     * @return class-string
-     */
+    /** @return class-string */
     private static function __itemType(): string
     {
         return static::itemType();
@@ -103,9 +99,7 @@ abstract class ListValue implements
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public static function fromScalarToItem(mixed $value)
     {
         if (is_object($value)) {
@@ -142,9 +136,7 @@ abstract class ListValue implements
         }
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public static function fromItemToScalar($item): mixed
     {
         $itemType = static::itemType();
@@ -172,20 +164,16 @@ abstract class ListValue implements
         }
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public static function fromArray(array $value): static
     {
         return static::fromItems(array_map(
             static fn ($array) => static::fromScalarToItem($array),
-            $value
+            $value,
         ));
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public static function fromItems(array $values): static
     {
         self::checkTypes($values);
@@ -198,20 +186,16 @@ abstract class ListValue implements
         return new static([]);
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function toArray(): array
     {
         return array_map(
             static fn ($item) => static::fromItemToScalar($item),
-            $this->value
+            $this->value,
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function toItems(): array
     {
         return $this->value;
@@ -245,13 +229,13 @@ abstract class ListValue implements
         return empty(
             array_diff(
                 $this->toArray(),
-                $other->toArray()
+                $other->toArray(),
             )
         )
             && empty(
                 array_diff(
                     $other->toArray(),
-                    $this->toArray()
+                    $this->toArray(),
                 )
             );
     }
@@ -339,9 +323,7 @@ abstract class ListValue implements
         return $clone;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function get(ValueObject|string|int $key, $default = null)
     {
         $key = (string) $key;
@@ -349,10 +331,8 @@ abstract class ListValue implements
         return $this->value[$key] ?? $default;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function need(ValueObject|string|int $key, ?Throwable $exception = null)
+    /** @inheritDoc */
+    public function need(ValueObject|string|int $key, Throwable|null $exception = null)
     {
         $item = $this->get($key);
 
@@ -361,8 +341,8 @@ abstract class ListValue implements
                 sprintf(
                     'No item found for key \'%s\' in list \'%s\'.',
                     strval($key),
-                    static::class
-                )
+                    static::class,
+                ),
             );
         }
 
@@ -430,7 +410,7 @@ abstract class ListValue implements
         return $default;
     }
 
-    public function needKey(mixed $item, ?Throwable $exception = null): string|int
+    public function needKey(mixed $item, Throwable|null $exception = null): string|int
     {
         $key = $this->keyByItem($item);
 
@@ -439,17 +419,15 @@ abstract class ListValue implements
                 sprintf(
                     'No key found for item \'%s\' in list \'%s\'.',
                     strval($item),
-                    static::class
-                )
+                    static::class,
+                ),
             );
         }
 
         return $key;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function first($default = null)
     {
         $first = reset($this->value);
@@ -457,16 +435,14 @@ abstract class ListValue implements
         return $first === false ? $default : $first;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function needFirst(?Throwable $exception = null)
+    /** @inheritDoc */
+    public function needFirst(Throwable|null $exception = null)
     {
         $first = reset($this->value);
 
         if ($first === false) {
             throw $exception ?? new RuntimeException(
-                sprintf('No first value found for list \'%s\'.', static::class)
+                sprintf('No first value found for list \'%s\'.', static::class),
             );
         }
 
@@ -478,9 +454,7 @@ abstract class ListValue implements
         return array_key_first($this->value) ?? $default;
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function last($default = null)
     {
         $reversed = array_reverse($this->value);
@@ -489,17 +463,15 @@ abstract class ListValue implements
         return $last === false ? $default : $last;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function needLast(?Throwable $exception = null)
+    /** @inheritDoc */
+    public function needLast(Throwable|null $exception = null)
     {
         $reversed = array_reverse($this->value);
         $last = reset($reversed);
 
         if ($last === false) {
             throw $exception ?? new RuntimeException(
-                sprintf('No last value found for list \'%s\'.', static::class)
+                sprintf('No last value found for list \'%s\'.', static::class),
             );
         }
 
@@ -517,7 +489,7 @@ abstract class ListValue implements
 
         $clone->value = array_filter(
             $clone->value,
-            $closure
+            $closure,
         );
 
         return $clone;
@@ -528,14 +500,12 @@ abstract class ListValue implements
         return self::fromItems(
             array_map(
                 static fn ($value) => self::toItem($closure($value)),
-                $this->value
-            )
+                $this->value,
+            ),
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+    /** @inheritDoc */
     public function merge($list): static
     {
         return self::fromItems(
@@ -560,7 +530,7 @@ abstract class ListValue implements
     {
         return implode($glue, array_map(
             static fn ($item) => strval($item),
-            $this->toArray()
+            $this->toArray(),
         ));
     }
 
@@ -583,22 +553,22 @@ abstract class ListValue implements
         return self::fromArray(array_unique($this->toArray()));
     }
 
-    public static function containsType(): ?TypeSchema
+    public static function containsType(): TypeSchema|null
     {
         return null;
     }
 
-    public static function minItems(): ?int
+    public static function minItems(): int|null
     {
         return null;
     }
 
-    public static function maxItems(): ?int
+    public static function maxItems(): int|null
     {
         return null;
     }
 
-    public static function uniqueItems(): ?bool
+    public static function uniqueItems(): bool|null
     {
         return null;
     }
@@ -623,9 +593,7 @@ abstract class ListValue implements
         $this->forget($offset);
     }
 
-    /**
-     * @return T
-     */
+    /** @return T */
     private static function toItem(mixed $item)
     {
         try {
@@ -637,7 +605,7 @@ abstract class ListValue implements
                 throw ListException::noValidItemType(
                     $item,
                     static::itemType(),
-                    static::class
+                    static::class,
                 );
             }
         }
@@ -658,7 +626,7 @@ abstract class ListValue implements
                 throw ListException::noValidItemType(
                     $item,
                     $type,
-                    static::class
+                    static::class,
                 );
             }
         }

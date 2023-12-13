@@ -299,7 +299,7 @@ class StringTest extends TestCase
         mixed $input,
         string $expected,
         string $inputMethod = 'fromString',
-        string $outputMethod = 'toString'
+        string $outputMethod = 'toString',
     ): void {
         $byteValue = TestByte::$inputMethod($input);
 

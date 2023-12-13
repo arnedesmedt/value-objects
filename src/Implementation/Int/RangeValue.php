@@ -27,7 +27,7 @@ abstract class RangeValue extends IntValue implements HasExamples, ProvidesValid
                 static::class,
                 static::minimum(),
                 static::maximum(),
-                static::included()
+                static::included(),
             );
         }
 

@@ -8,16 +8,12 @@ use ADS\JsonImmutableObjects\TypeDetector;
 use EventEngine\JsonSchema\JsonSchema;
 use EventEngine\Schema\TypeSchema;
 
-/**
- * @method static class-string itemType()
- */
+/** @method static class-string itemType() */
 trait JsonSchemaAwareCollectionLogic
 {
     use \EventEngine\JsonSchema\JsonSchemaAwareCollectionLogic;
 
-    /**
-     * @return class-string
-     */
+    /** @return class-string */
     private static function __itemType(): string
     {
         return static::itemType();
@@ -41,9 +37,7 @@ trait JsonSchemaAwareCollectionLogic
         return self::$__itemSchema;
     }
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
-     */
+    /** @phpcsSuppress SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod */
     private static function __allowNestedSchema(): bool
     {
         return true;

@@ -61,7 +61,7 @@ class ListTest extends TestCase
 
         $this->assertEquals(
             ['test', 2 => 'test2'],
-            TestList::fromArray(['test', 'test', 'test2'])->unique()->toArray()
+            TestList::fromArray(['test', 'test', 'test2'])->unique()->toArray(),
         );
 
         $this->assertInstanceOf(TypeSchema::class, TestList::__itemSchema());
@@ -111,7 +111,7 @@ class ListTest extends TestCase
             [
                 ['test' => 'test'],
                 ['test' => 'test2'],
-            ]
+            ],
         );
 
         $this->assertInstanceOf(TestImmutable::class, $list->needFirst());
@@ -149,7 +149,7 @@ class ListTest extends TestCase
                 TestString::fromString('test'),
                 TestString::fromString('test2'),
                 TestEmail::fromString('arne@arne.be'),
-            ]
+            ],
         );
     }
 

@@ -63,8 +63,8 @@ abstract class ByteValue extends StringValue
             throw new RuntimeException(
                 sprintf(
                     'Invalid byte pattern given \'%s\'.',
-                    $value
-                )
+                    $value,
+                ),
             );
         }
 
@@ -117,13 +117,11 @@ abstract class ByteValue extends StringValue
         }
 
         throw new RuntimeException(
-            sprintf('No method \'%s\' found for class \'%s\'.', $name, static::class)
+            sprintf('No method \'%s\' found for class \'%s\'.', $name, static::class),
         );
     }
 
-    /**
-     * @param array<mixed> $arguments
-     */
+    /** @param array<mixed> $arguments */
     public function __call(string $name, array $arguments): float
     {
         if (
@@ -138,7 +136,7 @@ abstract class ByteValue extends StringValue
         }
 
         throw new RuntimeException(
-            sprintf('No method \'%s\' found for class \'%s\'.', $name, static::class)
+            sprintf('No method \'%s\' found for class \'%s\'.', $name, static::class),
         );
     }
 
@@ -177,7 +175,7 @@ abstract class ByteValue extends StringValue
     {
         if (! in_array($unit, self::POSSIBLE_UNITS)) {
             throw new RuntimeException(
-                sprintf('Input unit \'%d\' is not in the list of valid units.', $unit)
+                sprintf('Input unit \'%d\' is not in the list of valid units.', $unit),
             );
         }
 

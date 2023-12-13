@@ -15,8 +15,8 @@ final class PatternException extends ValueObjectException
                 'The value \'%s\' does not match pattern \'%s\' for \'%s\'.',
                 $value,
                 $pattern,
-                $class
-            )
+                $class,
+            ),
         );
     }
 }

@@ -15,12 +15,13 @@
         "php": "^8.2",
         "ext-intl": "*",
         "ext-json": "*",
-        "arnedesmedt/php-exception": "dev-main",
+        "arnedesmedt/php-exception": "~0.1",
         "ramsey/uuid": "~4.0",
         "symfony/http-kernel": "~6.0"
     },
     "require-dev": {
         "doctrine/coding-standard": "~11.0",
+        "icanhazstring/composer-unused": "^0.8.11",
         "phpmd/phpmd": "~2.0",
         "phpro/grumphp": "~2.0",
         "phpstan/phpstan": "~1.0",
@@ -52,6 +53,7 @@
     },
     "scripts": {
         "tests": [
+            "vendor/bin/composer-unused",
             "vendor/bin/phpcs",
             "vendor/bin/phpstan analyze --no-progress",
             "vendor/bin/phpmd src text phpmd.xml",

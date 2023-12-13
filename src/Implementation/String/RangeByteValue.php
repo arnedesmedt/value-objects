@@ -24,7 +24,7 @@ abstract class RangeByteValue extends ByteValue
                 static::class,
                 static::minimum(),
                 static::maximum(),
-                static::included()
+                static::included(),
             );
         }
 

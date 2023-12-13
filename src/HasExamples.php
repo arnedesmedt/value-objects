@@ -13,8 +13,6 @@ interface HasExamples
      */
     public static function example();
 
-    /**
-     * @return array<static>
-     */
+    /** @return array<static> */
     public static function examples(): array;
 }

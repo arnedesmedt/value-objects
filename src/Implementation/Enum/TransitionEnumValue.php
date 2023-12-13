@@ -14,9 +14,7 @@ use function sprintf;
 
 abstract class TransitionEnumValue extends EnumValue
 {
-    /**
-     * @return array<string|int,array<string|int>>
-     */
+    /** @return array<string|int,array<string|int>> */
     abstract public static function transitions(): array;
 
     abstract public static function init(): static;
@@ -27,7 +25,7 @@ abstract class TransitionEnumValue extends EnumValue
 
         if (! array_key_exists($this->value, static::transitions())) {
             throw new LogicException(
-                sprintf('No transition found from value \'%s\'.', $this->value)
+                sprintf('No transition found from value \'%s\'.', $this->value),
             );
         }
 
@@ -36,8 +34,8 @@ abstract class TransitionEnumValue extends EnumValue
                 sprintf(
                     'No transition found from value \'%s\' to value \'%s\'.',
                     $this->value,
-                    $newValue
-                )
+                    $newValue,
+                ),
             );
         }
 
@@ -55,7 +53,7 @@ abstract class TransitionEnumValue extends EnumValue
 
         if (empty($validTransitions)) {
             throw new LogicException(
-                sprintf('No reverse transition found from value \'%s\'.', (string) $this->value)
+                sprintf('No reverse transition found from value \'%s\'.', (string) $this->value),
             );
         }
 
@@ -64,8 +62,8 @@ abstract class TransitionEnumValue extends EnumValue
                 sprintf(
                     'No reverse transition found from value \'%s\' to value \'%s\'.',
                     (string) $this->value,
-                    $newValue
-                )
+                    $newValue,
+                ),
             );
         }
 
