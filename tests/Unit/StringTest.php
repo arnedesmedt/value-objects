@@ -18,6 +18,7 @@ use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUri;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUrl;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUuid;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StringTest extends TestCase
@@ -312,7 +313,7 @@ class StringTest extends TestCase
         ];
     }
 
-    /** @dataProvider byteDataProvider */
+    #[DataProvider('byteDataProvider')]
     public function testByteMethods(
         mixed $input,
         string $expected,
