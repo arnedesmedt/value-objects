@@ -24,7 +24,7 @@ abstract class IntEnumValue extends EnumValue implements IntValue
 
         $noneIntegerValues = array_filter(
             $this->possibleValues,
-            static fn ($possibleValue) => ! is_int($possibleValue)
+            static fn ($possibleValue) => ! is_int($possibleValue),
         );
 
         if (count($noneIntegerValues) > 0) {

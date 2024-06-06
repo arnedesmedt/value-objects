@@ -3,3 +3,4 @@
 .phpcs-cache
 .phpunit.result.cache
 studio.json
+composer.lock

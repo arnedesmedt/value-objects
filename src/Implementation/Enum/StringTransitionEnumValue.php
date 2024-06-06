@@ -20,7 +20,7 @@ abstract class StringTransitionEnumValue extends TransitionEnumValue
 
         $noneStringValues = array_filter(
             $this->possibleValues,
-            static fn ($possibleValue) => ! is_string($possibleValue)
+            static fn ($possibleValue) => ! is_string($possibleValue),
         );
 
         if (count($noneStringValues) > 0) {
