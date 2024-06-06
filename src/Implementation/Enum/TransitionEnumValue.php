@@ -48,7 +48,7 @@ abstract class TransitionEnumValue extends EnumValue
 
         $validTransitions = array_filter(
             static::transitions(),
-            fn (array $toValues) => in_array($this->value, $toValues)
+            fn (array $toValues) => in_array($this->value, $toValues),
         );
 
         if (empty($validTransitions)) {
