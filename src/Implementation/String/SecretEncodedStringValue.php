@@ -8,18 +8,23 @@ use ADS\ValueObjects\Service\EncryptDecryptService;
 
 abstract class SecretEncodedStringValue extends StringValue
 {
-    public static function fromPlainString(string $plainString): static
+    final protected function __construct(string $value, protected string $plainValue)
     {
-        return static::fromString(EncryptDecryptService::encrypt($plainString));
+        parent::__construct($value);
+    }
+
+    public static function fromString(string $value): static
+    {
+        return new static(EncryptDecryptService::encrypt($value), EncryptDecryptService::decrypt($value));
     }
 
     public function toPlainString(): string
     {
-        return EncryptDecryptService::decrypt($this->toString());
+        return $this->plainValue;
     }
 
     public static function example(): static
     {
-        return static::fromPlainString('This is a secret message');
+        return static::fromString('This is a secret message');
     }
 }

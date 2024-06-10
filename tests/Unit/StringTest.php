@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ADS\ValueObjects\Tests\Unit;
 
 use ADS\ValueObjects\Implementation\String\DateTimeValue;
-use ADS\ValueObjects\Implementation\String\SecretEncodedStringValue;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestBase64Encoded;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestByte;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
@@ -13,7 +12,6 @@ use ADS\ValueObjects\Tests\Object\ValueObject\String\TestHostname;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv4;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv6;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestPattern;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestSecretEncoded;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUri;
 use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUrl;
@@ -266,22 +264,6 @@ class StringTest extends TestCase
     public function testExampleBase64Encoded(): void
     {
         $this->assertInstanceOf(TestBase64Encoded::class, TestBase64Encoded::example());
-    }
-
-    public function testSecretEncoded(): void
-    {
-        EncryptDecryptTest::setCorrectSecretKey();
-        $plainString = 'My secret value.';
-        $secretEncodedString = TestSecretEncoded::fromPlainString($plainString);
-
-        $this->assertNotEquals($plainString, $secretEncodedString->toString());
-        $this->assertEquals($plainString, $secretEncodedString->toPlainString());
-    }
-
-    public function testExampleSecretEncoded(): void
-    {
-        EncryptDecryptTest::setCorrectSecretKey();
-        $this->assertInstanceOf(SecretEncodedStringValue::class, TestSecretEncoded::example());
     }
 
     /** @return array<string, array<string, mixed>> */

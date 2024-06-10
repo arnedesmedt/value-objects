@@ -8,12 +8,14 @@ use ADS\ValueObjects\Exception\EncryptDecrypt\DecryptionFailedException;
 use ADS\ValueObjects\Exception\EncryptDecrypt\NoSecretKeyFoundException;
 use ADS\ValueObjects\Exception\EncryptDecrypt\SecretKeyNotRequiredLengthException;
 use ADS\ValueObjects\Service\EncryptDecryptService;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use PHPUnit\Framework\TestCase;
 
 use function base64_encode;
 use function bin2hex;
 use function random_bytes;
 
+#[RunTestsInSeparateProcesses]
 class EncryptDecryptTest extends TestCase
 {
     public function testNoSecretKeySet(): void
@@ -41,7 +43,7 @@ class EncryptDecryptTest extends TestCase
     {
         $_ENV[EncryptDecryptService::ENVIRONMENT_SECRET_KEY_KEY] = 'thisisaninvalidkey';
         $this->expectException(NoSecretKeyFoundException::class);
-        EncryptDecryptService::decrypt('This will fail, but the key should be the error');
+        $this->decryptWithWrappedString('This will fail, but the key should be the error');
     }
 
     public function testEncryptString(): void
@@ -51,27 +53,64 @@ class EncryptDecryptTest extends TestCase
         $encrypted = EncryptDecryptService::encrypt($secretMessage);
         $this->assertIsString($encrypted);
         $this->assertNotEquals($secretMessage, $encrypted);
+        $this->assertStringStartsWith(EncryptDecryptService::ENCRYPTED_PREFIX, $encrypted);
+        $this->assertStringEndsWith(EncryptDecryptService::ENCRYPTED_SUFFIX, $encrypted);
+    }
+
+    public function testDecryptFailsWhenNotCorrectlyPrefixAndSuffixed(): void
+    {
+        self::setCorrectSecretKey();
+        $wrongfullyEncryptedString = 'This should fail';
+        $decrypted = EncryptDecryptService::decrypt($wrongfullyEncryptedString);
+        $this->assertIsString($decrypted);
+        $this->assertEquals($wrongfullyEncryptedString, $decrypted);
+    }
+
+    public function testDecryptFailsWhenNotCorrectlyPrefix(): void
+    {
+        self::setCorrectSecretKey();
+        $wrongfullyEncryptedString = 'This should fail' . EncryptDecryptService::ENCRYPTED_SUFFIX;
+        $decrypted = EncryptDecryptService::decrypt($wrongfullyEncryptedString);
+        $this->assertIsString($decrypted);
+        $this->assertEquals($wrongfullyEncryptedString, $decrypted);
+    }
+
+    public function testDecryptFailsWhenNotCorrectlySuffixed(): void
+    {
+        self::setCorrectSecretKey();
+        $wrongfullyEncryptedString = EncryptDecryptService::ENCRYPTED_PREFIX . 'This should fail';
+        $decrypted = EncryptDecryptService::decrypt($wrongfullyEncryptedString);
+        $this->assertIsString($decrypted);
+        $this->assertEquals($wrongfullyEncryptedString, $decrypted);
     }
 
     public function testDecryptFailsBase64Decode(): void
     {
         self::setCorrectSecretKey();
         $this->expectException(DecryptionFailedException::class);
-        EncryptDecryptService::decrypt('this should fail===');
+        $this->decryptWithWrappedString('this should fail===');
     }
 
     public function testDecryptFailsInvalidEncryptedValue(): void
     {
         self::setCorrectSecretKey();
         $this->expectException(DecryptionFailedException::class);
-        EncryptDecryptService::decrypt(base64_encode('this should fail'));
+        $this->decryptWithWrappedString(
+            base64_encode('this should fail'),
+        );
     }
 
     public function testDecryptFailsButMightHaveNonceAndCipherText(): void
     {
         self::setCorrectSecretKey();
         $this->expectException(DecryptionFailedException::class);
-        EncryptDecryptService::decrypt(base64_encode(bin2hex(random_bytes(60))));
+        $this->decryptWithWrappedString(
+            base64_encode(
+                bin2hex(
+                    random_bytes(60),
+                ),
+            ),
+        );
     }
 
     public function testDecryptionIsSuccessful(): void
@@ -89,6 +128,13 @@ class EncryptDecryptTest extends TestCase
             random_bytes(
                 EncryptDecryptService::ENVIRONMENT_SECRET_KEY_REQUIRED_BYTES_LENGTH,
             ),
+        );
+    }
+
+    private function decryptWithWrappedString(string $string): void
+    {
+        EncryptDecryptService::decrypt(
+            EncryptDecryptService::ENCRYPTED_PREFIX . $string . EncryptDecryptService::ENCRYPTED_SUFFIX,
         );
     }
 }
