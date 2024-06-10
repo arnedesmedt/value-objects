@@ -13,12 +13,16 @@ use function base64_decode;
 use function base64_encode;
 use function hex2bin;
 use function is_string;
+use function ltrim;
 use function mb_strlen;
 use function mb_substr;
 use function random_bytes;
+use function rtrim;
 use function sodium_crypto_secretbox;
 use function sodium_crypto_secretbox_open;
 use function sodium_memzero;
+use function str_ends_with;
+use function str_starts_with;
 
 use const SODIUM_CRYPTO_SECRETBOX_KEYBYTES;
 use const SODIUM_CRYPTO_SECRETBOX_MACBYTES;
@@ -28,10 +32,18 @@ use const SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
 final class EncryptDecryptService
 {
     public const ENVIRONMENT_SECRET_KEY_KEY = 'ADS_SECRET_KEY';
+
+    public const ENCRYPTED_PREFIX = '<ADS_ENC>';
+    public const ENCRYPTED_SUFFIX = '</ADS_ENC>';
+
     public const ENVIRONMENT_SECRET_KEY_REQUIRED_BYTES_LENGTH = SODIUM_CRYPTO_SECRETBOX_KEYBYTES;
 
     public static function encrypt(string $message): string
     {
+        if (self::isSupportedEncryptedString($message)) {
+            return $message;
+        }
+
         $key = self::secretKey();
 
         $nonce = random_bytes(
@@ -49,11 +61,17 @@ final class EncryptDecryptService
         sodium_memzero($message);
         sodium_memzero($key);
 
-        return $cipher;
+        return self::ENCRYPTED_PREFIX . $cipher . self::ENCRYPTED_SUFFIX;
     }
 
     public static function decrypt(string $encrypted): string
     {
+        if (! self::isSupportedEncryptedString($encrypted)) {
+            return $encrypted;
+        }
+
+        $encrypted = rtrim(ltrim($encrypted, self::ENCRYPTED_PREFIX), self::ENCRYPTED_SUFFIX);
+
         $key = self::secretKey();
         /** @var string|false $decoded */
         $decoded = base64_decode($encrypted, true);
@@ -107,5 +125,10 @@ final class EncryptDecryptService
         }
 
         return $binarySecretKey;
+    }
+
+    private static function isSupportedEncryptedString(string $message): bool
+    {
+        return str_starts_with($message, self::ENCRYPTED_PREFIX) && str_ends_with($message, self::ENCRYPTED_SUFFIX);
     }
 }
