@@ -13,16 +13,16 @@ use function base64_decode;
 use function base64_encode;
 use function hex2bin;
 use function is_string;
-use function ltrim;
 use function mb_strlen;
 use function mb_substr;
 use function random_bytes;
-use function rtrim;
 use function sodium_crypto_secretbox;
 use function sodium_crypto_secretbox_open;
 use function sodium_memzero;
 use function str_ends_with;
 use function str_starts_with;
+use function strlen;
+use function substr;
 
 use const SODIUM_CRYPTO_SECRETBOX_KEYBYTES;
 use const SODIUM_CRYPTO_SECRETBOX_MACBYTES;
@@ -64,13 +64,14 @@ final class EncryptDecryptService
         return self::ENCRYPTED_PREFIX . $cipher . self::ENCRYPTED_SUFFIX;
     }
 
-    public static function decrypt(string $encrypted): string
+    public static function decrypt(string $encryptedWithPrefixAndSuffix): string
     {
-        if (! self::isSupportedEncryptedString($encrypted)) {
-            return $encrypted;
+        if (! self::isSupportedEncryptedString($encryptedWithPrefixAndSuffix)) {
+            return $encryptedWithPrefixAndSuffix;
         }
 
-        $encrypted = rtrim(ltrim($encrypted, self::ENCRYPTED_PREFIX), self::ENCRYPTED_SUFFIX);
+        $encryptedWithSuffix = substr($encryptedWithPrefixAndSuffix, strlen(self::ENCRYPTED_PREFIX));
+        $encrypted = substr($encryptedWithSuffix, 0, -strlen(self::ENCRYPTED_SUFFIX));
 
         $key = self::secretKey();
         /** @var string|false $decoded */
