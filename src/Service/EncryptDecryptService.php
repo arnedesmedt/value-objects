@@ -32,6 +32,8 @@ use const SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
 final class EncryptDecryptService
 {
     public const ENVIRONMENT_SECRET_KEY_KEY = 'ADS_SECRET_KEY';
+    public const ENVIRONMENT_DISABLE_ENCRYPTING_KEY = 'ADS_DISABLE_ENCRYPTING';
+    public const ENVIRONMENT_DISABLE_ENCRYPTING_VALUE = 'disable-it-in-tests-only!';
 
     public const ENCRYPTED_PREFIX = '<ADS_ENC>';
     public const ENCRYPTED_SUFFIX = '</ADS_ENC>';
@@ -40,6 +42,10 @@ final class EncryptDecryptService
 
     public static function encrypt(string $message): string
     {
+        if (! self::encryptingIsAllowed()) {
+            return base64_encode($message);
+        }
+
         if (self::isSupportedEncryptedString($message)) {
             return $message;
         }
@@ -66,6 +72,10 @@ final class EncryptDecryptService
 
     public static function decrypt(string $encryptedWithPrefixAndSuffix): string
     {
+        if (! self::encryptingIsAllowed()) {
+            return base64_decode($encryptedWithPrefixAndSuffix);
+        }
+
         if (! self::isSupportedEncryptedString($encryptedWithPrefixAndSuffix)) {
             return $encryptedWithPrefixAndSuffix;
         }
@@ -131,5 +141,10 @@ final class EncryptDecryptService
     private static function isSupportedEncryptedString(string $message): bool
     {
         return str_starts_with($message, self::ENCRYPTED_PREFIX) && str_ends_with($message, self::ENCRYPTED_SUFFIX);
+    }
+
+    private static function encryptingIsAllowed(): bool
+    {
+        return ($_ENV[self::ENVIRONMENT_DISABLE_ENCRYPTING_KEY] ?? null) !== self::ENVIRONMENT_DISABLE_ENCRYPTING_VALUE;
     }
 }
