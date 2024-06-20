@@ -42,12 +42,12 @@ final class EncryptDecryptService
 
     public static function encrypt(string $message): string
     {
-        if (! self::encryptingIsAllowed()) {
-            return base64_encode($message);
-        }
-
         if (self::isSupportedEncryptedString($message)) {
             return $message;
+        }
+
+        if (! self::encryptingIsAllowed()) {
+            return self::wrapWithPrefixAndSuffix(base64_encode($message));
         }
 
         $key = self::secretKey();
@@ -67,21 +67,21 @@ final class EncryptDecryptService
         sodium_memzero($message);
         sodium_memzero($key);
 
-        return self::ENCRYPTED_PREFIX . $cipher . self::ENCRYPTED_SUFFIX;
+        return self::wrapWithPrefixAndSuffix($cipher);
     }
 
     public static function decrypt(string $encryptedWithPrefixAndSuffix): string
     {
-        if (! self::encryptingIsAllowed()) {
-            return base64_decode($encryptedWithPrefixAndSuffix);
-        }
-
         if (! self::isSupportedEncryptedString($encryptedWithPrefixAndSuffix)) {
             return $encryptedWithPrefixAndSuffix;
         }
 
         $encryptedWithSuffix = substr($encryptedWithPrefixAndSuffix, strlen(self::ENCRYPTED_PREFIX));
         $encrypted = substr($encryptedWithSuffix, 0, -strlen(self::ENCRYPTED_SUFFIX));
+
+        if (! self::encryptingIsAllowed()) {
+            return base64_decode($encrypted);
+        }
 
         $key = self::secretKey();
         /** @var string|false $decoded */
@@ -146,5 +146,10 @@ final class EncryptDecryptService
     private static function encryptingIsAllowed(): bool
     {
         return ($_ENV[self::ENVIRONMENT_DISABLE_ENCRYPTING_KEY] ?? null) !== self::ENVIRONMENT_DISABLE_ENCRYPTING_VALUE;
+    }
+
+    public static function wrapWithPrefixAndSuffix(string $string): string
+    {
+        return self::ENCRYPTED_PREFIX . $string . self::ENCRYPTED_SUFFIX;
     }
 }

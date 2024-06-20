@@ -127,6 +127,8 @@ class EncryptDecryptTest extends TestCase
         self::setCorrectSecretKey();
         $message = 'this is a secret message';
         $encrypted = EncryptDecryptService::encrypt($message);
+        $selfEncodedValue = EncryptDecryptService::wrapWithPrefixAndSuffix(base64_encode($message));
+        $this->assertNotEquals($selfEncodedValue, $encrypted);
         $decrypted = EncryptDecryptService::decrypt($encrypted);
         $this->assertEquals($message, $decrypted);
     }
@@ -138,7 +140,8 @@ class EncryptDecryptTest extends TestCase
             = EncryptDecryptService::ENVIRONMENT_DISABLE_ENCRYPTING_VALUE;
         $message = 'This shouldn\'t be encrypted, just base64 encoded';
         $encoded = EncryptDecryptService::encrypt($message);
-        $this->assertEquals(base64_encode($message), $encoded);
+        $selfEncodedValue = EncryptDecryptService::wrapWithPrefixAndSuffix(base64_encode($message));
+        $this->assertEquals($selfEncodedValue, $encoded);
         $decoded = EncryptDecryptService::decrypt($encoded);
         $this->assertEquals($message, $decoded);
     }
