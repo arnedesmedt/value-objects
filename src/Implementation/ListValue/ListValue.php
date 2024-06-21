@@ -47,6 +47,7 @@ use function json_encode;
 use function reset;
 use function sprintf;
 use function strval;
+use function usort;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -591,6 +592,15 @@ abstract class ListValue implements
     public function offsetUnset(mixed $offset): void
     {
         $this->forget($offset);
+    }
+
+    public function usort(Closure $closure): static
+    {
+        $clone = clone $this;
+
+        usort($clone->value, $closure);
+
+        return $clone;
     }
 
     /** @return T */
