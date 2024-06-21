@@ -46,6 +46,15 @@ class EncryptDecryptTest extends TestCase
         $this->decryptWithWrappedString('This will fail, but the key should be the error');
     }
 
+    public function testAlreadyEncryptedValueDoesntEncryptTwice(): void
+    {
+        self::setCorrectSecretKey();
+        $message = 'this is a secret message';
+        $encrypted = EncryptDecryptService::encrypt($message);
+        $encryptedTwice = EncryptDecryptService::encrypt($encrypted);
+        $this->assertEquals($encrypted, $encryptedTwice);
+    }
+
     public function testEncryptString(): void
     {
         self::setCorrectSecretKey();
@@ -118,8 +127,23 @@ class EncryptDecryptTest extends TestCase
         self::setCorrectSecretKey();
         $message = 'this is a secret message';
         $encrypted = EncryptDecryptService::encrypt($message);
+        $selfEncodedValue = EncryptDecryptService::wrapWithPrefixAndSuffix(base64_encode($message));
+        $this->assertNotEquals($selfEncodedValue, $encrypted);
         $decrypted = EncryptDecryptService::decrypt($encrypted);
         $this->assertEquals($message, $decrypted);
+    }
+
+    public function testEncryptionIsDisabledWhenProperEnvValueIsSet(): void
+    {
+        self::setCorrectSecretKey();
+        $_ENV[EncryptDecryptService::ENVIRONMENT_DISABLE_ENCRYPTING_KEY]
+            = EncryptDecryptService::ENVIRONMENT_DISABLE_ENCRYPTING_VALUE;
+        $message = 'This shouldn\'t be encrypted, just base64 encoded';
+        $encoded = EncryptDecryptService::encrypt($message);
+        $selfEncodedValue = EncryptDecryptService::wrapWithPrefixAndSuffix(base64_encode($message));
+        $this->assertEquals($selfEncodedValue, $encoded);
+        $decoded = EncryptDecryptService::decrypt($encoded);
+        $this->assertEquals($message, $decoded);
     }
 
     public static function setCorrectSecretKey(): void

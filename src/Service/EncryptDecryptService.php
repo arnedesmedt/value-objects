@@ -32,6 +32,8 @@ use const SODIUM_CRYPTO_SECRETBOX_NONCEBYTES;
 final class EncryptDecryptService
 {
     public const ENVIRONMENT_SECRET_KEY_KEY = 'ADS_SECRET_KEY';
+    public const ENVIRONMENT_DISABLE_ENCRYPTING_KEY = 'ADS_DISABLE_ENCRYPTING';
+    public const ENVIRONMENT_DISABLE_ENCRYPTING_VALUE = 'disable-it-in-tests-only!';
 
     public const ENCRYPTED_PREFIX = '<ADS_ENC>';
     public const ENCRYPTED_SUFFIX = '</ADS_ENC>';
@@ -42,6 +44,10 @@ final class EncryptDecryptService
     {
         if (self::isSupportedEncryptedString($message)) {
             return $message;
+        }
+
+        if (! self::encryptingIsAllowed()) {
+            return self::wrapWithPrefixAndSuffix(base64_encode($message));
         }
 
         $key = self::secretKey();
@@ -61,7 +67,7 @@ final class EncryptDecryptService
         sodium_memzero($message);
         sodium_memzero($key);
 
-        return self::ENCRYPTED_PREFIX . $cipher . self::ENCRYPTED_SUFFIX;
+        return self::wrapWithPrefixAndSuffix($cipher);
     }
 
     public static function decrypt(string $encryptedWithPrefixAndSuffix): string
@@ -72,6 +78,10 @@ final class EncryptDecryptService
 
         $encryptedWithSuffix = substr($encryptedWithPrefixAndSuffix, strlen(self::ENCRYPTED_PREFIX));
         $encrypted = substr($encryptedWithSuffix, 0, -strlen(self::ENCRYPTED_SUFFIX));
+
+        if (! self::encryptingIsAllowed()) {
+            return base64_decode($encrypted);
+        }
 
         $key = self::secretKey();
         /** @var string|false $decoded */
@@ -131,5 +141,15 @@ final class EncryptDecryptService
     private static function isSupportedEncryptedString(string $message): bool
     {
         return str_starts_with($message, self::ENCRYPTED_PREFIX) && str_ends_with($message, self::ENCRYPTED_SUFFIX);
+    }
+
+    private static function encryptingIsAllowed(): bool
+    {
+        return ($_ENV[self::ENVIRONMENT_DISABLE_ENCRYPTING_KEY] ?? null) !== self::ENVIRONMENT_DISABLE_ENCRYPTING_VALUE;
+    }
+
+    public static function wrapWithPrefixAndSuffix(string $string): string
+    {
+        return self::ENCRYPTED_PREFIX . $string . self::ENCRYPTED_SUFFIX;
     }
 }
