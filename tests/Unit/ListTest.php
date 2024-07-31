@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 use function str_replace;
 use function str_starts_with;
+use function usort;
 
 class ListTest extends TestCase
 {
@@ -171,5 +172,28 @@ class ListTest extends TestCase
     {
         $this->expectExceptionMessageMatches('/No array given/');
         TestList::fromValue('test');
+    }
+
+    public function testListSort(): void
+    {
+        $unsortedList = [
+            'Test A',
+            'Test Z',
+            'Test B',
+        ];
+        $sortingFunction = static fn (string $stringA, string $stringB) => $stringA <=> $stringB;
+        $sortedList = $unsortedList;
+        usort($sortedList, $sortingFunction);
+
+        $unsortedListObject = TestList::fromArray($unsortedList);
+        $sortedListObject = $unsortedListObject->usort(
+            static fn (TestString $stringA, TestString $stringB) => $sortingFunction(
+                $stringA->toString(),
+                $stringB->toString(),
+            ),
+        );
+
+        $this->assertEquals($sortedList, $sortedListObject->toArray());
+        $this->assertEquals($unsortedList, $unsortedListObject->toArray());
     }
 }

@@ -126,6 +126,8 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
 
     public function unique(): static;
 
+    public function usort(Closure $closure): static;
+
     public static function containsType(): TypeSchema|null;
 
     public static function minItems(): int|null;
