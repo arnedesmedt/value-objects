@@ -61,5 +61,8 @@
             "vendor/bin/rector --dry-run --no-progress-bar",
             "vendor/bin/phpunit"
         ]
-    }
+    },
+    "bin": [
+        "bin/ads-vo-encyrpt-decrypt.php"
+    ]
 }
