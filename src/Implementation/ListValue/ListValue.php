@@ -44,6 +44,7 @@ use function implode;
 use function is_array;
 use function is_object;
 use function json_encode;
+use function method_exists;
 use function reset;
 use function sprintf;
 use function strval;
@@ -101,7 +102,7 @@ abstract class ListValue implements
     }
 
     /** @inheritDoc */
-    public static function fromScalarToItem(mixed $value)
+    public static function fromScalarToItem(mixed $value, Closure|null $toImmutableItem = null)
     {
         if (is_object($value)) {
             throw ListException::valueIsNotScalar($value);
@@ -117,7 +118,9 @@ abstract class ListValue implements
                 /** @var class-string<ImmutableRecord> $type */
                 $type = $itemType;
                 /** @var T $item */
-                $item = $type::fromArray($value);
+                $item = $toImmutableItem
+                    ? $toImmutableItem($type, $value)
+                    : $type::fromArray($value);
 
                 return $item;
             }
@@ -135,6 +138,18 @@ abstract class ListValue implements
         } catch (ReflectionException) {
             throw ListException::itemTypeNotFound($itemType, static::class);
         }
+    }
+
+    /** @return T */
+    public static function fromEncryptedSensitiveDataToItem(mixed $value)
+    {
+        return self::fromScalarToItem(
+            $value,
+            /** @param class-string<ImmutableRecord> $type */
+            static fn ($type, $value) => method_exists($type, 'fromEncryptedSensitiveData')
+            ? $type::fromEncryptedSensitiveData($value)
+            : $type::fromArray($value),
+        );
     }
 
     /** @inheritDoc */
@@ -170,6 +185,15 @@ abstract class ListValue implements
     {
         return static::fromItems(array_map(
             static fn ($array) => static::fromScalarToItem($array),
+            $value,
+        ));
+    }
+
+    /** @param array<mixed> $value */
+    public static function fromEncryptedSensitiveData(array $value): static
+    {
+        return static::fromItems(array_map(
+            static fn ($array) => static::fromEncryptedSensitiveDataToItem($array),
             $value,
         ));
     }
