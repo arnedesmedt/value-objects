@@ -26,13 +26,19 @@ interface ListValue extends ValueObject, Countable, ArrayAccess
     public static function itemIdentifier(): Closure;
 
     /** @return T */
-    public static function fromScalarToItem(mixed $value);
+    public static function fromScalarToItem(mixed $value, Closure|null $toImmutableItem = null);
+
+    /** @return T */
+    public static function fromEncryptedSensitiveDataToItem(mixed $value);
 
     /** @param T $item */
     public static function fromItemToScalar($item): mixed;
 
     /** @param array<mixed> $value */
     public static function fromArray(array $value): static;
+
+    /** @param array<mixed> $value */
+    public static function fromEncryptedSensitiveData(array $value): static;
 
     /** @param array<T> $values */
     public static function fromItems(array $values): static;

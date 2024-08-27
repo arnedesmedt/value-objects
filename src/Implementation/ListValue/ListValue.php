@@ -140,7 +140,7 @@ abstract class ListValue implements
         }
     }
 
-    /** @return T */
+    /** @inheritdoc */
     public static function fromEncryptedSensitiveDataToItem(mixed $value)
     {
         return self::fromScalarToItem(
@@ -189,7 +189,7 @@ abstract class ListValue implements
         ));
     }
 
-    /** @param array<mixed> $value */
+    /** @inheritDoc */
     public static function fromEncryptedSensitiveData(array $value): static
     {
         return static::fromItems(array_map(
