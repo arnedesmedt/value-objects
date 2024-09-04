@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Tests\Unit;
 
+use ADS\ValueObjects\Implementation\Enum\Exception\NoValidValue;
 use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntEnum;
 use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntTransitionEnum;
 use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidEnum;
@@ -150,5 +151,14 @@ class EnumTest extends TestCase
     {
         $this->expectExceptionMessageMatches('/is not valid\. Allowed values/');
         StringTransitionEnum::fromString('lala');
+    }
+
+    public function testHttpExceptionForNoValidValue(): void
+    {
+        try {
+            StringTransitionEnum::fromString('lala');
+        } catch (NoValidValue $exception) {
+            $this->assertEquals(400, $exception->getStatusCode());
+        }
     }
 }
