@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace ADS\ValueObjects\Implementation\Enum\Exception;
 
-use ADS\Exception\DefaultJsonSchemaException;
 use ADS\ValueObjects\EnumValue;
-use EventEngine\JsonSchema\JsonSchemaAwareRecord;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 use function json_encode;
@@ -14,36 +12,16 @@ use function sprintf;
 
 use const JSON_THROW_ON_ERROR;
 
-class NoValidValue extends BadRequestHttpException implements JsonSchemaAwareRecord
+class NoValidValue extends BadRequestHttpException
 {
-    use DefaultJsonSchemaException;
-
-    private string $title = 'No valid value for enum';
-    /** @var class-string<EnumValue> */
-    private string $class;
-    private string $invalidValue;
-
     /** @param class-string<EnumValue> $class */
     public static function fromInvalidValueAndClass(string|int $invalidValue, string $class): self
     {
-        return self::fromRecordData(
-            [
-                'class' => $class,
-                'invalidValue' => (string) $invalidValue,
-            ],
-        );
-    }
-
-    protected function detail(): string
-    {
-        /** @var class-string<EnumValue> $class */
-        $class = $this->class;
-
-        return sprintf(
+        return new self(sprintf(
             'The value \'%s\' of enum object \'%s\' is not valid. Allowed values: %s.',
-            $this->invalidValue,
+            $invalidValue,
             $class,
             json_encode($class::possibleValues(), JSON_THROW_ON_ERROR),
-        );
+        ));
     }
 }
