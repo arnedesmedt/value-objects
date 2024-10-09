@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\EmailException;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
+use TeamBlue\ValueObjects\Exception\EmailException;
 
 use function filter_var;
 use function idn_to_ascii;

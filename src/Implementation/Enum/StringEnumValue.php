@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Enum;
+namespace TeamBlue\ValueObjects\Implementation\Enum;
 
-use ADS\ValueObjects\Implementation\Enum\Exception\WrongPossibleValueTypes;
-use ADS\ValueObjects\StringValue;
+use TeamBlue\ValueObjects\Implementation\Enum\Exception\WrongPossibleValueTypes;
+use TeamBlue\ValueObjects\StringValue;
 
 use function array_filter;
 use function count;

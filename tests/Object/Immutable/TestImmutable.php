@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\Immutable;
+namespace TeamBlue\ValueObjects\Tests\Object\Immutable;
 
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\JsonSchemaAwareRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareRecordLogic;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 class TestImmutable implements JsonSchemaAwareRecord, HasExamples
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\Base64EncodedStringException;
+use TeamBlue\ValueObjects\Exception\Base64EncodedStringException;
 
 use function base64_decode;
 use function base64_encode;

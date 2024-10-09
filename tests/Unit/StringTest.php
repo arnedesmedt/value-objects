@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Implementation\String\DateTimeValue;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestBase64Encoded;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestByte;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestHostname;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv4;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestIpv6;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestPattern;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUri;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUrl;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestUuid;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Implementation\String\DateTimeValue;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestBase64Encoded;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestByte;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestHostname;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestIpv4;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestIpv6;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestPattern;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestString;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestUri;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestUrl;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestUuid;
 
 class StringTest extends TestCase
 {

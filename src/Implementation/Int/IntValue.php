@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Int;
+namespace TeamBlue\ValueObjects\Implementation\Int;
 
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\CalcValue;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
-use ADS\ValueObjects\IntValue as IntValueInterface;
 use Stringable;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\CalcValue;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
+use TeamBlue\ValueObjects\IntValue as IntValueInterface;
 
 use function intval;
 

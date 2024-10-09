@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\ListValue;
+namespace TeamBlue\ValueObjects\Implementation\ListValue;
 
 use ADS\JsonImmutableObjects\TypeDetector;
 use EventEngine\JsonSchema\JsonSchema;

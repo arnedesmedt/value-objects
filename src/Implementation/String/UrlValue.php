@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\UriException;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
+use TeamBlue\ValueObjects\Exception\UriException;
 
 use function filter_var;
 use function idn_to_ascii;

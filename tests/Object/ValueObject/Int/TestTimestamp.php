@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\Int;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\Int;
 
-use ADS\ValueObjects\Implementation\Int\TimestampValue;
+use TeamBlue\ValueObjects\Implementation\Int\TimestampValue;
 
 class TestTimestamp extends TimestampValue
 {

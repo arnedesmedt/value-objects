@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Bool;
+namespace TeamBlue\ValueObjects\Implementation\Bool;
 
-use ADS\ValueObjects\BoolValue as BoolValueInterface;
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use Stringable;
+use TeamBlue\ValueObjects\BoolValue as BoolValueInterface;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 /** @phpstan-consistent-constructor */
 abstract class BoolValue implements BoolValueInterface, HasExamples, Stringable

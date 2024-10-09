@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation;
+namespace TeamBlue\ValueObjects\Implementation;
 
 trait ExamplesLogic
 {

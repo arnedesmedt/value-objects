@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Int;
+namespace TeamBlue\ValueObjects\Implementation\Int;
 
-use ADS\ValueObjects\Exception\RangeException;
-use ADS\ValueObjects\HasExamples;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\IntType;
+use TeamBlue\ValueObjects\Exception\RangeException;
+use TeamBlue\ValueObjects\HasExamples;
 
 use function array_filter;
 

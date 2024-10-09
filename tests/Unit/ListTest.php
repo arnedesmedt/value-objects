@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\Immutable\TestImmutable;
-use ADS\ValueObjects\Tests\Object\ValueObject\List\TestList;
-use ADS\ValueObjects\Tests\Object\ValueObject\List\TestListImmutable;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
 use EventEngine\Schema\TypeSchema;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\Immutable\TestImmutable;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\List\TestList;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\List\TestListImmutable;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestEmail;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestString;
 
 use function str_replace;
 use function str_starts_with;

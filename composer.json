@@ -1,5 +1,5 @@
 {
-    "name": "arnedesmedt/value-objects",
+    "name": "team-blue/value-objects",
     "type": "library",
     "description": "Value objects",
     "homepage": "https://github.com/arnedesmedt/value-objects",
@@ -15,7 +15,7 @@
         "php": "^8.0 || ^8.1 || ^8.2 || ^8.3",
         "ext-intl": "*",
         "ext-json": "*",
-        "arnedesmedt/php-exception": "~0.1",
+        "team-blue/php-exception": "^0.3",
         "ramsey/uuid": "~4.0",
         "symfony/http-kernel": "~6.0 || ~7.0"
     },
@@ -28,14 +28,20 @@
         "rector/rector": "~1.1",
         "squizlabs/php_codesniffer": "~3.0"
     },
+    "repositories": {
+        "packeton.teamblue-ops.net": {
+            "type": "composer",
+            "url": "https://packeton.teamblue-ops.net"
+        }
+    },
     "autoload": {
         "psr-4": {
-            "ADS\\ValueObjects\\": "src/"
+            "TeamBlue\\ValueObjects\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ADS\\ValueObjects\\Tests\\": "tests/"
+            "TeamBlue\\ValueObjects\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

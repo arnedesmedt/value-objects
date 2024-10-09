@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
-use ADS\ValueObjects\StringValue as StringValueInterface;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
+use TeamBlue\ValueObjects\StringValue as StringValueInterface;
 
 use function strval;
 

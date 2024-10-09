@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;

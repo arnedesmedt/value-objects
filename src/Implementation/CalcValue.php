@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation;
+namespace TeamBlue\ValueObjects\Implementation;
 
-use ADS\ValueObjects\FloatValue;
-use ADS\ValueObjects\IntValue;
 use RuntimeException;
+use TeamBlue\ValueObjects\FloatValue;
+use TeamBlue\ValueObjects\IntValue;
 
 use function is_float;
 use function is_int;

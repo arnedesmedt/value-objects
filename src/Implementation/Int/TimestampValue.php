@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Int;
+namespace TeamBlue\ValueObjects\Implementation\Int;
 
 abstract class TimestampValue extends RangeValue
 {

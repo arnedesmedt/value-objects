@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\Bool;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\Bool;
 
-use ADS\ValueObjects\Implementation\Bool\BoolValue;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
+use TeamBlue\ValueObjects\Implementation\Bool\BoolValue;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 class TestBool extends BoolValue
 {

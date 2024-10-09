@@ -2,48 +2,42 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Enum\Exception;
+namespace TeamBlue\ValueObjects\Implementation\Enum\Exception;
 
-use ADS\Exception\DefaultJsonSchemaException;
-use ADS\ValueObjects\EnumValue;
-use EventEngine\JsonSchema\JsonSchemaAwareRecord;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use TeamBlue\Exception\HttpException\ContextAwareException;
+use TeamBlue\Exception\HttpException\ContextMetadataAwareExceptionLogic;
+use TeamBlue\Exception\HttpException\MetadataAwareException;
+use TeamBlue\Exception\HttpException\Status\BadRequestHttpException;
+use TeamBlue\ValueObjects\EnumValue;
 
 use function json_encode;
-use function sprintf;
 
 use const JSON_THROW_ON_ERROR;
 
-class NoValidValue extends BadRequestHttpException implements JsonSchemaAwareRecord
+class NoValidValue extends BadRequestHttpException implements
+    ContextAwareException,
+    MetadataAwareException
 {
-    use DefaultJsonSchemaException;
+    use ContextMetadataAwareExceptionLogic;
 
-    private string $title = 'No valid value for enum';
-    /** @var class-string<EnumValue> */
-    private string $class;
-    private string $invalidValue;
+    protected string $title = 'No valid value for enum';
+
+    private NoValidValueContext $context;
+
+    protected static function template(): string
+    {
+        return "The value '{invalidValue}' of enum object '{class}' is not valid. Allowed values: {allowedValues}.";
+    }
 
     /** @param class-string<EnumValue> $class */
     public static function fromInvalidValueAndClass(string|int $invalidValue, string $class): self
     {
-        return self::fromRecordData(
+        return self::fromContextArray(
             [
                 'class' => $class,
                 'invalidValue' => (string) $invalidValue,
+                'validValues' => json_encode($class::possibleValues(), JSON_THROW_ON_ERROR),
             ],
-        );
-    }
-
-    protected function detail(): string
-    {
-        /** @var class-string<EnumValue> $class */
-        $class = $this->class;
-
-        return sprintf(
-            'The value \'%s\' of enum object \'%s\' is not valid. Allowed values: %s.',
-            $this->invalidValue,
-            $class,
-            json_encode($class::possibleValues(), JSON_THROW_ON_ERROR),
         );
     }
 }

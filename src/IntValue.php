@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects;
+namespace TeamBlue\ValueObjects;
 
 interface IntValue extends CalcValueObject
 {

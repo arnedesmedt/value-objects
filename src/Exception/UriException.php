@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Exception;
+namespace TeamBlue\ValueObjects\Exception;
 
 use function sprintf;
 

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Enum\Exception;
+namespace TeamBlue\ValueObjects\Implementation\Enum\Exception;
 
-use ADS\Exception\DefaultJsonSchemaException;
-use ADS\ValueObjects\Implementation\Enum\EnumValue;
 use EventEngine\JsonSchema\JsonSchemaAwareRecord;
 use LogicException;
+use TeamBlue\Exception\DefaultJsonSchemaException;
+use TeamBlue\ValueObjects\Implementation\Enum\EnumValue;
 
 use function sprintf;
 

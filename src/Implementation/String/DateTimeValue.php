@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\DateTimeException;
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use DateTime;
 use DateTimeInterface;
 use EventEngine\JsonSchema\Type\StringType;
+use TeamBlue\ValueObjects\Exception\DateTimeException;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 use function strtotime;
 use function strval;
 
 /** @SuppressWarnings(PHPMD.TooManyPublicMethods) */
-class DateTimeValue implements \ADS\ValueObjects\DateTimeValue, HasExamples
+class DateTimeValue implements \TeamBlue\ValueObjects\DateTimeValue, HasExamples
 {
     use ExamplesLogic;
 

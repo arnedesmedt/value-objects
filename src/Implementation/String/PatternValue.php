@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\PatternException;
-use ADS\ValueObjects\PatternValue as PatternValueInterface;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
+use TeamBlue\ValueObjects\Exception\PatternException;
+use TeamBlue\ValueObjects\PatternValue as PatternValueInterface;
 
 use function preg_match;
 use function sprintf;

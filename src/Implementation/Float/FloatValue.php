@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Float;
+namespace TeamBlue\ValueObjects\Implementation\Float;
 
-use ADS\ValueObjects\FloatValue as FloatValueInterface;
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\CalcValue;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use Stringable;
+use TeamBlue\ValueObjects\FloatValue as FloatValueInterface;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\CalcValue;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 use function floatval;
 

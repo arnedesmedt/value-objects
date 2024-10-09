@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\IpException;
-use ADS\ValueObjects\Exception\PatternException;
 use EventEngine\JsonSchema\Type\StringType;
+use TeamBlue\ValueObjects\Exception\IpException;
+use TeamBlue\ValueObjects\Exception\PatternException;
 
 abstract class IpV6Value extends PatternValue
 {

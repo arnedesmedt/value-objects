@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\Float;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\Float;
 
-use ADS\ValueObjects\Implementation\Float\FloatRangeValue;
+use TeamBlue\ValueObjects\Implementation\Float\FloatRangeValue;
 
 class TestRangeExcluded extends FloatRangeValue
 {

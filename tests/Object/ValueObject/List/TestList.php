@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\List;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\List;
 
-use ADS\ValueObjects\Implementation\ExamplesLogic;
-use ADS\ValueObjects\Implementation\ListValue\JsonSchemaAwareCollectionLogic;
-use ADS\ValueObjects\Implementation\ListValue\ListValue;
-use ADS\ValueObjects\Tests\Object\ValueObject\String\TestString;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
+use TeamBlue\ValueObjects\Implementation\ListValue\JsonSchemaAwareCollectionLogic;
+use TeamBlue\ValueObjects\Implementation\ListValue\ListValue;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\String\TestString;
 
 /** @extends ListValue<TestString> */
 class TestList extends ListValue

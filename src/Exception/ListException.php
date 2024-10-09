@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Exception;
+namespace TeamBlue\ValueObjects\Exception;
 
-use ADS\ValueObjects\ValueObject;
 use EventEngine\Data\ImmutableRecord;
+use TeamBlue\ValueObjects\ValueObject;
 
 use function get_debug_type;
 use function sprintf;

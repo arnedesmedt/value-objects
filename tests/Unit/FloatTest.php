@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
-use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestRange;
-use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestRangeExcluded;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Float\TestRange;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Float\TestRangeExcluded;
 
 class FloatTest extends TestCase
 {

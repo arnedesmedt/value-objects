@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\IntTransitionEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntTransitionEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringTransitionEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\StringEnum;
-use ADS\ValueObjects\Tests\Object\ValueObject\Enum\StringTransitionEnum;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\IntEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\IntTransitionEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\NoValidEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\NoValidIntTransitionEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\NoValidStringTransitionEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\StringEnum;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum\StringTransitionEnum;
 
 class EnumTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestIntWithCalcValue;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestIntWithCalcValue;
 
 class CalcTest extends TestCase
 {

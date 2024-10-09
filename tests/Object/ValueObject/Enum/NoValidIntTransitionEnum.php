@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\Enum;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\Enum;
 
-use ADS\ValueObjects\Implementation\Enum\IntTransitionEnumValue;
+use TeamBlue\ValueObjects\Implementation\Enum\IntTransitionEnumValue;
 
 class NoValidIntTransitionEnum extends IntTransitionEnumValue
 {

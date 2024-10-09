@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\ValueObject\Bool\TestBool;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Bool\TestBool;
 
 class BoolTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Object\ValueObject\String;
+namespace TeamBlue\ValueObjects\Tests\Object\ValueObject\String;
 
-use ADS\ValueObjects\Implementation\String\StringValue;
+use TeamBlue\ValueObjects\Implementation\String\StringValue;
 
 class TestString extends StringValue
 {

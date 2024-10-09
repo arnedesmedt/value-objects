@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\Enum;
+namespace TeamBlue\ValueObjects\Implementation\Enum;
 
-use ADS\Exception\Attribute\Throws;
-use ADS\ValueObjects\EnumValue as EnumValueInterface;
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\Enum\Exception\NoPossibleValues;
-use ADS\ValueObjects\Implementation\Enum\Exception\NoValidValue;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
 use Stringable;
+use TeamBlue\Exception\Attribute\Throws;
+use TeamBlue\ValueObjects\EnumValue as EnumValueInterface;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\Enum\Exception\NoPossibleValues;
+use TeamBlue\ValueObjects\Implementation\Enum\Exception\NoValidValue;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 use function count;
 use function in_array;

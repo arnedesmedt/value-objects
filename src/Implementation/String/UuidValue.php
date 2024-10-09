@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
 use EventEngine\JsonSchema\ProvidesValidationRules;
 use EventEngine\JsonSchema\Type\StringType;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
 
 use function strval;
 
 /** @phpstan-consistent-constructor */
-abstract class UuidValue implements \ADS\ValueObjects\UuidValue, HasExamples, ProvidesValidationRules
+abstract class UuidValue implements \TeamBlue\ValueObjects\UuidValue, HasExamples, ProvidesValidationRules
 {
     use ExamplesLogic;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\RangeException;
+use TeamBlue\ValueObjects\Exception\RangeException;
 
 use const PHP_FLOAT_MAX;
 use const PHP_FLOAT_MIN;

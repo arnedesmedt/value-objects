@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Tests\Unit;
+namespace TeamBlue\ValueObjects\Tests\Unit;
 
-use ADS\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestId;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestRange;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestRangeExcluded;
-use ADS\ValueObjects\Tests\Object\ValueObject\Int\TestTimestamp;
 use PHPUnit\Framework\TestCase;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Float\TestFloat;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestId;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestInt;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestRange;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestRangeExcluded;
+use TeamBlue\ValueObjects\Tests\Object\ValueObject\Int\TestTimestamp;
 
 class IntTest extends TestCase
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\String;
+namespace TeamBlue\ValueObjects\Implementation\String;
 
-use ADS\ValueObjects\Exception\UriException;
+use TeamBlue\ValueObjects\Exception\UriException;
 
 use function preg_match;
 use function str_contains;

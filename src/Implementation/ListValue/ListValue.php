@@ -2,12 +2,8 @@
 
 declare(strict_types=1);
 
-namespace ADS\ValueObjects\Implementation\ListValue;
+namespace TeamBlue\ValueObjects\Implementation\ListValue;
 
-use ADS\ValueObjects\Exception\ListException;
-use ADS\ValueObjects\HasExamples;
-use ADS\ValueObjects\Implementation\ExamplesLogic;
-use ADS\ValueObjects\ValueObject;
 use Closure;
 use EventEngine\Data\ImmutableRecord;
 use EventEngine\JsonSchema\JsonSchemaAwareCollection;
@@ -18,6 +14,10 @@ use ReflectionClass;
 use ReflectionException;
 use RuntimeException;
 use Stringable;
+use TeamBlue\ValueObjects\Exception\ListException;
+use TeamBlue\ValueObjects\HasExamples;
+use TeamBlue\ValueObjects\Implementation\ExamplesLogic;
+use TeamBlue\ValueObjects\ValueObject;
 use Throwable;
 
 use function array_diff;
@@ -54,7 +54,7 @@ use const JSON_THROW_ON_ERROR;
 
 /**
  * @template T of object
- * @template-implements \ADS\ValueObjects\ListValue<T>
+ * @template-implements \TeamBlue\ValueObjects\ListValue<T>
  * @phpstan-consistent-constructor
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -63,7 +63,7 @@ use const JSON_THROW_ON_ERROR;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class ListValue implements
-    \ADS\ValueObjects\ListValue,
+    \TeamBlue\ValueObjects\ListValue,
     JsonSchemaAwareCollection,
     HasExamples,
     ProvidesValidationRules,
@@ -334,7 +334,7 @@ abstract class ListValue implements
         return array_keys($this->value);
     }
 
-    public function diffByKeys(\ADS\ValueObjects\ListValue|array $keys): static
+    public function diffByKeys(\TeamBlue\ValueObjects\ListValue|array $keys): static
     {
         $clone = clone $this;
 
@@ -374,7 +374,7 @@ abstract class ListValue implements
         return $item;
     }
 
-    public function getByKeys(\ADS\ValueObjects\ListValue|array $keys): static
+    public function getByKeys(\TeamBlue\ValueObjects\ListValue|array $keys): static
     {
         $clone = clone $this;
 
@@ -559,7 +559,7 @@ abstract class ListValue implements
         ));
     }
 
-    public function intersect(\ADS\ValueObjects\ListValue $list): static
+    public function intersect(\TeamBlue\ValueObjects\ListValue $list): static
     {
         return static::fromArray(array_intersect($this->toArray(), $list->toArray()));
     }
